@@ -17,8 +17,7 @@ const main = async () => {
   });
 
   const managerWallet =
-    (args.managerPrivateKey &&
-      new ethers.Wallet(args.managerPrivateKey, getProvider())) ||
+    (args.managerMnemonic && ethers.Wallet.fromMnemonic(args.managerMnemonic)) ||
     getUserWallet();
 
   const RequesterAuthorizerWithManager = await getDeployedContract(
@@ -50,7 +49,7 @@ const main = async () => {
     callData
   );
 
-  cliPrint.info(`indefinite whitelist status of address:${RrpBeaconServer.address} has been set to:${args.status}
+  cliPrint.info(`indefinite whitelist status of address:${RrpBeaconServer.address} has been set to status:${args.status}
     for endpoint:${args.endpointId} on airnode:${args.airnode} by manager:${managerWallet.address}`);
 };
 
