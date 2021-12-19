@@ -124,7 +124,7 @@ yarn whitelist-rrp-beacon-server \
     --status true  
 ```
 
-## Verification
+## Explorer Verification
 
 To verify the deployed contracts you need to first flatten the contracts using the following command
 
