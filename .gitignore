@@ -1,13 +1,12 @@
 node_modules
 log.json
 /dist
+
 # Hardhat files
 /cache
 /artifacts
 
-# Holds information about the current integration
 /integration-info.json
-
-# Integration secrets
+/verify
 receipt.json
 config.json
