@@ -8,5 +8,7 @@ log.json
 
 /integration-info.json
 /verify
+
+# Integration secrets
 receipt.json
 config.json

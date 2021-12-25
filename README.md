@@ -18,7 +18,7 @@ yarn build
 
 The following instructions will guide you step by step on how to deploy and verify the rrp,beacon and authorizer contracts.
 
-The deployment addresses will be saved under the `/deployments` folder
+The deployment addresses will be saved under the `/deployments` folder.
 
 ### 1. Setup the deployment 
 
@@ -36,7 +36,7 @@ Run:
 ```
 yarn print-account-details
 ```
-This script will show you the address of the account derived from the specified mnemonic. This account will be used to deploy the contracts and make transactions, so make sure it is funded. The recommended amount is at least 0.2 ETH.
+This script will show you the address of the account derived from the specified mnemonic. This account will be used to deploy the contracts and make transactions, so make sure it is funded. The recommended amount is at least 0.2 of the Gas Token of the chain your deploying on.
 
 ### 3. Deploy the RRP contract
 
