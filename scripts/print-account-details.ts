@@ -10,8 +10,8 @@ const main = async () => {
       balance
     )} ETH`
   );
-  if (balance.lt(ethers.utils.parseEther('0.2'))) {
-    cliPrint.warning('Please make sure your account has at least 0.2 ETH');
+  if (balance.lt(ethers.utils.parseEther('0.3'))) {
+    cliPrint.warning('Please make sure your account has at least 0.3 ETH');
   }
 };
 

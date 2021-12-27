@@ -18,7 +18,7 @@ yarn build
 
 The following instructions will guide you step by step on how to deploy and verify the rrp,beacon and authorizer contracts.
 
-The deployment addresses will be saved under the `/deployments` folder.
+The deployment addresses will be saved under the `/deployments` folder
 
 ### 1. Setup the deployment 
 
@@ -36,7 +36,7 @@ Run:
 ```
 yarn print-account-details
 ```
-This script will show you the address of the account derived from the specified mnemonic. This account will be used to deploy the contracts and make transactions, so make sure it is funded. The recommended amount is at least 0.2 of the Gas Token of the chain your deploying on.
+This script will show you the address of the account derived from the specified mnemonic. This account will be used to deploy the contracts and make transactions in the following steps. We will be deploying atleast 5 contracts, so make sure it is funded. The recommended amount is at least 0.3 ETH ( or the gas token of the chain your deploying to eg MATIC for polygon mainnet) .
 
 ### 3. Deploy the RRP contract
 
@@ -67,11 +67,17 @@ Run the following script to deploy OwnableCallForwarder contract
 yarn deploy-ownable-call-forwarder
 ```
 
-By default the owner(referred to as the manager) is the account specified by the mnemonic, to change it run the following command instead
+| parameter | type     | default value                                    |  description                                                           |
+| --------- | -------- | ------------------------------------------------ | ---------------------------------------------------------------------- |
+| `manager` |  address | account specified by mnemonic                    |  the owner(referred to as the manager) of OwnableCallForwarder contract|
+
+You can run this command with different parameters in the following way
 
 ```
-yarn deploy-ownable-call-forwarder --manager 0xAEB7E....E6E2B3
+yarn deploy-ownable-call-forwarder --parameter parameterValue
 ```
+
+By default the owner(referred to as the manager) is the account specified by the mnemonic.
 
 
 ### 6. Deploy the RequesterAuthorizerWithManager contract
@@ -83,10 +89,14 @@ Run the following script to deploy RequesterAuthorizerWithManager contract
 yarn deploy-requester-authorizer-with-manager
 ```
 
-By default the adminRoleDescription is set to `admin`, to change it run the following command instead
+| parameter              | type    | default value |  description                       |
+| ---------------------- | ------- | ------------- | ---------------------------------- |
+| `adminRoleDescription` |  string | `"admin"`     | The description of the admin role  |
+
+You can run this command with different parameters in the following way
 
 ```
-yarn deploy-requester-authorizer-with-manager --adminRoleDescription "API3DAO"
+yarn deploy-requester-authorizer-with-manager --parameter parameterValue
 ```
 
 ### 7. Deploy the RRP Beacon Server contract
@@ -96,10 +106,17 @@ Run the following script to deploy the RRP beacon contract
 yarn deploy-rrp-beacon-server
 ```
 
-By default the manager of the rrp beacon server is the account specified by the mnemonic and the adminRoleDescription is set to "rrpbeacon admin" to change it run the following command instead
+| parameter              | type     | default                       |  description                                                                        |
+| ---------------------- | -------- | ----------------------------- | ----------------------------------------------------------------------------------- |
+| `adminRoleDescription` |  string  | `"rrpbeacon admin"`           | The description of the admin role                                                   |
+| `manager`              |  address | account specified by mnemonic | The manager of the RRP Beacon Server (can whitelist users to read from the beacon ) |
+
+By default the manager of the rrp beacon server is the account specified by the mnemonic and the adminRoleDescription is set to "rrpbeacon admin" 
+
+You can run this command with different parameters in the following way
 
 ```
-yarn deploy-rrp-beacon-server --manager 0xAEB7E....E6E2B3 --adminRoleDescription "API3DAO"
+yarn deploy-rrp-beacon-server --parameter parameterValue
 ```
 
 ### 8. Whitelist the beacon on the RequesterAuthorizerWithManager
@@ -114,17 +131,26 @@ yarn whitelist-rrp-beacon-server \
     --status true  
 ```
 
+| parameter    | type      | default                       |  description                                                                            |
+| ------------ | --------- | ----------------------------- | --------------------------------------------------------------------------------------  |
+| `airnode`    |  address  | No default                    |  The address of the airnode                                                             |
+| `endpointId` |  bytes32  | No default                    |  The endpointId of the airnode                                                          |
+| `status`     |  boolean  | No default                    |  The Whitelist status of the beacon on the airnode                                      |
+| `manager`    |  address  | account specified by mnemonic |  The manager of the OwnableCallForwarder (can whitelist users to read from the beacon ) |
+
+
+
 By default the script assumes the manager to be the account specified by the mnemonic. If the owner of OwnableCallForwarder is different then a different mnemonic that contains the account of the manager can be specified as an argument
 
 ```
 yarn whitelist-rrp-beacon-server \
-    --managerMnemonic achieve climb ... label \
+    --managerMnemonic "achieve climb ... label" \
     --airnode 0xAEB7E....E6E2B3 \
     --endpointId 0xAEB7E....E6E2B3 \
     --status true  
 ```
 
-## Explorer Verification
+## Verification
 
 To verify the deployed contracts you need to first flatten the contracts using the following command
 
@@ -132,7 +158,26 @@ To verify the deployed contracts you need to first flatten the contracts using t
 yarn flatten-contracts
 ```
 
-This will generate a `/verify` folder with the contracts flattened into `.flat.sol` files. Navigate to the explorer page of the respective contract and find the `Verify and Publish` page (every explorer will have some variation on their contract page). Copy and paste the flattened contract code and select the solidity version that matches the version specified in `hardhat.config.ts`. Select MIT as the license and click on publish/verify
+This will generate a `/verify` folder with the contracts flattended into `.flat.sol` files. Navigate to the explorer page of the respective contract and find the `Verify and Publish` page (every explorer will have some variation on their contract page). Copy and paste the flattened contract code and select the solidity version that matches the version specified in `hardhat.config.ts`. Select MIT as the liscence and click on publish/verify
+
+
+## Post Deployment
+
+After all the contracts have been deployed a `deployments` folder will be created with the contracts and their contract addresses on the specified chain. These deployment files will need to be merged into master via a pull request. 
+
+Checkout to a new branch, the recommend format is 
+
+```
+git checkout -b contractVersion_chainName_deployment
+```
+
+so for deploying 0.3 contracts on kovan this would look like this:
+
+```
+git checkout -b 0.3_kovan_deployment
+```
+
+After checking out to the new branch, commit the files and push to github. On github create a pull request so others can review the deployment. Once reviewed it will be commited into the main branch.
 
 
 
