@@ -163,7 +163,7 @@ This will generate a `/verify` folder with the contracts flattended into `.flat.
 
 ## Post Deployment
 
-After all the contracts have been deployed a `deployments` folder will be created with the contracts and their contract addresses on the specified chain. These deployment files will need to be merged into master via a pull request. 
+After all the contracts have been deployed a `deployments` folder will be created. These deployment files will need to be merged into master via a pull request. 
 
 Checkout to a new branch, the recommend format is 
 
@@ -171,13 +171,13 @@ Checkout to a new branch, the recommend format is
 git checkout -b contractVersion_chainName_deployment
 ```
 
-so for deploying 0.3 contracts on kovan this would look like this:
+so for if you're deploying v0.3 contracts on kovan the this command would look like:
 
 ```
 git checkout -b 0.3_kovan_deployment
 ```
 
-After checking out to the new branch, commit the files and push to github. On github create a pull request so others can review the deployment. Once reviewed it will be commited into the main branch.
+After checking out to the new branch, commit the files and push to github. On github create a pull request so others can review the deployment.
 
 
 
