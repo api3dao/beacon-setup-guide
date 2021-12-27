@@ -132,7 +132,7 @@ To verify the deployed contracts you need to first flatten the contracts using t
 yarn flatten-contracts
 ```
 
-This will generate a `/verify` folder with the contracts flattened into `.flat.sol` files. Navigate to the explorer page of the respective contract and find the `Verify and Publish` page (every explorer will have some variation on their contract page). Copy and paste the flattened contract code and select the solidity version that matches the version specified in `hardhat.config.ts`. Select MIT as the liscence and click on publish/verify
+This will generate a `/verify` folder with the contracts flattened into `.flat.sol` files. Navigate to the explorer page of the respective contract and find the `Verify and Publish` page (every explorer will have some variation on their contract page). Copy and paste the flattened contract code and select the solidity version that matches the version specified in `hardhat.config.ts`. Select MIT as the license and click on publish/verify
 
 
 
