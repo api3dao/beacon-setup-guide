@@ -74,6 +74,20 @@ export const deployContract = async (artifactsFolderPath: string, args: any[] = 
 };
 
 /**
+ * Reads the "secrets.env" of the particular integration to obtain the Airnode mnemonic of the Airnode wallet. This
+ * wallet is not connected to the provider, since we do not need to make any transactions with it.
+ *
+ * @returns The Airnode wallet.
+ */
+ export const getAirnodeWallet = () => {
+  const integrationInfo = readIntegrationInfo();
+  const integrationSecrets = parse(
+    readFileSync(join(__dirname, `../airnode-deployment/secrets.env`))
+  );
+  return ethers.Wallet.fromMnemonic(integrationSecrets['AIRNODE_WALLET_MNEMONIC']);
+};
+
+/**
  * Connect to the already deployed contract specified by the path to the compiled contract artifact.
  *
  * @param artifactsFolderPath

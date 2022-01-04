@@ -20,7 +20,9 @@
     "create-airnode-config": "ts-node scripts/create-airnode-config.ts",
     "create-airnode-secrets": "ts-node scripts/create-airnode-secrets.ts",
     "deploy-airnode": "ts-node scripts/deploy-airnode.ts",
-    "remove-airnode": "ts-node scripts/remove-airnode.ts"
+    "remove-airnode": "ts-node scripts/remove-airnode.ts",
+    "deploy-requester": "ts-node scripts/deploy-requester.ts",
+    "test-airnode": "ts-node scripts/test-airnode.ts"
   },
   "dependencies": {
     "@api3/airnode-abi": "^0.3.1",

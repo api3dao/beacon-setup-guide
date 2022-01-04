@@ -42,6 +42,18 @@ export const promptQuestions = (questions: PromptObject[]) =>
  export const formatSecrets = (secrets: string[]) => secrets.join('\n') + '\n';
 
 /**
+ * @returns The contents of the "config.json" file for the current integration (throws if it doesn't exist)
+ */
+ export const readConfig = () => {
+  const integrationInfo = readIntegrationInfo();
+
+  const config = JSON.parse(
+    readFileSync(join(__dirname, `../airnode-deployment/config.json`)).toString()
+  );
+  return config;
+};
+
+/**
  * @param interfaceMethod The interface of the method to be called
  * @param methodName the name of the method to be called
  * @param args the arguments to be passed to the method
