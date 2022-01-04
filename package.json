@@ -15,12 +15,19 @@
     "whitelist-rrp-beacon-server": "ts-node scripts/whitelist-rrp-beacon-server.ts",
     "eth-node": "hardhat node",
     "print-account-details": "ts-node scripts/print-account-details.ts",
-    "flatten-contracts": "ts-node scripts/flatten-contracts.ts"
+    "flatten-contracts": "ts-node scripts/flatten-contracts.ts",
+    "create-aws-secrets": "ts-node scripts/create-aws-secrets.ts",
+    "create-airnode-config": "ts-node scripts/create-airnode-config.ts",
+    "create-airnode-secrets": "ts-node scripts/create-airnode-secrets.ts",
+    "deploy-airnode": "ts-node scripts/deploy-airnode.ts",
+    "remove-airnode": "ts-node scripts/remove-airnode.ts"
   },
   "dependencies": {
     "@api3/airnode-abi": "^0.3.1",
     "@api3/airnode-admin": "^0.3.1",
     "@api3/airnode-protocol": "^0.3.1",
+    "@api3/airnode-deployer": "^0.3.1",
+    "@api3/airnode-node": "^0.3.1",
     "ethers": "^5.4.4"
   },
   "devDependencies": {
