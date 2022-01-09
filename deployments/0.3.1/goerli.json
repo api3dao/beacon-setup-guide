@@ -1,0 +1,7 @@
+{
+  "@api3/airnode-protocol/contracts/rrp/AirnodeRrp": "0xF6d2675468989387e96127546e0CBC9A384fa418",
+  "@api3/airnode-protocol/contracts/access-control-registry/AccessControlRegistry": "0x264eD319F50F14eB014d3961854E6eC69412ff63",
+  "/contracts/OwnableCallForwarder": "0x4D88B93bd1cB5A695E19B96Fc34CC7bf080f5891",
+  "@api3/airnode-protocol/contracts/authorizers/RequesterAuthorizerWithManager": "0x622786d0c4d60088f89BCac7FBf481142a71F189",
+  "@api3/airnode-protocol/contracts/rrp/requesters/RrpBeaconServer": "0x06DC65d26ecD289058014b7A23c94182ab198020"
+}
