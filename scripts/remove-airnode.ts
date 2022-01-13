@@ -11,7 +11,7 @@ const main = async () => {
     `-e USER_ID=$(id -u) -e GROUP_ID=$(id -g)`,
     `--env-file ${secretsFilePath}`,
     `-v ${airnodeDeploymentPath}:/app/output`,
-    `api3/airnode-deployer:latest remove -r output/receipt.json`,
+    `api3/airnode-deployer:0.3.1 remove -r output/receipt.json`,
   ]
     .filter(Boolean)
     .join(' ');
