@@ -11,7 +11,7 @@ const main = async () => {
     `--env-file ${secretsFilePath}`,
     `-v ${airnodeDeploymentPath}:/app/config`,
     `-v ${airnodeDeploymentPath}:/app/output`,
-    `api3/airnode-deployer:latest deploy --skip-version-check`,
+    `api3/airnode-deployer:0.3.1 deploy`,
   ]
     .filter(Boolean)
     .join(' ');
