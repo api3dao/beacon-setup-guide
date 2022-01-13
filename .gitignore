@@ -10,5 +10,7 @@ log.json
 /verify
 
 # Integration secrets
+aws.env
+secrets.env
 receipt.json
 config.json

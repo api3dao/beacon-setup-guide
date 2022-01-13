@@ -180,6 +180,110 @@ git checkout -b 0.3_kovan_deployment
 After checking out to the new branch, commit the files and push to github. On github create a pull request so others can review the deployment.
 
 
+# Airnode Setup Guide
+
+Deploying an airnode is very easy via this [quick deploy guide](https://docs.api3.org/airnode/v0.3/grp-providers/tutorial/quick-deploy-aws/). The tutorial below is designed to quickly deploy an airnode based on deployments in the `/deployments` folder via scripts that auto generate the `config.json` and `secrets.env`.
+
+## Setup
+
+install the dependencies before running the scripts
+
+```
+yarn install
+```
+
+compile the contracts using the following command:
+
+```
+yarn build
+```
+
+## Instructions
+
+The following instructions will guide you step by step on how to deploy an airnode.
+
+The deployment receipts will be saved in the `/airnode-deployment` folder.
+
+### 1. Setup the deployment 
+
+The first step is to choose a network for deployment and provide the provider URL. You will also need a funded account to deploy the requester contract and also fund the sponsor wallets that it will use in the tests. The account that will be derived from the mnemonic in this step.
+
+Run the following script to setup the integration
+
+```
+yarn setup-integration
+```
+
+### 2. (Optional) Print out the user account information
+
+Run:
+```
+yarn print-account-details
+```
+This script will show you the address of the account derived from the specified mnemonic. This account will be used to deploy the test contract. Make sure it is funded. The recommended amount is at least 0.3 ETH ( or the gas token of the chain your deploying to eg MATIC for polygon mainnet) .
+
+### 3. Create AWS secrets file
+If you intend to deploy Airnode on AWS, you will need to specify the credentials which will be used by the deployer. If you are not sure where to find these or how to create an AWS account, [see the following docs section](https://docs.api3.org/airnode/v0.3/grp-providers/docker/deployer-image.html#aws).
+
+After you know the secrets, run the following script to specify them:
+```
+yarn create-aws-secrets
+```
+### 4. Create Airnode configuration
+
+Airnode is configured by two files - `config.json` and `secrets.env`. The configuration is different based on where the Airnode is deployed, because every cloud provider has different settings. These differences are minor and we take care of it for you.
+
+To generate the config.json, run:
+```
+yarn create-airnode-config
+```
+
+Note: This config.json is made for coingecko API to get the price of a token, You need to modify this file to use a different API. You can learn more about how to configure config.json for your API [here](https://docs.api3.org/airnode/v0.3/reference/deployment-files/config-json.html)
+
+### 5. Create Airnode secrets
+
+Airnode is configured by two files - `config.json` and `secrets.env`. The config.json was already created in previous step. The latter, secrets.env can be generated it using:
+
+```
+yarn create-airnode-secrets
+```
+
+Note: This is used to generate a random mnemonic phrase called the `airnode menmonic` in `secrets.env`. The airnode mnemonic is unique to each airnode and is used to derive the sponsor wallets.
+
+### 6. Deploy Airnode
+
+Now you're ready to deploy Airnode on the cloud provider. Just run:
+
+```
+yarn deploy-airnode
+```
+
+### 7. Test deployed airnode (only works with the default config.json)
+
+Once deployed we can test if airnode is fulfilling the requests by running:
+
+```
+yarn test-airnode
+```
+
+This will deploy a requester , set the sponsorship status, fund the sponsor wallets and then make a request to get the price of Ethereum. 
+
+### 8. Remove Airnode
+To remove the deployed airnode using the reciept in `/airnode-deployment` run the following:
+
+```
+yarn remove-airnode
+```
+
+
+## More examples
+
+Checkout the [airnode-examples](https://github.com/api3dao/airnode/tree/master/packages/airnode-examples) directory for examples on how to deploy airnode (with examples for using security credentials like API keys)
+
+
+
+
+
 
 
 

@@ -31,6 +31,29 @@ export const promptQuestions = (questions: PromptObject[]) =>
 });
 
 /**
+ * @returns The contents of the "aws.env" file (throws if it doesn't exist)
+ */
+ export const readAwsSecrets = () => parseEnvFile(readFileSync(join(__dirname, '../airnode-deployment/aws.env')));
+
+/**
+ * @param secrets The lines of the secrets file
+ * @returns All the lines joined followed by a new line symbol
+ */
+ export const formatSecrets = (secrets: string[]) => secrets.join('\n') + '\n';
+
+/**
+ * @returns The contents of the "config.json" file for the current integration (throws if it doesn't exist)
+ */
+ export const readConfig = () => {
+  const integrationInfo = readIntegrationInfo();
+
+  const config = JSON.parse(
+    readFileSync(join(__dirname, `../airnode-deployment/config.json`)).toString()
+  );
+  return config;
+};
+
+/**
  * @param interfaceMethod The interface of the method to be called
  * @param methodName the name of the method to be called
  * @param args the arguments to be passed to the method
