@@ -105,3 +105,26 @@ export const readChainId = async () => {
   const network = await getProvider().getNetwork();
   return network.chainId;
 };
+
+// TODO This is from Airkeeper
+export const deriveKeeperWalletPathFromSponsorAddress = (sponsorAddress: string): string => {
+  const sponsorAddressBN = ethers.BigNumber.from(ethers.utils.getAddress(sponsorAddress));
+  const paths = [];
+  for (let i = 0; i < 6; i++) {
+    const shiftedSponsorAddressBN = sponsorAddressBN.shr(31 * i);
+    paths.push(shiftedSponsorAddressBN.mask(31).toString());
+  }
+  return `12345/${paths.join('/')}`;
+};
+
+// TODO This is from Airkeeper
+export const deriveKeeperSponsorWallet = (
+  airnodeHdNode: ethers.utils.HDNode,
+  sponsorAddress: string,
+  provider: ethers.providers.Provider
+): ethers.Wallet => {
+  const sponsorWalletHdNode = airnodeHdNode.derivePath(
+    `m/44'/60'/0'/${deriveKeeperWalletPathFromSponsorAddress(sponsorAddress)}`
+  );
+  return new ethers.Wallet(sponsorWalletHdNode.privateKey).connect(provider);
+};

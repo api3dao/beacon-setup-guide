@@ -17,7 +17,6 @@ const main = async () => {
     managerAddress,
     AirnodeRrp.address,
   ]);
-  console.log(RrpBeaconServer);
   cliPrint.info(`RrpBeaconServer deployed to address: ${RrpBeaconServer.address}`);
 };
 

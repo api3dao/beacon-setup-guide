@@ -1,7 +1,9 @@
 import { readFileSync } from 'fs';
 import { join } from 'path';
-import { ethers } from 'ethers';
+import { ethers, Wallet } from 'ethers';
 import prompts, { PromptObject } from 'prompts';
+import { formatEther, parseEther } from 'ethers/lib/utils';
+import { cliPrint } from './cli';
 
 export interface IntegrationInfo {
   network: string;
@@ -47,4 +49,39 @@ export const generateCallData = (interfaceMethod: string, methodName: string, ar
           .replace(/^0x/, '')
       : '')
   );
+};
+
+// TODO This should be in a utils file or equivalent
+export const fundAWallet = async (
+  provider: ethers.providers.JsonRpcProvider,
+  sourceWallet: Wallet,
+  destinationAddress: string,
+  lowThreshold = parseEther('0.09'),
+  amountToSend = parseEther('0.1')
+) => {
+  const balance = await sourceWallet.getBalance();
+  if (balance.lt(amountToSend)) throw new Error(`Sponsor account (${sourceWallet.address}) doesn't have enough funds!`);
+
+  const destinationBalance = await provider.getBalance(destinationAddress);
+  if (destinationBalance.gt(lowThreshold)) {
+    cliPrint.info(
+      `Destination wallet ${destinationAddress} has sufficient funds, so we won't send funds: ${formatEther(
+        destinationBalance
+      )} ETH`
+    );
+    return;
+  }
+
+  cliPrint.info(
+    `Destination wallet ${destinationAddress} has less funds than threshold, so we will transfer funds to it: ${formatEther(
+      destinationBalance
+    )} ETH`
+  );
+  cliPrint.info(`Sending funds...`);
+  const tx = await sourceWallet.sendTransaction({ to: destinationAddress, value: amountToSend });
+  cliPrint.info('Waiting on confirmation');
+  await tx.wait(1);
+  cliPrint.info(`Successfully sent funds to sponsor wallet address: ${destinationAddress}.`);
+  const destinationBalanceAfterTx = ethers.utils.formatEther(await provider.getBalance(destinationAddress));
+  cliPrint.info(`Current balance: ${destinationBalanceAfterTx}`);
 };

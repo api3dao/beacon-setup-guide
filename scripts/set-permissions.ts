@@ -1,67 +1,16 @@
 import { deriveAirnodeXpub, deriveSponsorWalletAddress } from '@api3/airnode-admin';
 import { AirnodeRrp, RrpBeaconServer } from '@api3/airnode-protocol';
 import { ethers, Wallet } from 'ethers';
-import { formatEther, parseEther } from 'ethers/lib/utils';
 import * as node from '@api3/airnode-node';
-import { cliPrint, getDeployedContract, getProvider, readIntegrationInfo, runAndHandleErrors } from '../src';
-
-// TODO This should be in a utils file or equivalent
-export const fundAWallet = async (
-  provider: ethers.providers.JsonRpcProvider,
-  sourceWallet: Wallet,
-  destinationAddress: string,
-  lowThreshold = parseEther('0.09'),
-  amountToSend = parseEther('0.1')
-) => {
-  const balance = await sourceWallet.getBalance();
-  if (balance.lt(amountToSend)) throw new Error(`Sponsor account (${sourceWallet.address}) doesn't have enough funds!`);
-
-  const destinationBalance = await provider.getBalance(destinationAddress);
-  if (destinationBalance.gt(lowThreshold)) {
-    cliPrint.info(
-      `Destination wallet ${destinationAddress} has sufficient funds, so we won't send funds: ${formatEther(
-        destinationBalance
-      )} ETH`
-    );
-    return;
-  }
-
-  cliPrint.info(
-    `Destination wallet ${destinationAddress} has less funds than threshold, so we will transfer funds to it: ${formatEther(
-      destinationBalance
-    )} ETH`
-  );
-  cliPrint.info(`Sending funds...`);
-  const tx = await sourceWallet.sendTransaction({ to: destinationAddress, value: amountToSend });
-  cliPrint.info('Waiting on confirmation');
-  await tx.wait(1);
-  cliPrint.info(`Successfully sent funds to sponsor wallet address: ${destinationAddress}.`);
-  const destinationBalanceAfterTx = ethers.utils.formatEther(await provider.getBalance(destinationAddress));
-  cliPrint.info(`Current balance: ${destinationBalanceAfterTx}`);
-};
-
-// TODO This is from Airkeeper
-export const deriveKeeperWalletPathFromSponsorAddress = (sponsorAddress: string): string => {
-  const sponsorAddressBN = ethers.BigNumber.from(ethers.utils.getAddress(sponsorAddress));
-  const paths = [];
-  for (let i = 0; i < 6; i++) {
-    const shiftedSponsorAddressBN = sponsorAddressBN.shr(31 * i);
-    paths.push(shiftedSponsorAddressBN.mask(31).toString());
-  }
-  return `12345/${paths.join('/')}`;
-};
-
-// TODO This is from Airkeeper
-export const deriveKeeperSponsorWallet = (
-  airnodeHdNode: ethers.utils.HDNode,
-  sponsorAddress: string,
-  provider: ethers.providers.Provider
-): ethers.Wallet => {
-  const sponsorWalletHdNode = airnodeHdNode.derivePath(
-    `m/44'/60'/0'/${deriveKeeperWalletPathFromSponsorAddress(sponsorAddress)}`
-  );
-  return new ethers.Wallet(sponsorWalletHdNode.privateKey).connect(provider);
-};
+import {
+  cliPrint,
+  deriveKeeperSponsorWallet,
+  fundAWallet,
+  getDeployedContract,
+  getProvider,
+  readIntegrationInfo,
+  runAndHandleErrors,
+} from '../src';
 
 const main = async () => {
   const provider = getProvider();
