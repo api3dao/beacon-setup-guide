@@ -1,5 +1,5 @@
 import { spawnSync } from 'child_process';
-import chalk from 'chalk';  
+import chalk from 'chalk';
 
 /**
  * Executes the function passed as an argument and properly shuts down the node environment.
@@ -12,10 +12,12 @@ export const runAndHandleErrors = (fn: () => Promise<unknown>) => {
       .then(() => process.exit(0))
       .catch((error) => {
         cliPrint.error(error);
+        console.log(error.stack);
         process.exit(1);
       });
   } catch (error) {
     cliPrint.error('' + error);
+    console.log(error.stack);
     process.exit(1);
   }
 };

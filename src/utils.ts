@@ -1,7 +1,6 @@
 import { readFileSync } from 'fs';
 import { join } from 'path';
 import { ethers } from 'ethers';
-import { parse as parseEnvFile } from 'dotenv';
 import prompts, { PromptObject } from 'prompts';
 
 export interface IntegrationInfo {
@@ -28,7 +27,7 @@ export const promptQuestions = (questions: PromptObject[]) =>
     onCancel: () => {
       throw new Error('Aborted by the user');
     },
-});
+  });
 
 /**
  * @param interfaceMethod The interface of the method to be called
@@ -36,7 +35,16 @@ export const promptQuestions = (questions: PromptObject[]) =>
  * @param args the arguments to be passed to the method
  * @returns The callData of the method to be called with its arguments encoded
  */
-export const generateCallData = (interfaceMethod: string , methodName: string, args: any[]) => {
-  return new ethers.utils.Interface([interfaceMethod]).getSighash(methodName) + 
-    (args && args.length > 0 ? ethers.utils.defaultAbiCoder.encode(args.map(a => a[0]), args.map(a => a[1])).replace(/^0x/, '') : '');
-}
+export const generateCallData = (interfaceMethod: string, methodName: string, args: any[]) => {
+  return (
+    new ethers.utils.Interface([interfaceMethod]).getSighash(methodName) +
+    (args && args.length > 0
+      ? ethers.utils.defaultAbiCoder
+          .encode(
+            args.map((a) => a[0]),
+            args.map((a) => a[1])
+          )
+          .replace(/^0x/, '')
+      : '')
+  );
+};

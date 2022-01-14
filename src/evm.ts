@@ -1,8 +1,8 @@
 import { join } from 'path';
 import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'fs';
 import { ethers } from 'ethers';
-import { parse } from 'dotenv';
 import { readIntegrationInfo, removeExtension } from './utils';
+import { cliPrint } from './cli';
 import { version } from '../package.json';
 
 /**
@@ -10,8 +10,7 @@ import { version } from '../package.json';
  */
 export const getProvider = () => {
   const integrationInfo = readIntegrationInfo();
-  const provider = new ethers.providers.JsonRpcProvider(integrationInfo.providerUrl);
-  return provider;
+  return new ethers.providers.JsonRpcProvider(integrationInfo.providerUrl);
 };
 
 /**
@@ -48,6 +47,15 @@ const getArtifact = (artifactsFolderPath: string) => {
  * @returns The deployed contract
  */
 export const deployContract = async (artifactsFolderPath: string, args: any[] = []) => {
+  try {
+    const existingContract = await getDeployedContract(artifactsFolderPath);
+    if (existingContract.address) {
+      cliPrint.info(`An existing instance of this contract is present - re-using existing deployment.`);
+      return existingContract;
+    }
+  } catch (e) {
+    /* do nothing */
+  }
   const artifact = getArtifact(artifactsFolderPath);
 
   // Deploy the contract
@@ -56,7 +64,7 @@ export const deployContract = async (artifactsFolderPath: string, args: any[] = 
   await contract.deployed();
 
   // Make sure the deployments folder exist
-  const deploymentsPath = join(__dirname, '../deployments',`${version}`);
+  const deploymentsPath = join(__dirname, '../deployments', `${version}`);
   if (!existsSync(deploymentsPath)) mkdirSync(deploymentsPath, { recursive: true });
 
   // Try to load the existing deployments file for this network - we want to preserve deployments of other contracts
@@ -79,11 +87,11 @@ export const deployContract = async (artifactsFolderPath: string, args: any[] = 
  * @param artifactsFolderPath
  * @returns The deployed contract
  */
-export const getDeployedContract = async (artifactsFolderPath: string, wallet: ethers.Wallet=getUserWallet()) => {
+export const getDeployedContract = async (artifactsFolderPath: string, wallet: ethers.Wallet = getUserWallet()) => {
   const artifact = getArtifact(artifactsFolderPath);
 
   const network = readIntegrationInfo().network;
-  const deploymentPath = join(__dirname, '../deployments',`${version}`, network + '.json');
+  const deploymentPath = join(__dirname, '../deployments', `${version}`, network + '.json');
   const deployment = JSON.parse(readFileSync(deploymentPath).toString());
   const deploymentName = removeExtension(artifactsFolderPath);
 

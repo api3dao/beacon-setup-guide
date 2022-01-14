@@ -1,38 +1,46 @@
-import {
-  cliPrint,
-  getDeployedContract,
-  getProvider,
-  readIntegrationInfo,
-  runAndHandleErrors
-} from "../src";
-import {deriveAirnodeXpub, deriveSponsorWalletAddress} from "@api3/airnode-admin";
-import {AirnodeRrp, RrpBeaconServer} from "@api3/airnode-protocol";
-import {ethers, Wallet} from "ethers";
-import {parseEther} from "ethers/lib/utils";
+import { deriveAirnodeXpub, deriveSponsorWalletAddress } from '@api3/airnode-admin';
+import { AirnodeRrp, RrpBeaconServer } from '@api3/airnode-protocol';
+import { ethers, Wallet } from 'ethers';
+import { formatEther, parseEther } from 'ethers/lib/utils';
 import * as node from '@api3/airnode-node';
+import { cliPrint, getDeployedContract, getProvider, readIntegrationInfo, runAndHandleErrors } from '../src';
 
-export const fundAWallet = async (provider: ethers.providers.JsonRpcProvider, sourceWallet: Wallet,
-                                  destinationAddress: string, lowThreshold = parseEther('0.09'),
-                                  amountToSend = parseEther('0.1')) => {
+// TODO This should be in a utils file or equivalent
+export const fundAWallet = async (
+  provider: ethers.providers.JsonRpcProvider,
+  sourceWallet: Wallet,
+  destinationAddress: string,
+  lowThreshold = parseEther('0.09'),
+  amountToSend = parseEther('0.1')
+) => {
   const balance = await sourceWallet.getBalance();
   if (balance.lt(amountToSend)) throw new Error(`Sponsor account (${sourceWallet.address}) doesn't have enough funds!`);
 
   const destinationBalance = await provider.getBalance(destinationAddress);
   if (destinationBalance.gt(lowThreshold)) {
-    console.log(`Destination wallet ${destinationAddress} has sufficient funds: ${destinationBalance.toString()}`);
+    cliPrint.info(
+      `Destination wallet ${destinationAddress} has sufficient funds, so we won't send funds: ${formatEther(
+        destinationBalance
+      )} ETH`
+    );
     return;
   }
 
-  console.log(`Destination wallet ${destinationAddress} does not have sufficient funds: ${destinationBalance.toString()}`);
-  console.log(`Sending funds...`);
-  const tx = await sourceWallet.sendTransaction({to: destinationAddress, value: amountToSend});
-  console.log("Waiting on confirmation");
+  cliPrint.info(
+    `Destination wallet ${destinationAddress} has less funds than threshold, so we will transfer funds to it: ${formatEther(
+      destinationBalance
+    )} ETH`
+  );
+  cliPrint.info(`Sending funds...`);
+  const tx = await sourceWallet.sendTransaction({ to: destinationAddress, value: amountToSend });
+  cliPrint.info('Waiting on confirmation');
   await tx.wait(1);
   cliPrint.info(`Successfully sent funds to sponsor wallet address: ${destinationAddress}.`);
   const destinationBalanceAfterTx = ethers.utils.formatEther(await provider.getBalance(destinationAddress));
   cliPrint.info(`Current balance: ${destinationBalanceAfterTx}`);
 };
 
+// TODO This is from Airkeeper
 export const deriveKeeperWalletPathFromSponsorAddress = (sponsorAddress: string): string => {
   const sponsorAddressBN = ethers.BigNumber.from(ethers.utils.getAddress(sponsorAddress));
   const paths = [];
@@ -43,6 +51,7 @@ export const deriveKeeperWalletPathFromSponsorAddress = (sponsorAddress: string)
   return `12345/${paths.join('/')}`;
 };
 
+// TODO This is from Airkeeper
 export const deriveKeeperSponsorWallet = (
   airnodeHdNode: ethers.utils.HDNode,
   sponsorAddress: string,
@@ -55,7 +64,7 @@ export const deriveKeeperSponsorWallet = (
 };
 
 const main = async () => {
-  const provider = getProvider()
+  const provider = getProvider();
   const integrationInfo = await readIntegrationInfo();
   const airnodeRootWallet = ethers.Wallet.fromMnemonic(integrationInfo.mnemonic).connect(provider);
   const airnodeHDNode = ethers.utils.HDNode.fromMnemonic(integrationInfo.mnemonic);
@@ -65,12 +74,14 @@ const main = async () => {
     provider
   );
 
-  const airnodeRrpInstance = ((await getDeployedContract('@api3/airnode-protocol/contracts/rrp/AirnodeRrp.sol')) as AirnodeRrp).connect(airnodeRootWallet);
+  const airnodeRrpInstance = (
+    (await getDeployedContract('@api3/airnode-protocol/contracts/rrp/AirnodeRrp.sol')) as AirnodeRrp
+  ).connect(airnodeRootWallet);
   cliPrint.info(`Deployed AirnodeRrp: ${airnodeRrpInstance.address}`);
 
   const sponsor = ethers.Wallet.fromMnemonic(integrationInfo.mnemonic).connect(provider);
   const airnodeXpub = deriveAirnodeXpub(airnodeRootWallet.mnemonic.phrase);
-  console.log(`Airnode XPub: ${airnodeXpub}`);
+  cliPrint.info(`Airnode XPub: ${airnodeXpub}`);
 
   const sponsorWalletAddress = await deriveSponsorWalletAddress(
     airnodeXpub,
@@ -79,18 +90,35 @@ const main = async () => {
   );
 
   const requestSponsorWallet = node.evm.deriveSponsorWallet(airnodeHDNode, sponsorWalletAddress).connect(provider);
-  console.log({keeperSponsorWallet, requestSponsorWallet});
+  cliPrint.info(`Keeper Sponsor Wallet: ${keeperSponsorWallet.address}`);
+  cliPrint.info(`Request Sponsor Wallet: ${requestSponsorWallet.address}`);
 
   await fundAWallet(provider, airnodeRootWallet, sponsorWalletAddress);
   await fundAWallet(provider, airnodeRootWallet, keeperSponsorWallet.address);
 
-  console.log(`Giving the beacon updater permission to the request wallet ${keeperSponsorWallet}`);
-  const beacon = (await getDeployedContract('@api3/airnode-protocol/contracts/rrp/requesters/RrpBeaconServer.sol'))
-    .connect(sponsor.connect(getProvider())) as RrpBeaconServer;
+  cliPrint.info(`Now checking if ${keeperSponsorWallet.address} has beacon updater permission...`);
+  const beacon = (
+    await getDeployedContract('@api3/airnode-protocol/contracts/rrp/requesters/RrpBeaconServer.sol')
+  ).connect(sponsor.connect(getProvider())) as RrpBeaconServer;
+
+  if (await beacon.sponsorToUpdateRequesterToPermissionStatus(sponsor.address, keeperSponsorWallet.address)) {
+    cliPrint.info(`Beacon updater already has the updater permission.`);
+    process.exit(0);
+  }
+
+  cliPrint.info(`Giving the beacon updater permission to the request wallet ${keeperSponsorWallet.address}`);
   const tx = await beacon.setUpdatePermissionStatus(keeperSponsorWallet.address, true);
-  console.log('Waiting for confirmation');
+  cliPrint.info('Waiting for confirmation on-chain...');
   await tx.wait(1);
-  console.log('got confirmation');
+  cliPrint.info('Got on-chain confirmation!');
+
+  cliPrint.info(`Double-checking that ${keeperSponsorWallet.address} has beacon updater permission...`);
+  if (await beacon.sponsorToUpdateRequesterToPermissionStatus(sponsor.address, keeperSponsorWallet.address)) {
+    cliPrint.info(`Beacon updater has the updater permission, exiting.`);
+    process.exit(0);
+  }
+
+  cliPrint.info(`Beacon updater DOES NOT have the updater permission, something went wrong.`);
 };
 
 runAndHandleErrors(main);
