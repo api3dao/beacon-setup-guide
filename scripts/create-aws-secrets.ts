@@ -1,16 +1,9 @@
 import { existsSync, writeFileSync } from 'fs';
 import { join, relative } from 'path';
 import { PromptObject } from 'prompts';
-import {
-  cliPrint,
-  formatSecrets,
-  promptQuestions,
-  readAwsSecrets,
-  runAndHandleErrors,
-} from '../src';
+import { cliPrint, formatSecrets, promptQuestions, readAwsSecrets, runAndHandleErrors } from '../src';
 
 const main = async () => {
-
   // We try to populate the options with initial values from the existing `aws.env` (if it exists)
   const awsSecrets = existsSync(join(__dirname, '../aws.env')) ? readAwsSecrets() : null;
   const questions: PromptObject[] = [

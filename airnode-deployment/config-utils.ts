@@ -9,12 +9,11 @@ export const createCloudProviderConfiguration = (generateExampleFile: boolean): 
       type: 'local',
     };
   }
-  
+
   return {
     type: 'aws',
     region: 'us-east-1',
   };
-
 };
 
 export const getAirnodeRrpAddress = async (generateExampleFile: boolean) => {

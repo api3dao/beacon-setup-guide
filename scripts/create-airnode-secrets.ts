@@ -1,4 +1,3 @@
-
 import { readIntegrationInfo, runAndHandleErrors } from '../src';
 
 const main = async () => {

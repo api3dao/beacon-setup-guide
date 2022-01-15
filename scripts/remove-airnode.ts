@@ -2,7 +2,6 @@ import { join } from 'path';
 import { cliPrint, readIntegrationInfo, runAndHandleErrors, runShellCommand } from '../src';
 
 const main = async () => {
-  
   const airnodeDeploymentPath = join(__dirname, '../airnode-deployment');
   const secretsFilePath = join(__dirname, '../airnode-deployment/aws.env');
 

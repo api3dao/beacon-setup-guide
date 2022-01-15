@@ -1,0 +1,24 @@
+[
+  {
+    "airnode": "0xA30CA71Ba54E83127214D3271aEA8F5D6bD4Dace",
+    "endpointId": "0xd9e8c9bcc8960df5f954c0817757d2f7f9601bd638ea2f94e890ae5481681153",
+    "parameters": [
+      {
+        "name": "coinId",
+        "value": "bitcoin",
+        "type": "string"
+      }
+    ]
+  },
+  {
+    "airnode": "0xA30CA71Ba54E83127214D3271aEA8F5D6bD4Dace",
+    "endpointId": "0xd9e8c9bcc8960df5f954c0817757d2f7f9601bd638ea2f94e890ae5481681153",
+    "parameters": [
+      {
+        "name": "coinId",
+        "value": "ethereum",
+        "type": "string"
+      }
+    ]
+  }
+]

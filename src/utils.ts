@@ -1,8 +1,11 @@
 import { readFileSync } from 'fs';
 import { join } from 'path';
-import { ethers } from 'ethers';
+import { ethers, Wallet } from 'ethers';
+import { version } from '../package.json';
 import { parse as parseEnvFile } from 'dotenv';
 import prompts, { PromptObject } from 'prompts';
+import { formatEther, parseEther } from 'ethers/lib/utils';
+import { cliPrint } from './cli';
 
 export interface IntegrationInfo {
   network: string;
@@ -17,6 +20,12 @@ export const readIntegrationInfo = (): IntegrationInfo =>
   JSON.parse(readFileSync(join(__dirname, '../integration-info.json')).toString());
 
 /**
+ *
+ * @returns The version of the beacon deployment
+ */
+export const getVersion = (): string => version;
+
+/**
  * @param filename
  * @returns The "filename" with the last extension removed
  */
@@ -28,28 +37,36 @@ export const promptQuestions = (questions: PromptObject[]) =>
     onCancel: () => {
       throw new Error('Aborted by the user');
     },
-});
+  });
 
 /**
  * @returns The contents of the "aws.env" file (throws if it doesn't exist)
  */
- export const readAwsSecrets = () => parseEnvFile(readFileSync(join(__dirname, '../airnode-deployment/aws.env')));
+export const readAwsSecrets = () => parseEnvFile(readFileSync(join(__dirname, '../airnode-deployment/aws.env')));
 
 /**
  * @param secrets The lines of the secrets file
  * @returns All the lines joined followed by a new line symbol
  */
- export const formatSecrets = (secrets: string[]) => secrets.join('\n') + '\n';
+export const formatSecrets = (secrets: string[]) => secrets.join('\n') + '\n';
 
 /**
- * @returns The contents of the "config.json" file for the current integration (throws if it doesn't exist)
+ * @returns The contents of the "config.json" file for the current integration during Airnode deployment (throws if it doesn't exist)
  */
- export const readConfig = () => {
+export const readConfigAirnode = () => {
   const integrationInfo = readIntegrationInfo();
 
-  const config = JSON.parse(
-    readFileSync(join(__dirname, `../airnode-deployment/config.json`)).toString()
-  );
+  const config = JSON.parse(readFileSync(join(__dirname, `../airnode-deployment/config.json`)).toString());
+  return config;
+};
+
+/**
+ * @returns The contents of the "config.json" file for the current integration during Airkeeper deployment (throws if it doesn't exist)
+ */
+export const readConfigKeeper = () => {
+  const integrationInfo = readIntegrationInfo();
+
+  const config = JSON.parse(readFileSync(join(__dirname, `../airnode-deployment/config.json`)).toString());
   return config;
 };
 
@@ -59,7 +76,51 @@ export const promptQuestions = (questions: PromptObject[]) =>
  * @param args the arguments to be passed to the method
  * @returns The callData of the method to be called with its arguments encoded
  */
-export const generateCallData = (interfaceMethod: string , methodName: string, args: any[]) => {
-  return new ethers.utils.Interface([interfaceMethod]).getSighash(methodName) + 
-    (args && args.length > 0 ? ethers.utils.defaultAbiCoder.encode(args.map(a => a[0]), args.map(a => a[1])).replace(/^0x/, '') : '');
-}
+export const generateCallData = (interfaceMethod: string, methodName: string, args: any[]) => {
+  return (
+    new ethers.utils.Interface([interfaceMethod]).getSighash(methodName) +
+    (args && args.length > 0
+      ? ethers.utils.defaultAbiCoder
+          .encode(
+            args.map((a) => a[0]),
+            args.map((a) => a[1])
+          )
+          .replace(/^0x/, '')
+      : '')
+  );
+};
+
+// TODO This should be in a utils file or equivalent
+export const fundAWallet = async (
+  provider: ethers.providers.JsonRpcProvider,
+  sourceWallet: Wallet,
+  destinationAddress: string,
+  lowThreshold = parseEther('0.09'),
+  amountToSend = parseEther('0.1')
+) => {
+  const balance = await sourceWallet.getBalance();
+  if (balance.lt(amountToSend)) throw new Error(`Sponsor account (${sourceWallet.address}) doesn't have enough funds!`);
+
+  const destinationBalance = await provider.getBalance(destinationAddress);
+  if (destinationBalance.gt(lowThreshold)) {
+    cliPrint.info(
+      `Destination wallet ${destinationAddress} has sufficient funds, so we won't send funds: ${formatEther(
+        destinationBalance
+      )} ETH`
+    );
+    return;
+  }
+
+  cliPrint.info(
+    `Destination wallet ${destinationAddress} has less funds than threshold, so we will transfer funds to it: ${formatEther(
+      destinationBalance
+    )} ETH`
+  );
+  cliPrint.info(`Sending funds...`);
+  const tx = await sourceWallet.sendTransaction({ to: destinationAddress, value: amountToSend });
+  cliPrint.info('Waiting on confirmation');
+  await tx.wait(1);
+  cliPrint.info(`Successfully sent funds to sponsor wallet address: ${destinationAddress}.`);
+  const destinationBalanceAfterTx = ethers.utils.formatEther(await provider.getBalance(destinationAddress));
+  cliPrint.info(`Current balance: ${destinationBalanceAfterTx}`);
+};

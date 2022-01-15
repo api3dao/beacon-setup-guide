@@ -15,7 +15,7 @@ const questions: PromptObject[] = [
     type: 'text',
     name: 'network',
     message: 'Select target blockchain network',
-    initial: (_prev,values) => 'ropsten / localhost',
+    initial: (_prev, values) => 'ropsten / localhost',
   },
   {
     type: 'text',

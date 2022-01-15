@@ -4,6 +4,7 @@ import { ethers } from 'ethers';
 import { parse } from 'dotenv';
 import { readIntegrationInfo, removeExtension } from './utils';
 import { version } from '../package.json';
+import { cliPrint } from './cli';
 
 /**
  * @returns The ethers provider connected to the provider URL specified in the "integration-info.json".
@@ -48,6 +49,16 @@ const getArtifact = (artifactsFolderPath: string) => {
  * @returns The deployed contract
  */
 export const deployContract = async (artifactsFolderPath: string, args: any[] = []) => {
+  try {
+    const existingContract = await getDeployedContract(artifactsFolderPath);
+    if (existingContract.address) {
+      cliPrint.info(`An existing instance of this contract is present - re-using existing deployment.`);
+      return existingContract;
+    }
+  } catch (e) {
+    /* do nothing */
+  }
+
   const artifact = getArtifact(artifactsFolderPath);
 
   // Deploy the contract
@@ -56,7 +67,7 @@ export const deployContract = async (artifactsFolderPath: string, args: any[] = 
   await contract.deployed();
 
   // Make sure the deployments folder exist
-  const deploymentsPath = join(__dirname, '../deployments',`${version}`);
+  const deploymentsPath = join(__dirname, '../deployments', `${version}`);
   if (!existsSync(deploymentsPath)) mkdirSync(deploymentsPath, { recursive: true });
 
   // Try to load the existing deployments file for this network - we want to preserve deployments of other contracts
@@ -79,11 +90,9 @@ export const deployContract = async (artifactsFolderPath: string, args: any[] = 
  *
  * @returns The Airnode wallet.
  */
- export const getAirnodeWallet = () => {
+export const getAirnodeWallet = () => {
   const integrationInfo = readIntegrationInfo();
-  const integrationSecrets = parse(
-    readFileSync(join(__dirname, `../airnode-deployment/secrets.env`))
-  );
+  const integrationSecrets = parse(readFileSync(join(__dirname, `../airnode-deployment/secrets.env`)));
   return ethers.Wallet.fromMnemonic(integrationSecrets['AIRNODE_WALLET_MNEMONIC']);
 };
 
@@ -93,11 +102,11 @@ export const deployContract = async (artifactsFolderPath: string, args: any[] = 
  * @param artifactsFolderPath
  * @returns The deployed contract
  */
-export const getDeployedContract = async (artifactsFolderPath: string, wallet: ethers.Wallet=getUserWallet()) => {
+export const getDeployedContract = async (artifactsFolderPath: string, wallet: ethers.Wallet = getUserWallet()) => {
   const artifact = getArtifact(artifactsFolderPath);
 
   const network = readIntegrationInfo().network;
-  const deploymentPath = join(__dirname, '../deployments',`${version}`, network + '.json');
+  const deploymentPath = join(__dirname, '../deployments', `${version}`, network + '.json');
   const deployment = JSON.parse(readFileSync(deploymentPath).toString());
   const deploymentName = removeExtension(artifactsFolderPath);
 
@@ -110,4 +119,27 @@ export const getDeployedContract = async (artifactsFolderPath: string, wallet: e
 export const readChainId = async () => {
   const network = await getProvider().getNetwork();
   return network.chainId;
+};
+
+// TODO This is from Airkeeper
+export const deriveKeeperWalletPathFromSponsorAddress = (sponsorAddress: string): string => {
+  const sponsorAddressBN = ethers.BigNumber.from(ethers.utils.getAddress(sponsorAddress));
+  const paths = [];
+  for (let i = 0; i < 6; i++) {
+    const shiftedSponsorAddressBN = sponsorAddressBN.shr(31 * i);
+    paths.push(shiftedSponsorAddressBN.mask(31).toString());
+  }
+  return `12345/${paths.join('/')}`;
+};
+
+// TODO This is from Airkeeper
+export const deriveKeeperSponsorWallet = (
+  airnodeHdNode: ethers.utils.HDNode,
+  sponsorAddress: string,
+  provider: ethers.providers.Provider
+): ethers.Wallet => {
+  const sponsorWalletHdNode = airnodeHdNode.derivePath(
+    `m/44'/60'/0'/${deriveKeeperWalletPathFromSponsorAddress(sponsorAddress)}`
+  );
+  return new ethers.Wallet(sponsorWalletHdNode.privateKey).connect(provider);
 };
