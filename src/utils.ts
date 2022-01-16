@@ -1,9 +1,11 @@
 import { readFileSync } from 'fs';
 import { join } from 'path';
 import { ethers, Wallet } from 'ethers';
+import { parse as parseEnvFile } from 'dotenv';
 import prompts, { PromptObject } from 'prompts';
 import { formatEther, parseEther } from 'ethers/lib/utils';
 import { cliPrint } from './cli';
+import { version } from '../package.json';
 
 export interface IntegrationInfo {
   network: string;
@@ -18,6 +20,12 @@ export const readIntegrationInfo = (): IntegrationInfo =>
   JSON.parse(readFileSync(join(__dirname, '../integration-info.json')).toString());
 
 /**
+ *
+ * @returns The version of the beacon deployment
+ */
+export const getVersion = (): string => version;
+
+/**
  * @param filename
  * @returns The "filename" with the last extension removed
  */
@@ -30,6 +38,29 @@ export const promptQuestions = (questions: PromptObject[]) =>
       throw new Error('Aborted by the user');
     },
   });
+
+/**
+ * @returns The contents of the "aws.env" file (throws if it doesn't exist)
+ */
+export const readAwsSecrets = () => parseEnvFile(readFileSync(join(__dirname, '../airnode-deployment/aws.env')));
+
+/**
+ * @param secrets The lines of the secrets file
+ * @returns All the lines joined followed by a new line symbol
+ */
+export const formatSecrets = (secrets: string[]) => secrets.join('\n') + '\n';
+
+/**
+ * @returns The contents of the "config.json" file for the current integration during Airnode deployment (throws if it doesn't exist)
+ */
+export const readConfigAirnode = () =>
+  JSON.parse(readFileSync(join(__dirname, `../airnode-deployment/config.json`)).toString());
+
+/**
+ * @returns The contents of the "config.json" file for the current integration during Airkeeper deployment (throws if it doesn't exist)
+ */
+export const readConfigKeeper = () =>
+  JSON.parse(readFileSync(join(__dirname, `../airnode-deployment/config.json`)).toString());
 
 /**
  * @param interfaceMethod The interface of the method to be called

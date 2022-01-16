@@ -1,6 +1,7 @@
 node_modules
 log.json
 /dist
+yarn-error.log
 
 # Hardhat files
 /cache
@@ -10,5 +11,11 @@ log.json
 /verify
 
 # Integration secrets
+aws.env
+secrets.env
 receipt.json
 config.json
+
+#airkeeper
+/airkeeper-deployment/templates
+/airkeeper-deployment/airkeeper.json

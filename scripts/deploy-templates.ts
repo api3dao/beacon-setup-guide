@@ -1,116 +1,47 @@
-import { createTemplate, deriveAirnodeXpub, deriveSponsorWalletAddress } from '@api3/airnode-admin';
-import { AirnodeRrp } from '@api3/airnode-protocol';
-import { ethers, Wallet } from 'ethers';
-import * as node from '@api3/airnode-node';
-import {
-  cliPrint,
-  deriveKeeperSponsorWallet,
-  getDeployedContract,
-  getProvider,
-  readIntegrationInfo,
-  runAndHandleErrors,
-} from '../src';
+import { readFileSync, existsSync, mkdirSync, writeFileSync } from 'fs';
+import { join } from 'path';
+import parseArgs from 'minimist';
+import * as airnodeAbi from '@api3/airnode-abi';
+import { getAirnodeRrp, createTemplate } from '@api3/airnode-admin';
+import { cliPrint, runAndHandleErrors, getVersion, getDeployedContract, readIntegrationInfo } from '../src';
 
 const main = async () => {
-  const provider = getProvider();
-  const integrationInfo = await readIntegrationInfo();
-  const airnodeRootWallet = ethers.Wallet.fromMnemonic(integrationInfo.mnemonic).connect(provider);
+  const args = parseArgs(process.argv.slice(2), { string: ['apiName'] });
+  if (!args.apiName) return cliPrint.error('Please specify an apiName');
+  const templateFilePath = join(__dirname, '../airkeeper-deployment/templates.json');
+  const integrationInfo = readIntegrationInfo();
+  const AirnodeRrpContract = await getDeployedContract('@api3/airnode-protocol/contracts/rrp/AirnodeRrp.sol');
+  const AirnodeRrp = await getAirnodeRrp(integrationInfo.providerUrl, {
+    airnodeRrpAddress: AirnodeRrpContract.address,
+    signer: { mnemonic: integrationInfo.mnemonic },
+  });
 
-  const airnodeRrpInstance = (
-    (await getDeployedContract('@api3/airnode-protocol/contracts/rrp/AirnodeRrp.sol')) as AirnodeRrp
-  ).connect(airnodeRootWallet);
-  cliPrint.info(`The Deployed AirnodeRrp Contract's Address: ${airnodeRrpInstance.address}`);
+  const templates = JSON.parse(readFileSync(templateFilePath).toString());
+  const createdTemplatesPath = join(__dirname, '../airkeeper-deployment', 'templates', `${getVersion()}`, args.apiName);
+  if (!existsSync(createdTemplatesPath)) mkdirSync(createdTemplatesPath, { recursive: true });
 
-  const pairs = ['eth_dai', 'dai_usd', 'usdc_usd', 'usdt_usd', 'usdt_eth', 'usdc_eth', 'eth_btc', 'eth_usd', 'btc_usd'];
-
-  const tickerTemplate = {
-    airnode: airnodeRootWallet.address,
-    endpointId: '0x3718f9f03845bab74e16647b30034960eab7cb5fcff451651f3624fff6974026',
-    parameters: [
-      { name: '_path', type: 'bytes32', value: 'payload.vwap,' },
-      { name: '_type', type: 'bytes32', value: 'int256,timestamp' },
-      { name: '_times', type: 'bytes32', value: '1000000,' },
-    ],
-  };
-  const fastGasTemplate = {
-    airnode: airnodeRootWallet.address,
-    endpointId: '0xba235f3d64620681803410e4a63999e103f2ffac3f6533bb3693b5c98c4c1810',
-    parameters: [
-      { name: '_path', type: 'bytes32', value: 'payload.fast.gasPrice,' },
-      { name: '_type', type: 'bytes32', value: 'int256,timestamp' },
-    ],
-  };
-
-  const templates = [
-    ...pairs.map((pair) => ({
-      ...tickerTemplate,
-      parameters: [...tickerTemplate.parameters, { name: 'pair', type: 'bytes32', value: pair }],
-    })),
-    fastGasTemplate,
-  ];
-
-  const templatesWithIds = [];
-  for (const templateIdx in templates) {
-    cliPrint.info(
-      `Creating template with these parameters: ${JSON.stringify(templates[templateIdx].parameters, null, 2)}`
-    );
-    const templateId = await createTemplate(airnodeRrpInstance, templates[templateIdx]);
-    cliPrint.info(`Template ID/Hash: ${templateId}`);
-    templatesWithIds.push({
-      template: templates[templateIdx],
-      templateId: templateId,
-    });
-  }
-
-  // TODO this has been copied from set-permissions and should be abstracted
-  const airnodeHDNode = ethers.utils.HDNode.fromMnemonic(integrationInfo.mnemonic);
-  const keeperSponsor = new Wallet(airnodeHDNode.derivePath(`m/45'/60'/0'/0/0`)).connect(getProvider());
-
-  const keeperSponsorWallet = deriveKeeperSponsorWallet(airnodeHDNode, keeperSponsor.address, provider).connect(
-    provider
-  );
-
-  const sponsor = ethers.Wallet.fromMnemonic(integrationInfo.mnemonic).connect(provider);
-  const airnodeXpub = deriveAirnodeXpub(airnodeRootWallet.mnemonic.phrase);
-  cliPrint.info(`Airnode XPub: ${airnodeXpub}`);
-
-  const sponsorWalletAddress = await deriveSponsorWalletAddress(
-    airnodeXpub,
-    airnodeRootWallet.address,
-    sponsor.address
-  );
-
-  const requestSponsorWallet = node.evm.deriveSponsorWallet(airnodeHDNode, sponsorWalletAddress).connect(provider);
-  cliPrint.info(`Keeper Sponsor Wallet: ${keeperSponsorWallet.address}`);
-  cliPrint.info(`Request Sponsor Wallet: ${requestSponsorWallet.address}`);
-
-  // TODO wallets here *must* be double-checked
-  const airkeeperConfig = {
-    chains: [
-      {
-        contracts: {
-          RrpBeaconServer: (
-            await getDeployedContract('@api3/airnode-protocol/contracts/rrp/requesters/RrpBeaconServer.sol')
-          ).address,
+  for await (const template of templates) {
+    const templateId = await createTemplate(AirnodeRrp, template);
+    cliPrint.info(`Template ${templateId} created`);
+    const createdTemplatePath = join(createdTemplatesPath, templateId + '.json');
+    let deployedTemplate: any = {};
+    if (existsSync(createdTemplatePath)) deployedTemplate = JSON.parse(readFileSync(createdTemplatePath).toString());
+    const chains = new Set(deployedTemplate.chains).add(integrationInfo.network);
+    await writeFileSync(
+      createdTemplatePath,
+      JSON.stringify(
+        {
+          ...template,
+          templateId,
+          parameters: airnodeAbi.encode(template.parameters),
+          decodedParameters: template.parameters,
+          chains: Array.from(chains),
         },
-      },
-    ],
-    triggers: {
-      rrpBeaconServerKeeperJobs: templatesWithIds.map((template) => {
-        return {
-          templateId: template.templateId,
-          parameters: [],
-          oisTitle: template.oisTitle,
-          endpointName: template.endpointName,
-          deviationPercentage: '1',
-          keeperSponsor: keeperSponsorWallet.address,
-          requestSponsor: requestSponsorWallet.address,
-        };
-      }),
-    },
-  };
-
-  console.log(JSON.stringify(airkeeperConfig, null, 2));
+        null,
+        2
+      )
+    );
+  }
 };
 
 runAndHandleErrors(main);
