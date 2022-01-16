@@ -159,17 +159,17 @@ const createConfig = async (generateExampleFile: boolean): Promise<any> => ({
           ],
           reservedParameters: [
             {
-              name: '_type',
-              fixed: 'int256',
+              "name": "_type",
+              "fixed": "int256,timestamp"
             },
             {
-              name: '_path',
-              fixed: 'market_data.current_price.usd',
+              "name": "_path",
+              "fixed": "market_data.current_price.usd,"
             },
             {
-              name: '_times',
-              fixed: '1000000',
-            },
+              "name": "_times",
+              "fixed": "1000000,"
+            }
           ],
           parameters: [
             {
