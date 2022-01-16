@@ -1,8 +1,7 @@
 import { join } from 'path';
-import { existsSync, readFileSync, writeFileSync } from 'fs';
+import { readdirSync, readFileSync, writeFileSync } from 'fs';
 import parseArgs from 'minimist';
 import { deriveAirnodeXpub } from '@api3/airnode-admin';
-import { encode } from '@api3/airnode-abi';
 import { ethers, Wallet } from 'ethers';
 import * as node from '@api3/airnode-node';
 import {
@@ -12,14 +11,15 @@ import {
   getProvider,
   readIntegrationInfo,
   runAndHandleErrors,
-  readConfigKeeper,
+  readConfigAirnode,
+  getVersion,
 } from '../src';
 
 const main = async () => {
-  const args = parseArgs(process.argv.slice(2), { string: ['sponsorMnemonic', 'keeperSponsorMnemonic'] });
-
+  const args = parseArgs(process.argv.slice(2), { string: ['sponsorMnemonic', 'keeperSponsorMnemonic', 'apiName'] });
+  if (!args.apiName) return cliPrint.error('Please specify an apiName');
   const integrationInfo = readIntegrationInfo();
-  const configJson = readConfigKeeper();
+  const configJson = readConfigAirnode();
   const airnodeHDNode = ethers.utils.HDNode.fromMnemonic(integrationInfo.mnemonic);
   const keeperSponsor =
     (args.keeperSponsorMnemonic && ethers.Wallet.fromMnemonic(args.keeperSponsorMnemonic)) ||
@@ -37,9 +37,13 @@ const main = async () => {
   cliPrint.info(`Keeper Sponsor Wallet: ${keeperSponsorWallet.address}`);
   cliPrint.info(`Request Sponsor Wallet: ${requestSponsorWallet.address}`);
 
-  const templatePath = join(__dirname, '../airkeeper-deployment', 'templates.json');
-  if (!existsSync(templatePath)) return cliPrint.error('Templates.json do not exist');
-  const templates = JSON.parse(readFileSync(templatePath).toString());
+  const templatePath = join(__dirname, '../airkeeper-deployment', 'templates', `${getVersion()}`, args.apiName);
+  const templates = readdirSync(templatePath).map((file) => {
+    return {
+      templateId: file,
+      ...JSON.parse(readFileSync(join(templatePath, file)).toString()),
+    };
+  });
 
   // TODO: Match chains in config.json with chains in airkeeperConfig
   const airkeeperConfig = {
@@ -54,18 +58,12 @@ const main = async () => {
     ],
     triggers: {
       rrpBeaconServerKeeperJobs: templates.map((template) => {
-        const templateId = ethers.utils.keccak256(
-          ethers.utils.solidityPack(
-            ['address', 'bytes32', 'bytes'],
-            [template.airnode, template.endpointId, encode(template.parameters)]
-          )
-        );
-        const oisTitle = configJson.triggers.rrp.filter((trigger) => trigger.endpointId === template.endpointId)[0]
-          .oisTitle;
-        const endpointName = configJson.triggers.rrp.filter((trigger) => trigger.endpointId === template.endpointId)[0]
-          .endpointName;
+        const oisTitle = configJson.triggers.rrp.find((trigger) => trigger.endpointId === template.endpointId).oisTitle;
+        const endpointName = configJson.triggers.rrp.find(
+          (trigger) => trigger.endpointId === template.endpointId
+        ).endpointName;
         return {
-          templateId,
+          templateId: template.templateId,
           parameters: [],
           oisTitle: oisTitle,
           endpointName: endpointName,
