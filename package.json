@@ -26,6 +26,7 @@
     "create-airkeeper-config": "ts-node scripts/create-airkeeper-config.ts",
     "set-airkeeper-permissions": "ts-node scripts/set-airkeeper-permissions.ts",
     "deploy-airkeeper": "ts-node scripts/deploy-airkeeper.ts",
+    "remove-airkeeper": "ts-node scripts/remove-airkeeper.ts",
     "locally-run-all": "rm deployments/0.3.1/localhost.json && yarn deploy-rrp && yarn deploy-access-control-registry && yarn deploy-ownable-call-forwarder && yarn deploy-requester-authorizer-with-manager && yarn deploy-rrp-beacon-server && yarn set-airkeeper-permissions && yarn deploy-templates",
     "prettier:check": "prettier --check \"./**/*.{js,sol,ts,md,yml,json}\"",
     "prettier:write": "prettier --write \"./**/*.{js,sol,ts,md,yml,json}\" --loglevel silent",
