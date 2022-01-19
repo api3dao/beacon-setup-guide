@@ -1,5 +1,6 @@
 import * as fs from 'fs';
-import { join } from 'path';
+import path, { join } from 'path';
+import { readdirSync } from 'fs';
 import { keccak256 } from 'ethers/lib/utils';
 import { ethers } from 'ethers';
 import * as abi from '@api3/airnode-abi';
@@ -67,6 +68,36 @@ const sanitiseFilename = (filename: string) => {
     .toLocaleLowerCase();
 };
 
+const writeChains = (targetBasePath: string) => {
+  const deployedChainsBasePath = join(__dirname, '../deployments', getVersion());
+  const deployedChainContracts = readdirSync(deployedChainsBasePath).map((chainFilename) => {
+    const chainName = path.parse(chainFilename).name;
+    const contracts = readJsonFile(join(deployedChainsBasePath, chainFilename));
+    const sanitisedContracts = {};
+
+    for (const [key, value] of Object.entries(contracts)) {
+      // eslint-disable-next-line functional/immutable-data
+      sanitisedContracts[path.parse(key as string).name] = value;
+    }
+
+    return {
+      ...sanitisedContracts,
+      chainName,
+    };
+  });
+
+  const keyedDeployedContracts = {};
+  for (const chain of deployedChainContracts) {
+    // eslint-disable-next-line functional/immutable-data
+    keyedDeployedContracts[chain.chainName] = {
+      ...chain,
+      chainName: undefined,
+    };
+  }
+
+  fs.writeFileSync(join(targetBasePath, 'chains.json'), JSON.stringify(keyedDeployedContracts, null, 2));
+};
+
 const main = async () => {
   const api3Xpub =
     'xpub6D1iGXrgPrJgY22N6bGFBC5TBpGedTNgWv6YH9vi1R76vS8F4SJLvwRipJDVHwssNjVYwJQCSkkQu4re3eUKV7NGYL4xW1zxXqTC5JEm9Rd';
@@ -90,6 +121,8 @@ const main = async () => {
   fs.mkdirSync(beaconsBasePath);
   fs.mkdirSync(join(targetBasePath, `ois`));
   fs.mkdirSync(targetTemplatesPath);
+
+  writeChains(targetBasePath);
 
   fs.readdirSync(templatesBasePath).map((sourceFile) => {
     const targetFile = join(targetTemplatesPath, sourceFile);
