@@ -32,7 +32,8 @@
     "prettier:write": "prettier --write \"./**/*.{js,sol,ts,md,yml,json}\" --loglevel silent",
     "lint": "yarn run lint:eslint && yarn prettier:check",
     "lint:eslint": "eslint . --ext .js,.ts",
-    "lint:eslint:fix": "eslint . --ext .js,.ts --fix"
+    "lint:eslint:fix": "eslint . --ext .js,.ts --fix",
+    "export-ops": "ts-node scripts/export-ops.ts"
   },
   "dependencies": {
     "@api3/airnode-abi": "^0.3.1",

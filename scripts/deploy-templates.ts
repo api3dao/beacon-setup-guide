@@ -3,8 +3,8 @@ import { join } from 'path';
 import parseArgs from 'minimist';
 import * as airnodeAbi from '@api3/airnode-abi';
 import { getAirnodeRrp, createTemplate } from '@api3/airnode-admin';
-import { cliPrint, runAndHandleErrors, getVersion, getDeployedContract, readIntegrationInfo } from '../src';
 import { ethers } from 'ethers';
+import { cliPrint, runAndHandleErrors, getVersion, getDeployedContract, readIntegrationInfo } from '../src';
 
 const main = async () => {
   const args = parseArgs(process.argv.slice(2), { string: ['apiName'] });
@@ -22,7 +22,7 @@ const main = async () => {
   if (!existsSync(createdTemplatesPath)) mkdirSync(createdTemplatesPath, { recursive: true });
 
   for await (const template of templates) {
-    template.airnode = ethers.Wallet.fromMnemonic(integrationInfo.mnemonic).address
+    const templateAirnode = ethers.Wallet.fromMnemonic(integrationInfo.mnemonic).address;
     const templateId = await createTemplate(AirnodeRrp, template);
     cliPrint.info(`Template ${templateId} created`);
     const createdTemplatePath = join(createdTemplatesPath, templateId + '.json');
@@ -34,6 +34,7 @@ const main = async () => {
       JSON.stringify(
         {
           ...template,
+          airnode: templateAirnode,
           templateId,
           parameters: airnodeAbi.encode(template.parameters),
           decodedParameters: template.parameters,
