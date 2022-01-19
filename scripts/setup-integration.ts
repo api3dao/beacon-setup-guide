@@ -1,12 +1,7 @@
-import { readdirSync, writeFileSync } from 'fs';
+import { writeFileSync } from 'fs';
 import { join } from 'path';
 import { PromptObject } from 'prompts';
 import { cliPrint, IntegrationInfo, promptQuestions, runAndHandleErrors } from '../src';
-
-const createCliOption = (name: string) => ({
-  title: name,
-  value: name,
-});
 
 // NOTE: We could add "initial" field with the contents of current integration-info.json, but we already use the
 // "initial value" semantics for hinting mnemonic and provider URL.
@@ -15,7 +10,7 @@ const questions: PromptObject[] = [
     type: 'text',
     name: 'network',
     message: 'Select target blockchain network',
-    initial: (_prev,values) => 'ropsten / localhost',
+    initial: () => 'ropsten / localhost',
   },
   {
     type: 'text',

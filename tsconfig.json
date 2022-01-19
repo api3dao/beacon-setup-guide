@@ -14,10 +14,6 @@
     "baseUrl": "./",
     "outDir": "dist"
   },
-  "include": [
-    "./src/**/*",
-    "./test/**/*",
-    "./scripts/**/*",
-  ],
+  "include": ["./src/**/*", "./test/**/*", "./scripts/**/*"],
   "exclude": ["dist/**/*", "node_modules/**/*"]
 }

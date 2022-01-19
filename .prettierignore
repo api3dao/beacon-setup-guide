@@ -1,0 +1,25 @@
+**/node_modules/**
+
+**/.build/**
+**/.serverless/**
+**/coverage/**
+coverage.json
+**/dist/**
+**/.webpack/**
+
+# https://github.com/protofire/solhint/issues/317
+#
+# /* solhint-disable */ comment doesn't work either because this is a parser issue
+# Prettier uses this parser for formatting
+packages/airnode-adapter/contracts/TestDecoder.sol
+
+receipt.json
+config.json
+!packages/airnode-examples/integrations/**/config.json
+
+# Third party modules
+**/.terraform/**
+
+*flat.sol
+contracts/interfaces/IOwnableCallForwarder.sol
+contracts/OwnableCallForwarder.sol

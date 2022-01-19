@@ -1,7 +1,7 @@
 import { writeFileSync } from 'fs';
 import { join } from 'path';
 import { Config, LocalOrCloudProvider } from '@api3/airnode-node';
-import { cliPrint, getDeployedContract, readChainId, readIntegrationInfo } from '../src';
+import { cliPrint, getDeployedContract, readChainId } from '../src';
 
 export const createCloudProviderConfiguration = (generateExampleFile: boolean): LocalOrCloudProvider => {
   if (generateExampleFile) {
@@ -9,12 +9,11 @@ export const createCloudProviderConfiguration = (generateExampleFile: boolean): 
       type: 'local',
     };
   }
-  
+
   return {
     type: 'aws',
     region: 'us-east-1',
   };
-
 };
 
 export const getAirnodeRrpAddress = async (generateExampleFile: boolean) => {

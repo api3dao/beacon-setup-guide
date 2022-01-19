@@ -1,4 +1,5 @@
 import { getCommonSecrets, writeSecrets } from './secrets-utils';
+import { runAndHandleErrors } from '../src';
 
 const createSecrets = async (generateExampleFile = false) => {
   const secrets = await getCommonSecrets(generateExampleFile);
@@ -6,4 +7,4 @@ const createSecrets = async (generateExampleFile = false) => {
   writeSecrets(__dirname, secrets, generateExampleFile);
 };
 
-export default createSecrets;
+runAndHandleErrors(createSecrets);

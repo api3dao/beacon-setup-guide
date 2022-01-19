@@ -15,3 +15,7 @@ aws.env
 secrets.env
 receipt.json
 config.json
+
+#airkeeper
+/airkeeper-deployment/templates
+/airkeeper-deployment/airkeeper.json

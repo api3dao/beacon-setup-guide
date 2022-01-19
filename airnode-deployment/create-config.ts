@@ -5,6 +5,7 @@ import {
   getAirnodeRrpAddress,
   getChainId,
 } from './config-utils';
+import { runAndHandleErrors } from '../src';
 
 const createConfig = async (generateExampleFile: boolean): Promise<any> => ({
   chains: [
@@ -47,7 +48,7 @@ const createConfig = async (generateExampleFile: boolean): Promise<any> => ({
   triggers: {
     rrp: [
       {
-        endpointId: '0xd9e8c9bcc8960df5f954c0817757d2f7f9601bd638ea2f94e890ae5481681153',
+        endpointId: '0xfb87102cdabadf905321521ba0b3cbf74ad09c5d400ac2eccdbef8d6143e78c4',
         oisTitle: 'CoinGecko basic request',
         endpointName: 'coinMarketData',
       },
@@ -159,15 +160,15 @@ const createConfig = async (generateExampleFile: boolean): Promise<any> => ({
           reservedParameters: [
             {
               name: '_type',
-              fixed: 'int256',
+              fixed: 'int256,timestamp',
             },
             {
               name: '_path',
-              fixed: 'market_data.current_price.usd',
+              fixed: 'market_data.current_price.usd,',
             },
             {
               name: '_times',
-              fixed: '1000000',
+              fixed: '1000000,',
             },
           ],
           parameters: [
@@ -191,4 +192,4 @@ const generateConfig = async (generateExampleFile = false) => {
   generateConfigFile(__dirname, config, generateExampleFile);
 };
 
-export default generateConfig;
+runAndHandleErrors(generateConfig);

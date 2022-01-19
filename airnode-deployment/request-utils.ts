@@ -1,5 +1,5 @@
 import { encode } from '@api3/airnode-abi';
-import { cliPrint, getDeployedContract, readIntegrationInfo } from '../src';
+import { cliPrint, getDeployedContract } from '../src';
 
 const coinLabel = 'Ethereum';
 const coinId = coinLabel.toLowerCase();
@@ -9,7 +9,6 @@ export const getEncodedParameters = () => {
 };
 
 export const printResponse = async (requestId: string) => {
-  const integrationInfo = readIntegrationInfo();
   const requester = await getDeployedContract(`contracts/Requester.sol`);
 
   // Divided by 1e6, because the response value is multiplied with 1e6 by Airnode
