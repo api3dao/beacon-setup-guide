@@ -1,7 +1,6 @@
 import * as fs from 'fs';
 import path, { join } from 'path';
 import { readdirSync } from 'fs';
-import { keccak256 } from 'ethers/lib/utils';
 import { ethers } from 'ethers';
 import * as abi from '@api3/airnode-abi';
 import { deriveSponsorWalletAddress, verifyAirnodeXpub } from '@api3/airnode-admin';
@@ -174,7 +173,8 @@ const main = async () => {
 
       const api3HdNode = ethers.utils.HDNode.fromExtendedKey(api3Xpub);
       const api3AirnodeAddress = api3HdNode.derivePath('0/0').address;
-      const beaconId = keccak256(ethers.utils.defaultAbiCoder.encode(['bytes32', 'bytes'], [templateId, parameters]));
+      const encodedParameters = abi.encode(parameters);
+      const beaconId = ethers.utils.solidityKeccak256(['bytes32', 'bytes'], [templateId, encodedParameters]);
       const beaconDescriptor = {
         templateId,
         parameters: templateObj.parameters,
