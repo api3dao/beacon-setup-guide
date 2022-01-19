@@ -113,7 +113,7 @@ const main = async () => {
 
   const targetBasePath = join(__dirname, '../', apiName);
   const targetTemplatesPath = join(targetBasePath, `templates`);
-  const targetConfigBasePath = join(targetBasePath, `deployments`, todaysDate, 'config');
+  const targetConfigBasePath = join(targetBasePath, `deployments`, todaysDate);
   const beaconsBasePath = join(targetBasePath, `beacons`);
 
   fs.rmdirSync(targetBasePath, { recursive: true });
