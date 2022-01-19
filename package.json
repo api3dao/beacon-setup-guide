@@ -33,7 +33,8 @@
     "lint": "yarn run lint:eslint && yarn prettier:check",
     "lint:eslint": "eslint . --ext .js,.ts",
     "lint:eslint:fix": "eslint . --ext .js,.ts --fix",
-    "export-ops": "ts-node scripts/export-ops.ts"
+    "postinstall": "husky install",
+    "export-for-ops": "ts-node scripts/export-for-ops.ts"
   },
   "dependencies": {
     "@api3/airnode-abi": "^0.3.1",
