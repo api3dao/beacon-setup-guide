@@ -8,9 +8,11 @@ import { cliPrint } from './cli';
 import { version } from '../package.json';
 
 export interface IntegrationInfo {
-  network: string;
-  mnemonic: string;
-  providerUrl: string;
+  readonly apiName: string;
+  readonly contact: string;
+  readonly network: string;
+  readonly mnemonic: string;
+  readonly providerUrl: string;
 }
 
 /**
@@ -115,4 +117,19 @@ export const fundAWallet = async (
   cliPrint.info(`Successfully sent funds to sponsor wallet address: ${destinationAddress}.`);
   const destinationBalanceAfterTx = ethers.utils.formatEther(await provider.getBalance(destinationAddress));
   cliPrint.info(`Current balance: ${destinationBalanceAfterTx}`);
+};
+
+export const sanitiseFilename = (filename: string) => {
+  const illegalRe = /[\/?<>\\:*|"]/g;
+  // eslint-disable-next-line no-control-regex
+  const controlRe = /[\x00-\x1f\x80-\x9f]/g;
+  const reservedRe = /^\.+$/;
+  const windowsReservedRe = /^(con|prn|aux|nul|com[0-9]|lpt[0-9])(\..*)?$/i;
+
+  return filename
+    .replace(illegalRe, '_')
+    .replace(controlRe, '_')
+    .replace(reservedRe, '_')
+    .replace(windowsReservedRe, '_')
+    .toLocaleLowerCase();
 };

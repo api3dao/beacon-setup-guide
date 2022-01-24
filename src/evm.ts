@@ -9,22 +9,14 @@ import { version } from '../package.json';
 /**
  * @returns The ethers provider connected to the provider URL specified in the "integration-info.json".
  */
-export const getProvider = () => {
-  const integrationInfo = readIntegrationInfo();
-  const provider = new ethers.providers.JsonRpcProvider(integrationInfo.providerUrl);
-  return provider;
-};
+export const getProvider = () => new ethers.providers.JsonRpcProvider(readIntegrationInfo().providerUrl);
 
 /**
  * Reads the mnemonic and provider URL from "integration-info.json" and returns the connected wallet.
  *
  * @returns The connected wallet.
  */
-export const getUserWallet = () => {
-  const integrationInfo = readIntegrationInfo();
-  const provider = getProvider();
-  return ethers.Wallet.fromMnemonic(integrationInfo.mnemonic).connect(provider);
-};
+export const getUserWallet = () => ethers.Wallet.fromMnemonic(readIntegrationInfo().mnemonic).connect(getProvider());
 
 /**
  * Reads the compiled solidity artifact necessary for contract deployment.

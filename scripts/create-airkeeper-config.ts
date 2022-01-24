@@ -16,8 +16,7 @@ import {
 } from '../src';
 
 const main = async () => {
-  const args = parseArgs(process.argv.slice(2), { string: ['sponsorMnemonic', 'keeperSponsorMnemonic', 'apiName'] });
-  if (!args.apiName) return cliPrint.error('Please specify an apiName');
+  const args = parseArgs(process.argv.slice(2), { string: ['sponsorMnemonic', 'keeperSponsorMnemonic'] });
   const integrationInfo = readIntegrationInfo();
   const configJson = readConfigAirnode();
   const airnodeHDNode = ethers.utils.HDNode.fromMnemonic(integrationInfo.mnemonic);
@@ -37,7 +36,13 @@ const main = async () => {
   cliPrint.info(`Keeper Sponsor Wallet: ${keeperSponsorWallet.address}`);
   cliPrint.info(`Request Sponsor Wallet: ${requestSponsorWallet.address}`);
 
-  const templatePath = join(__dirname, '../airkeeper-deployment', 'templates', `${getVersion()}`, args.apiName);
+  const templatePath = join(
+    __dirname,
+    '../airkeeper-deployment',
+    'templates',
+    `${getVersion()}`,
+    integrationInfo.apiName
+  );
   const templates = readdirSync(templatePath).map((file) => {
     return {
       templateId: file,
