@@ -1,14 +1,11 @@
 import { readFileSync, existsSync, mkdirSync, writeFileSync } from 'fs';
 import { join } from 'path';
-import parseArgs from 'minimist';
 import * as airnodeAbi from '@api3/airnode-abi';
 import { getAirnodeRrp, createTemplate } from '@api3/airnode-admin';
 import { ethers } from 'ethers';
 import { cliPrint, runAndHandleErrors, getVersion, getDeployedContract, readIntegrationInfo } from '../src';
 
 const main = async () => {
-  const args = parseArgs(process.argv.slice(2), { string: ['apiName'] });
-  if (!args.apiName) return cliPrint.error('Please specify an apiName');
   const templateFilePath = join(__dirname, '../airkeeper-deployment/templates.json');
   const integrationInfo = readIntegrationInfo();
   const AirnodeRrpContract = await getDeployedContract('@api3/airnode-protocol/contracts/rrp/AirnodeRrp.sol');
@@ -18,7 +15,13 @@ const main = async () => {
   });
 
   const templates = JSON.parse(readFileSync(templateFilePath).toString());
-  const createdTemplatesPath = join(__dirname, '../airkeeper-deployment', 'templates', `${getVersion()}`, args.apiName);
+  const createdTemplatesPath = join(
+    __dirname,
+    '../airkeeper-deployment',
+    'templates',
+    `${getVersion()}`,
+    integrationInfo.apiName
+  );
   if (!existsSync(createdTemplatesPath)) mkdirSync(createdTemplatesPath, { recursive: true });
 
   for await (const template of templates) {

@@ -42,7 +42,8 @@
     "@api3/airnode-deployer": "^0.3.1",
     "@api3/airnode-node": "^0.3.1",
     "@api3/airnode-protocol": "^0.3.1",
-    "ethers": "^5.4.4"
+    "ethers": "^5.4.4",
+    "tar": "^6.1.11"
   },
   "devDependencies": {
     "@nomiclabs/hardhat-ethers": "^2.0.2",

@@ -1,10 +1,18 @@
 import * as fs from 'fs';
 import path, { join } from 'path';
 import { readdirSync } from 'fs';
+import tar from 'tar';
 import { ethers } from 'ethers';
 import * as abi from '@api3/airnode-abi';
 import { deriveSponsorWalletAddress, verifyAirnodeXpub } from '@api3/airnode-admin';
-import { cliPrint, deriveKeeperWalletPathFromSponsorAddress, getVersion, runAndHandleErrors } from '../src';
+import {
+  cliPrint,
+  deriveKeeperWalletPathFromSponsorAddress,
+  getVersion,
+  readIntegrationInfo,
+  runAndHandleErrors,
+  sanitiseFilename,
+} from '../src';
 
 // TODO types should be centralised
 interface EthValue {
@@ -16,15 +24,9 @@ interface ChainDescriptor {
   readonly name: string;
   readonly apiProviderAirkeeperDeviationPercentage: number;
   readonly api3AirkeeperDeviationPercentage: number;
-  readonly sponsor?: string;
-  readonly apiProviderAirkeeperSponsor?: string;
-  readonly api3AirkeeperSponsor?: string;
-  readonly sponsorWalletBalanceAlertThreshold: EthValue;
-  readonly apiProviderAirkeeperSponsorWalletBalanceAlertThreshold: EthValue;
-  readonly api3AirkeeperSponsorWalletBalanceAlertThreshold: EthValue;
-  readonly apiProviderUpdateRequester: string;
-  readonly apiProviderAirnodeFulfiller: string;
-  readonly api3Unknown: string;
+  readonly apiProviderUpdateRequesterMetadata: { address: string; threshold?: EthValue };
+  readonly apiProviderAirnodeFulfillerMetadata: { address: string; threshold?: EthValue };
+  readonly api3ProviderUpdateRequesterMetadata: { address: string; threshold?: EthValue };
 }
 
 interface BeaconDescriptor {
@@ -50,22 +52,6 @@ const writeBeaconDescriptor = (path: string, descriptor: BeaconDescriptor) => {
 };
 
 const readJsonFile = (filePath: string) => JSON.parse(fs.readFileSync(filePath).toString('utf8'));
-
-// TODO Could be improved
-const sanitiseFilename = (filename: string) => {
-  const illegalRe = /[\/?<>\\:*|"]/g;
-  // eslint-disable-next-line no-control-regex
-  const controlRe = /[\x00-\x1f\x80-\x9f]/g;
-  const reservedRe = /^\.+$/;
-  const windowsReservedRe = /^(con|prn|aux|nul|com[0-9]|lpt[0-9])(\..*)?$/i;
-
-  return filename
-    .replace(illegalRe, '_')
-    .replace(controlRe, '_')
-    .replace(reservedRe, '_')
-    .replace(windowsReservedRe, '_')
-    .toLocaleLowerCase();
-};
 
 const writeChains = (targetBasePath: string) => {
   const deployedChainsBasePath = join(__dirname, '../deployments', getVersion());
@@ -153,7 +139,7 @@ const main = async () => {
     xpub: receiptObj.airnodeWallet.airnodeXpub,
     active: true,
     airnode: receiptObj.airnodeWallet.airnodeAddress,
-    contact: '', // TODO should be requested when user runs 'setup-integration'
+    contact: readIntegrationInfo().contact,
   };
 
   const templates = fs.readdirSync(templatesBasePath).map((sourceFile) => {
@@ -186,16 +172,13 @@ const main = async () => {
               name: chainName,
               apiProviderAirkeeperDeviationPercentage: parseFloat(deviationPercentage),
               api3AirkeeperDeviationPercentage: parseFloat(deviationPercentage) * 2,
-              apiProviderUpdateRequester,
-              apiProviderAirnodeFulfiller: await deriveSponsorWalletAddress(
-                apiMetadata.xpub,
-                templateObj.airnode,
-                requestSponsor
-              ),
-              api3Unknown: await deriveSponsorWalletAddress(api3Xpub, api3AirnodeAddress, requestSponsor),
-              sponsorWalletBalanceAlertThreshold: { amount: 2, units: 'ether' },
-              apiProviderAirkeeperSponsorWalletBalanceAlertThreshold: { amount: 2, units: 'ether' },
-              api3AirkeeperSponsorWalletBalanceAlertThreshold: { amount: 1, units: 'ether' },
+              apiProviderUpdateRequesterMetadata: { address: apiProviderUpdateRequester },
+              apiProviderAirnodeFulfillerMetadata: {
+                address: await deriveSponsorWalletAddress(apiMetadata.xpub, templateObj.airnode, requestSponsor),
+              },
+              api3ProviderUpdateRequesterMetadata: {
+                address: await deriveSponsorWalletAddress(api3Xpub, api3AirnodeAddress, requestSponsor),
+              },
             };
           })
         ),
@@ -244,6 +227,21 @@ const main = async () => {
     join(targetBasePath, 'documentation_beacons_lite.json'),
     JSON.stringify(liteDocumentationPayload, null, 2)
   );
+
+  const gzipArchivePath = `${targetBasePath}.tgz`;
+  fs.rmSync(gzipArchivePath, { force: true });
+  await tar.c(
+    {
+      gzip: true,
+      file: gzipArchivePath,
+      portable: true,
+      preservePaths: false,
+    },
+    [apiName]
+  );
+  fs.rmdirSync(targetBasePath, { recursive: true });
+  cliPrint.warning(`An archive file has been saved at ${gzipArchivePath}
+Please send this file to your API3 representative - and thank you for your deployment.`);
 };
 
 runAndHandleErrors(main);
