@@ -14,6 +14,7 @@ import {
   getVersion,
   promptQuestions,
   readIntegrationInfo,
+  readJsonFile,
   runAndHandleErrors,
   sanitiseFilename,
 } from '../src';
@@ -60,8 +61,6 @@ export interface RrpBeaconServerKeeperTrigger {
 const writeBeaconDescriptor = (path: string, descriptor: BeaconDescriptor) => {
   fs.writeFileSync(path, JSON.stringify(descriptor, null, 2));
 };
-
-const readJsonFile = (filePath: string) => JSON.parse(fs.readFileSync(filePath).toString('utf8'));
 
 const writeChains = (targetBasePath: string) => {
   const deployedChainsBasePath = join(__dirname, '../deployments', getVersion());
