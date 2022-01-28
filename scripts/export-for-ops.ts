@@ -16,7 +16,6 @@ import {
   readIntegrationInfo,
   readJsonFile,
   runAndHandleErrors,
-  sanitiseFilename,
 } from '../src';
 
 // TODO types should be centralised if possible
@@ -178,7 +177,7 @@ const main = async () => {
   });
 
   const promisedBulkPayload = await Promise.all(
-    jobs.map(async ({ templateId, parameters, endpointName, deviationPercentage, keeperSponsor, requestSponsor }) => {
+    jobs.map(async ({ templateId, parameters, deviationPercentage, keeperSponsor, requestSponsor }) => {
       const templateObj = templates.find((template) => template.templateId === templateId);
 
       const hdNode = verifyAirnodeXpub(apiMetadata.xpub, templateObj.airnode);
@@ -189,6 +188,7 @@ const main = async () => {
       const beaconId = ethers.utils.solidityKeccak256(['bytes32', 'bytes'], [templateId, encodedParameters]);
       const beaconDescriptor = {
         templateId,
+        templateName: templateObj.name,
         parameters: templateObj.parameters,
         decodedParameters: templateObj.decodedParameters,
         beaconId: beaconId,
@@ -208,10 +208,7 @@ const main = async () => {
         ),
       };
 
-      await writeBeaconDescriptor(
-        join(beaconsBasePath, `${templateId}-${sanitiseFilename(endpointName)}.json`),
-        beaconDescriptor
-      );
+      await writeBeaconDescriptor(join(beaconsBasePath, templateObj.name), beaconDescriptor);
       return beaconDescriptor;
     })
   );
