@@ -69,10 +69,11 @@ const main = async () => {
         ).endpointName;
         return {
           templateId: template.templateId,
-          parameters: [],
+          templateParameters: template.parameters,
+          overrideParameters: [],
           oisTitle: oisTitle,
           endpointName: endpointName,
-          deviationPercentage: '1',
+          deviationPercentage: '0.5',
           keeperSponsor: keeperSponsor.address,
           requestSponsor: sponsor.address,
         };

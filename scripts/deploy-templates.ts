@@ -26,6 +26,7 @@ const main = async () => {
 
   for await (const template of templates) {
     const templateAirnode = ethers.Wallet.fromMnemonic(integrationInfo.mnemonic).address;
+    template.airnode = templateAirnode;
     const templateId = await createTemplate(AirnodeRrp, template);
     cliPrint.info(`Template ${templateId} created`);
     const createdTemplatePath = join(createdTemplatesPath, templateId + '.json');
