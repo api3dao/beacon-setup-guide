@@ -43,7 +43,8 @@ interface BeaconDescriptor {
 
 export interface RrpBeaconServerKeeperTrigger {
   readonly templateId: string;
-  readonly parameters: abi.InputParameter[];
+  readonly templateParameters: abi.InputParameter[];
+  readonly overrideParameters: abi.InputParameter[];
   readonly endpointName: string;
   readonly oisTitle: string;
   readonly deviationPercentage: string;
@@ -173,33 +174,42 @@ const main = async () => {
   });
 
   const promisedBulkPayload = await Promise.all(
-    jobs.map(async ({ templateId, parameters, deviationPercentage, keeperSponsor, requestSponsor }) => {
-      const templateObj = templates.find((template) => template.templateId === templateId);
-
-      const encodedParameters = abi.encode(parameters);
-      const beaconId = ethers.utils.solidityKeccak256(['bytes32', 'bytes'], [templateId, encodedParameters]);
-      const beaconDescriptor = {
+    jobs.map(
+      async ({
         templateId,
-        templateName: templateObj.name,
-        parameters: templateObj.parameters,
-        decodedParameters: templateObj.decodedParameters,
-        beaconId: beaconId,
-        chains: await Promise.all(
-          templateObj.chains.map(async (chainName: string): Promise<ChainDescriptor> => {
-            return {
-              name: chainName,
-              sponsor: requestSponsor,
-              apiProviderAirkeeperDeviationPercentage: parseFloat(deviationPercentage),
-              api3AirkeeperDeviationPercentage: parseFloat(deviationPercentage) * 2,
-              apiProviderAirkeeperSponsor: keeperSponsor,
-            };
-          })
-        ),
-      };
+        templateParameters,
+        overrideParameters,
+        deviationPercentage,
+        keeperSponsor,
+        requestSponsor,
+      }) => {
+        const templateObj = templates.find((template) => template.templateId === templateId);
 
-      await writeBeaconDescriptor(join(beaconsBasePath, templateObj.name), beaconDescriptor);
-      return beaconDescriptor;
-    })
+        const encodedParameters = abi.encode([...templateParameters, ...overrideParameters]);
+        const beaconId = ethers.utils.solidityKeccak256(['bytes32', 'bytes'], [templateId, encodedParameters]);
+        const beaconDescriptor = {
+          templateId,
+          templateName: templateObj.name,
+          parameters: templateObj.parameters,
+          decodedParameters: templateObj.decodedParameters,
+          beaconId: beaconId,
+          chains: await Promise.all(
+            templateObj.chains.map(async (chainName: string): Promise<ChainDescriptor> => {
+              return {
+                name: chainName,
+                sponsor: requestSponsor,
+                apiProviderAirkeeperDeviationPercentage: parseFloat(deviationPercentage),
+                api3AirkeeperDeviationPercentage: parseFloat(deviationPercentage) * 2,
+                apiProviderAirkeeperSponsor: keeperSponsor,
+              };
+            })
+          ),
+        };
+
+        await writeBeaconDescriptor(join(beaconsBasePath, templateObj.name), beaconDescriptor);
+        return beaconDescriptor;
+      }
+    )
   );
 
   const fullDocumentationPayload = promisedBulkPayload.map((descriptor) => {
