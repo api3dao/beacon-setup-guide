@@ -1,0 +1,1416 @@
+{
+  "chains": [
+    {
+      "authorizers": ["0x0d288Ba0B890c9D3DF6F1e4AE3c286F335eBd593"],
+      "contracts": {
+        "AirnodeRrp": "0x3B35250Ca54C1Fb8c83D48F21231ef6e4fb9f79D"
+      },
+      "id": "3",
+      "providers": {
+        "Ropsten": {
+          "url": "${Ropsten_RPC}"
+        }
+      },
+      "blockHistoryLimit": 50,
+      "type": "evm",
+      "options": {
+        "txType": "eip1559",
+        "baseFeeMultiplier": "2",
+        "priorityFee": {
+          "value": "3.12",
+          "unit": "gwei"
+        }
+      }
+    },
+    {
+      "authorizers": ["0x0d288Ba0B890c9D3DF6F1e4AE3c286F335eBd593"],
+      "contracts": {
+        "AirnodeRrp": "0xC11593B87f258672b8eB02d9A723a429b15E9E03"
+      },
+      "id": "4",
+      "providers": {
+        "Rinkeby": {
+          "url": "${Rinkeby_RPC}"
+        }
+      },
+      "blockHistoryLimit": 50,
+      "type": "evm",
+      "options": {
+        "txType": "eip1559",
+        "baseFeeMultiplier": "2",
+        "priorityFee": {
+          "value": "3.12",
+          "unit": "gwei"
+        }
+      }
+    },
+    {
+      "authorizers": ["0x0d288Ba0B890c9D3DF6F1e4AE3c286F335eBd593"],
+      "contracts": {
+        "AirnodeRrp": "0xF6d2675468989387e96127546e0CBC9A384fa418"
+      },
+      "id": "5",
+      "providers": {
+        "Goerli": {
+          "url": "${Goerli_RPC}"
+        }
+      },
+      "blockHistoryLimit": 50,
+      "type": "evm",
+      "options": {
+        "txType": "eip1559",
+        "baseFeeMultiplier": "2",
+        "priorityFee": {
+          "value": "3.12",
+          "unit": "gwei"
+        }
+      }
+    },
+    {
+      "authorizers": ["0x4C132E092bacdF38bDf4b76700Af3C019352fEdE"],
+      "contracts": {
+        "AirnodeRrp": "0x68E36bEeDA1644258973E532029fc3a2806bBA8b"
+      },
+      "id": "80001",
+      "providers": {
+        "Mumbai": {
+          "url": "${Mumbai_RPC}"
+        }
+      },
+      "type": "evm",
+      "blockHistoryLimit": 100,
+      "options": {
+        "txType": "eip1559",
+        "baseFeeMultiplier": "2",
+        "priorityFee": {
+          "value": "3.12",
+          "unit": "gwei"
+        }
+      }
+    }
+  ],
+  "nodeSettings": {
+    "cloudProvider": {
+      "type": "aws",
+      "region": "us-east-1"
+    },
+    "airnodeWalletMnemonic": "${MNEMONIC}",
+    "logFormat": "plain",
+    "logLevel": "INFO",
+    "nodeVersion": "0.3.1",
+    "stage": "dev",
+    "heartbeat": {
+      "enabled": false
+    },
+    "httpGateway": {
+      "enabled": true,
+      "apiKey": "${HTTP_GATEWAY_API_KEY}"
+    }
+  },
+  "triggers": {
+    "rrp": [
+      {
+        "endpointId": "0xbc42130df8705f5a8261d3f56e456dce2f8e3bb1b8cb0eeba2e60c37c9b0d6b8",
+        "endpointName": "GET /market/defi/lending/exchanges/information/",
+        "oisTitle": "Amberdata-Lite"
+      },
+      {
+        "endpointId": "0x065987956a8757d7be3aaad4d289433583872a4f499b28d4e9ebf2063294eebb",
+        "endpointName": "GET /market/tokens/prices/{hash}/latest",
+        "oisTitle": "Amberdata-Lite"
+      },
+      {
+        "endpointId": "0x70e32408423662a1753cdb56f05c486b2ad9e3236c836f3c88018c29b9506f51",
+        "endpointName": "GET /market/spot/prices/assets/information/",
+        "oisTitle": "Amberdata-Lite"
+      },
+      {
+        "endpointId": "0x1c238369a3a59207b5bcaab8b805fba62c1a27c06d0b3acfd46a10e0cb82da92",
+        "endpointName": "GET /market/spot/prices/assets/{asset}/latest/",
+        "oisTitle": "Amberdata-Lite"
+      },
+      {
+        "endpointId": "0x3234979f15c3c8ea3e929a08fe953293e2169137236457304da7c394acf6a90a",
+        "endpointName": "GET /market/spot/prices/assets/{asset}/historical/",
+        "oisTitle": "Amberdata-Lite"
+      },
+      {
+        "endpointId": "0x9ed95ffc4f81021d624d9723d2128fd65f9afe185c078a4e3b74e6c9c3c919a7",
+        "endpointName": "GET /market/spot/prices/pairs/information/",
+        "oisTitle": "Amberdata-Lite"
+      },
+      {
+        "endpointId": "0xfb06622b49fe57977e0cf9db96b5318f24bbcd28692901b7381b22ef32128e87",
+        "endpointName": "GET /market/spot/prices/pairs/{pair}/latest/",
+        "oisTitle": "Amberdata-Lite"
+      },
+      {
+        "endpointId": "0x8e41f9499ce961269491158c82c621da10b0b74ec648c4de7f5bb07ef21d5125",
+        "endpointName": "GET /market/spot/prices/pairs/{pair}/historical/",
+        "oisTitle": "Amberdata-Lite"
+      },
+      {
+        "endpointId": "0x4e03a708d165d6645487c2b4df7407b33a3edf8e333a5e31ddaf66366e868561",
+        "endpointName": "GET /market/defi/prices/asset/{asset}/latest",
+        "oisTitle": "Amberdata-Lite"
+      },
+      {
+        "endpointId": "0x2331fed97ee0dab449398d69351ddf11ecf4d62e8cb2ca0517c7255b87ef2144",
+        "endpointName": "GET /market/defi/prices/asset/{asset}/historical",
+        "oisTitle": "Amberdata-Lite"
+      },
+      {
+        "endpointId": "0x5eb6afa56c74cdcac3ba1bf0ac4b8711196e33816dac8173286efc79e5ee04c0",
+        "endpointName": "GET /market/defi/prices/asset/information/",
+        "oisTitle": "Amberdata-Lite"
+      },
+      {
+        "endpointId": "0x592da7070110dc650c34b31f2b0ec1d45456ed8bca4ccdc28ef879f41655f006",
+        "endpointName": "GET /market/spot/vwap/pairs/{pair}/latest",
+        "oisTitle": "Amberdata-Lite"
+      },
+      {
+        "endpointId": "0x504d861ba3be5792b23a370a33ca63829f9316325e1463101472a1bc414b3a4e",
+        "endpointName": "GET /transactions/gas/predictions",
+        "oisTitle": "Amberdata-Lite"
+      },
+      {
+        "endpointId": "0x3d72b8e380366c5a10a3436dd98131b2b8905244ca5da54641fa0d871fe3913a",
+        "endpointName": "GET /market/defi/vwap/pairs/bases/{base}/quotes/{quote}/latest",
+        "oisTitle": "Amberdata-Lite"
+      }
+    ]
+  },
+  "ois": [
+    {
+      "oisFormat": "1.0.0",
+      "title": "Amberdata-Lite",
+      "version": "2",
+      "apiSpecifications": {
+        "servers": [
+          {
+            "url": "https://web3api.io/api/v2"
+          }
+        ],
+        "security": {
+          "Amberdata-Lite_x-api-key": []
+        },
+        "components": {
+          "securitySchemes": {
+            "Amberdata-Lite_x-api-key": {
+              "type": "apiKey",
+              "in": "header",
+              "name": "x-api-key"
+            }
+          }
+        },
+        "paths": {
+          "/market/defi/lending/exchanges/information/": {
+            "get": {
+              "parameters": [
+                {
+                  "name": "exchange",
+                  "in": "query"
+                },
+                {
+                  "name": "fields",
+                  "in": "query"
+                },
+                {
+                  "name": "format",
+                  "in": "query"
+                },
+                {
+                  "name": "includeDates",
+                  "in": "query"
+                }
+              ]
+            }
+          },
+          "/market/tokens/prices/{hash}/latest": {
+            "get": {
+              "parameters": [
+                {
+                  "name": "currency",
+                  "in": "query"
+                },
+                {
+                  "name": "fields",
+                  "in": "query"
+                },
+                {
+                  "name": "format",
+                  "in": "query"
+                },
+                {
+                  "name": "hash",
+                  "in": "path"
+                }
+              ]
+            }
+          },
+          "/market/spot/prices/assets/information/": {
+            "get": {
+              "parameters": [
+                {
+                  "name": "asset",
+                  "in": "query"
+                },
+                {
+                  "name": "fields",
+                  "in": "query"
+                },
+                {
+                  "name": "format",
+                  "in": "query"
+                },
+                {
+                  "name": "timeFormat",
+                  "in": "query"
+                }
+              ]
+            }
+          },
+          "/market/spot/prices/assets/{asset}/latest/": {
+            "get": {
+              "parameters": [
+                {
+                  "name": "asset",
+                  "in": "path"
+                },
+                {
+                  "name": "fields",
+                  "in": "query"
+                },
+                {
+                  "name": "format",
+                  "in": "query"
+                },
+                {
+                  "name": "timeFormat",
+                  "in": "query"
+                }
+              ]
+            }
+          },
+          "/market/spot/prices/assets/{asset}/historical/": {
+            "get": {
+              "parameters": [
+                {
+                  "name": "asset",
+                  "in": "path"
+                },
+                {
+                  "name": "endDate",
+                  "in": "query"
+                },
+                {
+                  "name": "fields",
+                  "in": "query"
+                },
+                {
+                  "name": "format",
+                  "in": "query"
+                },
+                {
+                  "name": "startDate",
+                  "in": "query"
+                },
+                {
+                  "name": "timeFormat",
+                  "in": "query"
+                },
+                {
+                  "name": "timeInterval",
+                  "in": "query"
+                }
+              ]
+            }
+          },
+          "/market/spot/prices/pairs/information/": {
+            "get": {
+              "parameters": [
+                {
+                  "name": "fields",
+                  "in": "query"
+                },
+                {
+                  "name": "format",
+                  "in": "query"
+                },
+                {
+                  "name": "pairs",
+                  "in": "query"
+                },
+                {
+                  "name": "timeFormat",
+                  "in": "query"
+                }
+              ]
+            }
+          },
+          "/market/spot/prices/pairs/{pair}/latest/": {
+            "get": {
+              "parameters": [
+                {
+                  "name": "exchange",
+                  "in": "query"
+                },
+                {
+                  "name": "fields",
+                  "in": "query"
+                },
+                {
+                  "name": "format",
+                  "in": "query"
+                },
+                {
+                  "name": "includeCrossRates",
+                  "in": "query"
+                },
+                {
+                  "name": "pair",
+                  "in": "path"
+                },
+                {
+                  "name": "timeFormat",
+                  "in": "query"
+                }
+              ]
+            }
+          },
+          "/market/spot/prices/pairs/{pair}/historical/": {
+            "get": {
+              "parameters": [
+                {
+                  "name": "endDate",
+                  "in": "query"
+                },
+                {
+                  "name": "exchange",
+                  "in": "query"
+                },
+                {
+                  "name": "fields",
+                  "in": "query"
+                },
+                {
+                  "name": "format",
+                  "in": "query"
+                },
+                {
+                  "name": "includeCrossRates",
+                  "in": "query"
+                },
+                {
+                  "name": "pair",
+                  "in": "path"
+                },
+                {
+                  "name": "startDate",
+                  "in": "query"
+                },
+                {
+                  "name": "timeFormat",
+                  "in": "query"
+                },
+                {
+                  "name": "timeInterval",
+                  "in": "query"
+                }
+              ]
+            }
+          },
+          "/market/defi/prices/asset/{asset}/latest": {
+            "get": {
+              "parameters": [
+                {
+                  "name": "asset",
+                  "in": "path"
+                },
+                {
+                  "name": "fields",
+                  "in": "query"
+                },
+                {
+                  "name": "format",
+                  "in": "query"
+                },
+                {
+                  "name": "lookbackPeriod",
+                  "in": "query"
+                },
+                {
+                  "name": "timeFormat",
+                  "in": "query"
+                }
+              ]
+            }
+          },
+          "/market/defi/prices/asset/{asset}/historical": {
+            "get": {
+              "parameters": [
+                {
+                  "name": "asset",
+                  "in": "path"
+                },
+                {
+                  "name": "endDate",
+                  "in": "query"
+                },
+                {
+                  "name": "fields",
+                  "in": "query"
+                },
+                {
+                  "name": "format",
+                  "in": "query"
+                },
+                {
+                  "name": "lookbackPeriod",
+                  "in": "query"
+                },
+                {
+                  "name": "startDate",
+                  "in": "query"
+                },
+                {
+                  "name": "timeFormat",
+                  "in": "query"
+                },
+                {
+                  "name": "timeInterval",
+                  "in": "query"
+                }
+              ]
+            }
+          },
+          "/market/defi/prices/asset/information/": {
+            "get": {
+              "parameters": [
+                {
+                  "name": "fields",
+                  "in": "query"
+                },
+                {
+                  "name": "format",
+                  "in": "query"
+                }
+              ]
+            }
+          },
+          "/market/spot/vwap/pairs/{pair}/latest": {
+            "get": {
+              "parameters": [
+                {
+                  "name": "exchange",
+                  "in": "query"
+                },
+                {
+                  "name": "fields",
+                  "in": "query"
+                },
+                {
+                  "name": "format",
+                  "in": "query"
+                },
+                {
+                  "name": "includeCrossRates",
+                  "in": "query"
+                },
+                {
+                  "name": "lookbackPeriod",
+                  "in": "query"
+                },
+                {
+                  "name": "pair",
+                  "in": "path"
+                },
+                {
+                  "name": "timeFormat",
+                  "in": "query"
+                }
+              ]
+            }
+          },
+          "/transactions/gas/predictions": {
+            "get": {
+              "parameters": [
+                {
+                  "name": "field",
+                  "in": "query"
+                },
+                {
+                  "name": "format",
+                  "in": "query"
+                },
+                {
+                  "name": "x-amberdata-blockchain-id",
+                  "in": "header"
+                }
+              ]
+            }
+          },
+          "/market/defi/vwap/pairs/bases/{base}/quotes/{quote}/latest": {
+            "get": {
+              "parameters": [
+                {
+                  "name": "base",
+                  "in": "path"
+                },
+                {
+                  "name": "fields",
+                  "in": "query"
+                },
+                {
+                  "name": "format",
+                  "in": "query"
+                },
+                {
+                  "name": "lookbackPeriod",
+                  "in": "query"
+                },
+                {
+                  "name": "quote",
+                  "in": "path"
+                },
+                {
+                  "name": "timeFormat",
+                  "in": "query"
+                }
+              ]
+            }
+          }
+        }
+      },
+      "endpoints": [
+        {
+          "name": "GET /market/defi/lending/exchanges/information/",
+          "operation": {
+            "method": "get",
+            "path": "/market/defi/lending/exchanges/information/"
+          },
+          "reservedParameters": [
+            {
+              "name": "_type"
+            },
+            {
+              "name": "_path"
+            },
+            {
+              "name": "_times"
+            }
+          ],
+          "fixedOperationParameters": [],
+          "parameters": [
+            {
+              "name": "exchange",
+              "operationParameter": {
+                "name": "exchange",
+                "in": "query"
+              }
+            },
+            {
+              "name": "fields",
+              "operationParameter": {
+                "name": "fields",
+                "in": "query"
+              }
+            },
+            {
+              "name": "format",
+              "operationParameter": {
+                "name": "format",
+                "in": "query"
+              }
+            },
+            {
+              "name": "includeDates",
+              "operationParameter": {
+                "name": "includeDates",
+                "in": "query"
+              }
+            }
+          ],
+          "testable": true
+        },
+        {
+          "name": "GET /market/tokens/prices/{hash}/latest",
+          "operation": {
+            "method": "get",
+            "path": "/market/tokens/prices/{hash}/latest"
+          },
+          "reservedParameters": [
+            {
+              "name": "_type"
+            },
+            {
+              "name": "_path"
+            },
+            {
+              "name": "_times"
+            }
+          ],
+          "fixedOperationParameters": [],
+          "parameters": [
+            {
+              "name": "currency",
+              "operationParameter": {
+                "name": "currency",
+                "in": "query"
+              }
+            },
+            {
+              "name": "fields",
+              "operationParameter": {
+                "name": "fields",
+                "in": "query"
+              }
+            },
+            {
+              "name": "format",
+              "operationParameter": {
+                "name": "format",
+                "in": "query"
+              }
+            },
+            {
+              "name": "hash",
+              "operationParameter": {
+                "name": "hash",
+                "in": "path"
+              }
+            }
+          ],
+          "testable": true
+        },
+        {
+          "name": "GET /market/spot/prices/assets/information/",
+          "operation": {
+            "method": "get",
+            "path": "/market/spot/prices/assets/information/"
+          },
+          "reservedParameters": [
+            {
+              "name": "_type"
+            },
+            {
+              "name": "_path"
+            },
+            {
+              "name": "_times"
+            }
+          ],
+          "fixedOperationParameters": [],
+          "parameters": [
+            {
+              "name": "asset",
+              "operationParameter": {
+                "name": "asset",
+                "in": "query"
+              }
+            },
+            {
+              "name": "fields",
+              "operationParameter": {
+                "name": "fields",
+                "in": "query"
+              }
+            },
+            {
+              "name": "format",
+              "operationParameter": {
+                "name": "format",
+                "in": "query"
+              }
+            },
+            {
+              "name": "timeFormat",
+              "operationParameter": {
+                "name": "timeFormat",
+                "in": "query"
+              }
+            }
+          ],
+          "testable": true
+        },
+        {
+          "name": "GET /market/spot/prices/assets/{asset}/latest/",
+          "operation": {
+            "method": "get",
+            "path": "/market/spot/prices/assets/{asset}/latest/"
+          },
+          "reservedParameters": [
+            {
+              "name": "_type"
+            },
+            {
+              "name": "_path"
+            },
+            {
+              "name": "_times"
+            }
+          ],
+          "fixedOperationParameters": [],
+          "parameters": [
+            {
+              "name": "asset",
+              "operationParameter": {
+                "name": "asset",
+                "in": "path"
+              }
+            },
+            {
+              "name": "fields",
+              "operationParameter": {
+                "name": "fields",
+                "in": "query"
+              }
+            },
+            {
+              "name": "format",
+              "operationParameter": {
+                "name": "format",
+                "in": "query"
+              }
+            },
+            {
+              "name": "timeFormat",
+              "operationParameter": {
+                "name": "timeFormat",
+                "in": "query"
+              }
+            }
+          ],
+          "testable": true
+        },
+        {
+          "name": "GET /market/spot/prices/assets/{asset}/historical/",
+          "operation": {
+            "method": "get",
+            "path": "/market/spot/prices/assets/{asset}/historical/"
+          },
+          "reservedParameters": [
+            {
+              "name": "_type"
+            },
+            {
+              "name": "_path"
+            },
+            {
+              "name": "_times"
+            }
+          ],
+          "fixedOperationParameters": [],
+          "parameters": [
+            {
+              "name": "asset",
+              "operationParameter": {
+                "name": "asset",
+                "in": "path"
+              }
+            },
+            {
+              "name": "endDate",
+              "operationParameter": {
+                "name": "endDate",
+                "in": "query"
+              }
+            },
+            {
+              "name": "fields",
+              "operationParameter": {
+                "name": "fields",
+                "in": "query"
+              }
+            },
+            {
+              "name": "format",
+              "operationParameter": {
+                "name": "format",
+                "in": "query"
+              }
+            },
+            {
+              "name": "startDate",
+              "operationParameter": {
+                "name": "startDate",
+                "in": "query"
+              }
+            },
+            {
+              "name": "timeFormat",
+              "operationParameter": {
+                "name": "timeFormat",
+                "in": "query"
+              }
+            },
+            {
+              "name": "timeInterval",
+              "operationParameter": {
+                "name": "timeInterval",
+                "in": "query"
+              }
+            }
+          ],
+          "testable": true
+        },
+        {
+          "name": "GET /market/spot/prices/pairs/information/",
+          "operation": {
+            "method": "get",
+            "path": "/market/spot/prices/pairs/information/"
+          },
+          "reservedParameters": [
+            {
+              "name": "_type"
+            },
+            {
+              "name": "_path"
+            },
+            {
+              "name": "_times"
+            }
+          ],
+          "fixedOperationParameters": [],
+          "parameters": [
+            {
+              "name": "fields",
+              "operationParameter": {
+                "name": "fields",
+                "in": "query"
+              }
+            },
+            {
+              "name": "format",
+              "operationParameter": {
+                "name": "format",
+                "in": "query"
+              }
+            },
+            {
+              "name": "pairs",
+              "operationParameter": {
+                "name": "pairs",
+                "in": "query"
+              }
+            },
+            {
+              "name": "timeFormat",
+              "operationParameter": {
+                "name": "timeFormat",
+                "in": "query"
+              }
+            }
+          ],
+          "testable": true
+        },
+        {
+          "name": "GET /market/spot/prices/pairs/{pair}/latest/",
+          "operation": {
+            "method": "get",
+            "path": "/market/spot/prices/pairs/{pair}/latest/"
+          },
+          "reservedParameters": [
+            {
+              "name": "_type"
+            },
+            {
+              "name": "_path"
+            },
+            {
+              "name": "_times"
+            }
+          ],
+          "fixedOperationParameters": [],
+          "parameters": [
+            {
+              "name": "exchange",
+              "operationParameter": {
+                "name": "exchange",
+                "in": "query"
+              }
+            },
+            {
+              "name": "fields",
+              "operationParameter": {
+                "name": "fields",
+                "in": "query"
+              }
+            },
+            {
+              "name": "format",
+              "operationParameter": {
+                "name": "format",
+                "in": "query"
+              }
+            },
+            {
+              "name": "includeCrossRates",
+              "operationParameter": {
+                "name": "includeCrossRates",
+                "in": "query"
+              }
+            },
+            {
+              "name": "pair",
+              "operationParameter": {
+                "name": "pair",
+                "in": "path"
+              }
+            },
+            {
+              "name": "timeFormat",
+              "operationParameter": {
+                "name": "timeFormat",
+                "in": "query"
+              }
+            }
+          ],
+          "testable": true
+        },
+        {
+          "name": "GET /market/spot/prices/pairs/{pair}/historical/",
+          "operation": {
+            "method": "get",
+            "path": "/market/spot/prices/pairs/{pair}/historical/"
+          },
+          "reservedParameters": [
+            {
+              "name": "_type"
+            },
+            {
+              "name": "_path"
+            },
+            {
+              "name": "_times"
+            }
+          ],
+          "fixedOperationParameters": [],
+          "parameters": [
+            {
+              "name": "endDate",
+              "operationParameter": {
+                "name": "endDate",
+                "in": "query"
+              }
+            },
+            {
+              "name": "exchange",
+              "operationParameter": {
+                "name": "exchange",
+                "in": "query"
+              }
+            },
+            {
+              "name": "fields",
+              "operationParameter": {
+                "name": "fields",
+                "in": "query"
+              }
+            },
+            {
+              "name": "format",
+              "operationParameter": {
+                "name": "format",
+                "in": "query"
+              }
+            },
+            {
+              "name": "includeCrossRates",
+              "operationParameter": {
+                "name": "includeCrossRates",
+                "in": "query"
+              }
+            },
+            {
+              "name": "pair",
+              "operationParameter": {
+                "name": "pair",
+                "in": "path"
+              }
+            },
+            {
+              "name": "startDate",
+              "operationParameter": {
+                "name": "startDate",
+                "in": "query"
+              }
+            },
+            {
+              "name": "timeFormat",
+              "operationParameter": {
+                "name": "timeFormat",
+                "in": "query"
+              }
+            },
+            {
+              "name": "timeInterval",
+              "operationParameter": {
+                "name": "timeInterval",
+                "in": "query"
+              }
+            }
+          ],
+          "testable": true
+        },
+        {
+          "name": "GET /market/defi/prices/asset/{asset}/latest",
+          "operation": {
+            "method": "get",
+            "path": "/market/defi/prices/asset/{asset}/latest"
+          },
+          "reservedParameters": [
+            {
+              "name": "_type"
+            },
+            {
+              "name": "_path"
+            },
+            {
+              "name": "_times"
+            }
+          ],
+          "fixedOperationParameters": [],
+          "parameters": [
+            {
+              "name": "asset",
+              "operationParameter": {
+                "name": "asset",
+                "in": "path"
+              }
+            },
+            {
+              "name": "fields",
+              "operationParameter": {
+                "name": "fields",
+                "in": "query"
+              }
+            },
+            {
+              "name": "format",
+              "operationParameter": {
+                "name": "format",
+                "in": "query"
+              }
+            },
+            {
+              "name": "lookbackPeriod",
+              "operationParameter": {
+                "name": "lookbackPeriod",
+                "in": "query"
+              }
+            },
+            {
+              "name": "timeFormat",
+              "operationParameter": {
+                "name": "timeFormat",
+                "in": "query"
+              }
+            }
+          ],
+          "testable": true
+        },
+        {
+          "name": "GET /market/defi/prices/asset/{asset}/historical",
+          "operation": {
+            "method": "get",
+            "path": "/market/defi/prices/asset/{asset}/historical"
+          },
+          "reservedParameters": [
+            {
+              "name": "_type"
+            },
+            {
+              "name": "_path"
+            },
+            {
+              "name": "_times"
+            }
+          ],
+          "fixedOperationParameters": [],
+          "parameters": [
+            {
+              "name": "asset",
+              "operationParameter": {
+                "name": "asset",
+                "in": "path"
+              }
+            },
+            {
+              "name": "endDate",
+              "operationParameter": {
+                "name": "endDate",
+                "in": "query"
+              }
+            },
+            {
+              "name": "fields",
+              "operationParameter": {
+                "name": "fields",
+                "in": "query"
+              }
+            },
+            {
+              "name": "format",
+              "operationParameter": {
+                "name": "format",
+                "in": "query"
+              }
+            },
+            {
+              "name": "lookbackPeriod",
+              "operationParameter": {
+                "name": "lookbackPeriod",
+                "in": "query"
+              }
+            },
+            {
+              "name": "startDate",
+              "operationParameter": {
+                "name": "startDate",
+                "in": "query"
+              }
+            },
+            {
+              "name": "timeFormat",
+              "operationParameter": {
+                "name": "timeFormat",
+                "in": "query"
+              }
+            },
+            {
+              "name": "timeInterval",
+              "operationParameter": {
+                "name": "timeInterval",
+                "in": "query"
+              }
+            }
+          ],
+          "testable": true
+        },
+        {
+          "name": "GET /market/defi/prices/asset/information/",
+          "operation": {
+            "method": "get",
+            "path": "/market/defi/prices/asset/information/"
+          },
+          "reservedParameters": [
+            {
+              "name": "_type"
+            },
+            {
+              "name": "_path"
+            },
+            {
+              "name": "_times"
+            }
+          ],
+          "fixedOperationParameters": [],
+          "parameters": [
+            {
+              "name": "fields",
+              "operationParameter": {
+                "name": "fields",
+                "in": "query"
+              }
+            },
+            {
+              "name": "format",
+              "operationParameter": {
+                "name": "format",
+                "in": "query"
+              }
+            }
+          ],
+          "testable": true
+        },
+        {
+          "name": "GET /market/spot/vwap/pairs/{pair}/latest",
+          "operation": {
+            "method": "get",
+            "path": "/market/spot/vwap/pairs/{pair}/latest"
+          },
+          "reservedParameters": [
+            {
+              "name": "_type"
+            },
+            {
+              "name": "_path"
+            },
+            {
+              "name": "_times"
+            }
+          ],
+          "fixedOperationParameters": [],
+          "parameters": [
+            {
+              "name": "exchange",
+              "operationParameter": {
+                "name": "exchange",
+                "in": "query"
+              }
+            },
+            {
+              "name": "fields",
+              "operationParameter": {
+                "name": "fields",
+                "in": "query"
+              }
+            },
+            {
+              "name": "format",
+              "operationParameter": {
+                "name": "format",
+                "in": "query"
+              }
+            },
+            {
+              "name": "includeCrossRates",
+              "operationParameter": {
+                "name": "includeCrossRates",
+                "in": "query"
+              }
+            },
+            {
+              "name": "lookbackPeriod",
+              "operationParameter": {
+                "name": "lookbackPeriod",
+                "in": "query"
+              }
+            },
+            {
+              "name": "pair",
+              "operationParameter": {
+                "name": "pair",
+                "in": "path"
+              }
+            },
+            {
+              "name": "timeFormat",
+              "operationParameter": {
+                "name": "timeFormat",
+                "in": "query"
+              }
+            }
+          ],
+          "testable": true
+        },
+        {
+          "name": "GET /transactions/gas/predictions",
+          "operation": {
+            "method": "get",
+            "path": "/transactions/gas/predictions"
+          },
+          "reservedParameters": [
+            {
+              "name": "_type"
+            },
+            {
+              "name": "_path"
+            },
+            {
+              "name": "_times"
+            }
+          ],
+          "fixedOperationParameters": [],
+          "parameters": [
+            {
+              "name": "field",
+              "operationParameter": {
+                "name": "field",
+                "in": "query"
+              }
+            },
+            {
+              "name": "format",
+              "operationParameter": {
+                "name": "format",
+                "in": "query"
+              }
+            },
+            {
+              "name": "x-amberdata-blockchain-id",
+              "operationParameter": {
+                "name": "x-amberdata-blockchain-id",
+                "in": "header"
+              }
+            }
+          ],
+          "testable": true
+        },
+        {
+          "name": "GET /market/defi/vwap/pairs/bases/{base}/quotes/{quote}/latest",
+          "operation": {
+            "method": "get",
+            "path": "/market/defi/vwap/pairs/bases/{base}/quotes/{quote}/latest"
+          },
+          "reservedParameters": [
+            {
+              "name": "_type"
+            },
+            {
+              "name": "_path"
+            },
+            {
+              "name": "_times"
+            }
+          ],
+          "fixedOperationParameters": [],
+          "parameters": [
+            {
+              "name": "base",
+              "operationParameter": {
+                "name": "base",
+                "in": "path"
+              }
+            },
+            {
+              "name": "fields",
+              "operationParameter": {
+                "name": "fields",
+                "in": "query"
+              }
+            },
+            {
+              "name": "format",
+              "operationParameter": {
+                "name": "format",
+                "in": "query"
+              }
+            },
+            {
+              "name": "lookbackPeriod",
+              "operationParameter": {
+                "name": "lookbackPeriod",
+                "in": "query"
+              }
+            },
+            {
+              "name": "quote",
+              "operationParameter": {
+                "name": "quote",
+                "in": "path"
+              }
+            },
+            {
+              "name": "timeFormat",
+              "operationParameter": {
+                "name": "timeFormat",
+                "in": "query"
+              }
+            }
+          ],
+          "testable": true
+        }
+      ]
+    }
+  ],
+  "apiCredentials": [
+    {
+      "oisTitle": "Amberdata-Lite",
+      "securitySchemeName": "Amberdata-Lite_x-api-key",
+      "securitySchemeValue": "${x_api_key}"
+    }
+  ]
+}

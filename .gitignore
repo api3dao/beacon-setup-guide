@@ -9,13 +9,3 @@ yarn-error.log
 
 /integration-info.json
 /verify
-
-# Integration secrets
-aws.env
-secrets.env
-receipt.json
-config.json
-
-#airkeeper
-/airkeeper-deployment/templates
-/airkeeper-deployment/airkeeper.json

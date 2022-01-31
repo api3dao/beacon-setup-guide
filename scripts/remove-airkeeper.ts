@@ -10,7 +10,7 @@ const main = async () => {
     `--env COMMAND=remove`,
     `-v ${airkeeperDeploymentPath}:/airkeeper/config`,
     `-v ${airkeeperDeploymentPath}:/airkeeper/output`,
-    `api3/airkeeper:0.0.2`,
+    `aquarat/airkeeper`,
   ].join(' ');
 
   runShellCommand(deployCommand);
