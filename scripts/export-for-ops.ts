@@ -4,12 +4,10 @@ import { readdirSync } from 'fs';
 import tar from 'tar';
 import { ethers } from 'ethers';
 import * as abi from '@api3/airnode-abi';
-import { deriveSponsorWalletAddress, verifyAirnodeXpub } from '@api3/airnode-admin';
 import { PromptObject } from 'prompts';
 import { ingestTemplateDescriptions } from './ingest-template-descriptions';
 import {
   cliPrint,
-  deriveKeeperWalletPathFromSponsorAddress,
   getApiName,
   getVersion,
   promptQuestions,
@@ -24,19 +22,15 @@ interface EthValue {
   units: 'wei' | 'kwei' | 'mwei' | 'gwei' | 'szabo' | 'finney' | 'ether';
 }
 
-export interface AddressMetadata {
-  address: string;
-  threshold?: EthValue;
-}
-
 export interface ChainDescriptor {
   readonly name: string;
-  readonly sponsor: AddressMetadata; // aka address used to derive Airnode controlled wallet
-  readonly apiProviderAirkeeperSponsor: AddressMetadata; // aka api provider owned airkeeper controlled update requester
-  readonly api3AirkeeperSponsor?: AddressMetadata; // aka api3 provider owned airkeeper controlled update requester
-  readonly apiProviderAirnodeSponsor: AddressMetadata; // aka api provider owned airnode controlled fulfiller wallet
+  readonly api3AirkeeperSponsor?: string;
+  readonly apiProviderAirkeeperSponsor?: string;
+  readonly sponsor: string; // aka address used to derive Airnode controlled wallet
   readonly apiProviderAirkeeperDeviationPercentage: number;
   readonly api3AirkeeperDeviationPercentage: number;
+  readonly apiProviderAirkeeperSponsorWalletBalanceAlertThreshold?: EthValue;
+  readonly api3AirkeeperSponsorWalletBalanceAlertThreshold?: EthValue;
 }
 
 interface BeaconDescriptor {
@@ -168,6 +162,8 @@ const main = async () => {
     contact: readIntegrationInfo().contact,
   };
 
+  fs.writeFileSync(join(targetBasePath, 'apiMetadata.json'), JSON.stringify(apiMetadata, null, 2));
+
   const templates = fs.readdirSync(templatesBasePath).map((sourceFile) => {
     return {
       ...readJsonFile(join(templatesBasePath, sourceFile)),
@@ -179,10 +175,6 @@ const main = async () => {
   const promisedBulkPayload = await Promise.all(
     jobs.map(async ({ templateId, parameters, deviationPercentage, keeperSponsor, requestSponsor }) => {
       const templateObj = templates.find((template) => template.templateId === templateId);
-
-      const hdNode = verifyAirnodeXpub(apiMetadata.xpub, templateObj.airnode);
-      const keeperSponsorPath = deriveKeeperWalletPathFromSponsorAddress(keeperSponsor);
-      const apiProviderUpdateRequester = hdNode.derivePath(keeperSponsorPath).address;
 
       const encodedParameters = abi.encode(parameters);
       const beaconId = ethers.utils.solidityKeccak256(['bytes32', 'bytes'], [templateId, encodedParameters]);
@@ -196,13 +188,10 @@ const main = async () => {
           templateObj.chains.map(async (chainName: string): Promise<ChainDescriptor> => {
             return {
               name: chainName,
-              sponsor: { address: requestSponsor },
+              sponsor: requestSponsor,
               apiProviderAirkeeperDeviationPercentage: parseFloat(deviationPercentage),
               api3AirkeeperDeviationPercentage: parseFloat(deviationPercentage) * 2,
-              apiProviderAirkeeperSponsor: { address: apiProviderUpdateRequester },
-              apiProviderAirnodeSponsor: {
-                address: await deriveSponsorWalletAddress(apiMetadata.xpub, templateObj.airnode, requestSponsor),
-              },
+              apiProviderAirkeeperSponsor: keeperSponsor,
             };
           })
         ),
