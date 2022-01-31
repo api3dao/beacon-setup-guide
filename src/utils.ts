@@ -1,4 +1,4 @@
-import fs, { readdirSync, readFileSync } from 'fs';
+import { readdirSync, readFileSync } from 'fs';
 import { join } from 'path';
 import { ethers, Wallet } from 'ethers';
 import { parse as parseEnvFile } from 'dotenv';
@@ -134,8 +134,16 @@ export const sanitiseFilename = (filename: string) => {
     .toLocaleLowerCase();
 };
 
-export const getApiName = () =>
-  fs.readdirSync(join(__dirname, '../airkeeper-deployment', 'templates', getVersion())).pop();
+export const getApiName = () => {
+  const apiName = readdirSync(join(__dirname, '../airkeeper-deployment', 'templates', getVersion()))?.pop();
+  if (!apiName) {
+    throw new Error(
+      `Unable to detect API name - please check ${join(__dirname, '../airkeeper-deployment', 'templates')}`
+    );
+  }
+
+  return apiName;
+};
 
 interface FilePayload {
   readonly filename: string;
