@@ -1,0 +1,1052 @@
+{
+  "chains": [
+    {
+      "contracts": {
+        "RrpBeaconServer": "0x2cFda716b751eb406C5124C6E4428F2AEA453D96"
+      }
+    },
+    {
+      "contracts": {
+        "RrpBeaconServer": "0x2cFda716b751eb406C5124C6E4428F2AEA453D96"
+      }
+    },
+    {
+      "contracts": {
+        "RrpBeaconServer": "0x2cFda716b751eb406C5124C6E4428F2AEA453D96"
+      }
+    },
+    {
+      "contracts": {
+        "RrpBeaconServer": "0xFF298a3169117606BDA78eD6C04917224968f9b5"
+      }
+    }
+  ],
+  "triggers": {
+    "rrpBeaconServerKeeperJobs": [
+      {
+        "templateId": "0x2a0219013e042c3d68afa6501e9798c84863e7e466f64f4a7d45cb00bf70732e",
+        "templateParameters": [
+          {
+            "name": "pair",
+            "type": "bytes32",
+            "value": "avax_usd"
+          },
+          {
+            "name": "_path",
+            "type": "bytes32",
+            "value": "payload.vwap,"
+          },
+          {
+            "name": "_type",
+            "type": "bytes32",
+            "value": "int256,timestamp"
+          },
+          {
+            "name": "_times",
+            "type": "bytes32",
+            "value": "1000000,"
+          },
+          {
+            "name": "lookbackPeriod",
+            "type": "bytes32",
+            "value": "5"
+          }
+        ],
+        "overrideParameters": [],
+        "oisTitle": "Amberdata-Lite",
+        "endpointName": "GET /market/spot/vwap/pairs/{pair}/latest",
+        "deviationPercentage": "0.5",
+        "keeperSponsor": "0x58c210AC77bf7075598D497b18778b7c6687C59f",
+        "requestSponsor": "0xF0f875aa568521FBd5246fAE7260E04d9ED6511b"
+      },
+      {
+        "templateId": "0x2b599b828260838fe64c7e5b8a8f96253d24c32e17e9198cc34588c8e3971c2f",
+        "templateParameters": [
+          {
+            "name": "pair",
+            "type": "bytes32",
+            "value": "snx_usd"
+          },
+          {
+            "name": "_path",
+            "type": "bytes32",
+            "value": "payload.vwap,"
+          },
+          {
+            "name": "_type",
+            "type": "bytes32",
+            "value": "int256,timestamp"
+          },
+          {
+            "name": "_times",
+            "type": "bytes32",
+            "value": "1000000,"
+          },
+          {
+            "name": "lookbackPeriod",
+            "type": "bytes32",
+            "value": "5"
+          }
+        ],
+        "overrideParameters": [],
+        "oisTitle": "Amberdata-Lite",
+        "endpointName": "GET /market/spot/vwap/pairs/{pair}/latest",
+        "deviationPercentage": "0.5",
+        "keeperSponsor": "0x58c210AC77bf7075598D497b18778b7c6687C59f",
+        "requestSponsor": "0xF0f875aa568521FBd5246fAE7260E04d9ED6511b"
+      },
+      {
+        "templateId": "0x2ec4a6323e521ec60284b211c2a1348eedb0f2bfbd59c562f0e585226bd0aaf9",
+        "templateParameters": [
+          {
+            "name": "_path",
+            "type": "bytes32",
+            "value": "payload.fast.gasPrice,"
+          },
+          {
+            "name": "_type",
+            "type": "bytes32",
+            "value": "int256,timestamp"
+          }
+        ],
+        "overrideParameters": [],
+        "oisTitle": "Amberdata-Lite",
+        "endpointName": "GET /transactions/gas/predictions",
+        "deviationPercentage": "5",
+        "keeperSponsor": "0x58c210AC77bf7075598D497b18778b7c6687C59f",
+        "requestSponsor": "0xF0f875aa568521FBd5246fAE7260E04d9ED6511b"
+      },
+      {
+        "templateId": "0x2c552c0210bea2ab148355aaa285bddfe3c1b11f8eeb17c9e6bccc6ec56f9954",
+        "templateParameters": [
+          {
+            "name": "_path",
+            "type": "bytes32",
+            "value": "payload.average.gasPrice,"
+          },
+          {
+            "name": "_type",
+            "type": "bytes32",
+            "value": "int256,timestamp"
+          }
+        ],
+        "overrideParameters": [],
+        "oisTitle": "Amberdata-Lite",
+        "endpointName": "GET /transactions/gas/predictions",
+        "deviationPercentage": "5",
+        "keeperSponsor": "0x58c210AC77bf7075598D497b18778b7c6687C59f",
+        "requestSponsor": "0xF0f875aa568521FBd5246fAE7260E04d9ED6511b"
+      },
+      {
+        "templateId": "0x396ee546168feb66804f32d30aa230447e09dfbf7c8f4182f0ebad17acff7615",
+        "templateParameters": [
+          {
+            "name": "pair",
+            "type": "bytes32",
+            "value": "usdc_usd"
+          },
+          {
+            "name": "_path",
+            "type": "bytes32",
+            "value": "payload.vwap,"
+          },
+          {
+            "name": "_type",
+            "type": "bytes32",
+            "value": "int256,timestamp"
+          },
+          {
+            "name": "_times",
+            "type": "bytes32",
+            "value": "1000000,"
+          },
+          {
+            "name": "lookbackPeriod",
+            "type": "bytes32",
+            "value": "5"
+          }
+        ],
+        "overrideParameters": [],
+        "oisTitle": "Amberdata-Lite",
+        "endpointName": "GET /market/spot/vwap/pairs/{pair}/latest",
+        "deviationPercentage": "0.1",
+        "keeperSponsor": "0x58c210AC77bf7075598D497b18778b7c6687C59f",
+        "requestSponsor": "0xF0f875aa568521FBd5246fAE7260E04d9ED6511b"
+      },
+      {
+        "templateId": "0x3ae8c3944b8522cbc865a8eea1392333d7471aed88bcfe06789a062473072118",
+        "templateParameters": [
+          {
+            "name": "base",
+            "type": "string",
+            "value": "0xdac17f958d2ee523a2206206994597c13d831ec7"
+          },
+          {
+            "name": "quote",
+            "type": "string",
+            "value": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2"
+          },
+          {
+            "name": "_path",
+            "type": "bytes32",
+            "value": "payload.vwap,"
+          },
+          {
+            "name": "_type",
+            "type": "bytes32",
+            "value": "int256,timestamp"
+          },
+          {
+            "name": "_times",
+            "type": "bytes32",
+            "value": "1000000,"
+          },
+          {
+            "name": "lookbackPeriod",
+            "type": "bytes32",
+            "value": "5"
+          }
+        ],
+        "overrideParameters": [],
+        "oisTitle": "Amberdata-Lite",
+        "endpointName": "GET /market/defi/vwap/pairs/bases/{base}/quotes/{quote}/latest",
+        "deviationPercentage": "0.5",
+        "keeperSponsor": "0x58c210AC77bf7075598D497b18778b7c6687C59f",
+        "requestSponsor": "0xF0f875aa568521FBd5246fAE7260E04d9ED6511b"
+      },
+      {
+        "templateId": "0x3f9aa8fb88335e7deb5ac57de6158e89b96fed949fca56f9fcfb1f6b65bfa08c",
+        "templateParameters": [
+          {
+            "name": "pair",
+            "type": "bytes32",
+            "value": "bat_usd"
+          },
+          {
+            "name": "_path",
+            "type": "bytes32",
+            "value": "payload.vwap,"
+          },
+          {
+            "name": "_type",
+            "type": "bytes32",
+            "value": "int256,timestamp"
+          },
+          {
+            "name": "_times",
+            "type": "bytes32",
+            "value": "1000000,"
+          },
+          {
+            "name": "lookbackPeriod",
+            "type": "bytes32",
+            "value": "5"
+          }
+        ],
+        "overrideParameters": [],
+        "oisTitle": "Amberdata-Lite",
+        "endpointName": "GET /market/spot/vwap/pairs/{pair}/latest",
+        "deviationPercentage": "0.5",
+        "keeperSponsor": "0x58c210AC77bf7075598D497b18778b7c6687C59f",
+        "requestSponsor": "0xF0f875aa568521FBd5246fAE7260E04d9ED6511b"
+      },
+      {
+        "templateId": "0x40b01f910cb9fb33af6850df0df783be55d0e8c57ac82624f5d3dad4181d39c0",
+        "templateParameters": [
+          {
+            "name": "pair",
+            "type": "bytes32",
+            "value": "tusd_usd"
+          },
+          {
+            "name": "_path",
+            "type": "bytes32",
+            "value": "payload.vwap,"
+          },
+          {
+            "name": "_type",
+            "type": "bytes32",
+            "value": "int256,timestamp"
+          },
+          {
+            "name": "_times",
+            "type": "bytes32",
+            "value": "1000000,"
+          },
+          {
+            "name": "lookbackPeriod",
+            "type": "bytes32",
+            "value": "5"
+          }
+        ],
+        "overrideParameters": [],
+        "oisTitle": "Amberdata-Lite",
+        "endpointName": "GET /market/spot/vwap/pairs/{pair}/latest",
+        "deviationPercentage": "0.1",
+        "keeperSponsor": "0x58c210AC77bf7075598D497b18778b7c6687C59f",
+        "requestSponsor": "0xF0f875aa568521FBd5246fAE7260E04d9ED6511b"
+      },
+      {
+        "templateId": "0x47b7bee116be7e8d220a7598ddb2fab0caaf783e3e4c01b804395a266a0df013",
+        "templateParameters": [
+          {
+            "name": "base",
+            "type": "string",
+            "value": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+          },
+          {
+            "name": "quote",
+            "type": "string",
+            "value": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2"
+          },
+          {
+            "name": "_path",
+            "type": "bytes32",
+            "value": "payload.vwap,"
+          },
+          {
+            "name": "_type",
+            "type": "bytes32",
+            "value": "int256,timestamp"
+          },
+          {
+            "name": "_times",
+            "type": "bytes32",
+            "value": "1000000,"
+          },
+          {
+            "name": "lookbackPeriod",
+            "type": "bytes32",
+            "value": "5"
+          }
+        ],
+        "overrideParameters": [],
+        "oisTitle": "Amberdata-Lite",
+        "endpointName": "GET /market/defi/vwap/pairs/bases/{base}/quotes/{quote}/latest",
+        "deviationPercentage": "0.5",
+        "keeperSponsor": "0x58c210AC77bf7075598D497b18778b7c6687C59f",
+        "requestSponsor": "0xF0f875aa568521FBd5246fAE7260E04d9ED6511b"
+      },
+      {
+        "templateId": "0x5159c2c6e3b9584eb673fa9054bdbf8e74d0b6a9abe3c237556b631203c72be6",
+        "templateParameters": [
+          {
+            "name": "pair",
+            "type": "bytes32",
+            "value": "btc_usd"
+          },
+          {
+            "name": "_path",
+            "type": "bytes32",
+            "value": "payload.vwap,"
+          },
+          {
+            "name": "_type",
+            "type": "bytes32",
+            "value": "int256,timestamp"
+          },
+          {
+            "name": "_times",
+            "type": "bytes32",
+            "value": "1000000,"
+          },
+          {
+            "name": "lookbackPeriod",
+            "type": "bytes32",
+            "value": "5"
+          }
+        ],
+        "overrideParameters": [],
+        "oisTitle": "Amberdata-Lite",
+        "endpointName": "GET /market/spot/vwap/pairs/{pair}/latest",
+        "deviationPercentage": "0.25",
+        "keeperSponsor": "0x58c210AC77bf7075598D497b18778b7c6687C59f",
+        "requestSponsor": "0xF0f875aa568521FBd5246fAE7260E04d9ED6511b"
+      },
+      {
+        "templateId": "0x5e5fb4b0b75160f1fe08b46e9703fb5cdac50498755cd89b23a4944c18448db0",
+        "templateParameters": [
+          {
+            "name": "pair",
+            "type": "bytes32",
+            "value": "mana_usd"
+          },
+          {
+            "name": "_path",
+            "type": "bytes32",
+            "value": "payload.vwap,"
+          },
+          {
+            "name": "_type",
+            "type": "bytes32",
+            "value": "int256,timestamp"
+          },
+          {
+            "name": "_times",
+            "type": "bytes32",
+            "value": "1000000,"
+          },
+          {
+            "name": "lookbackPeriod",
+            "type": "bytes32",
+            "value": "5"
+          }
+        ],
+        "overrideParameters": [],
+        "oisTitle": "Amberdata-Lite",
+        "endpointName": "GET /market/spot/vwap/pairs/{pair}/latest",
+        "deviationPercentage": "0.5",
+        "keeperSponsor": "0x58c210AC77bf7075598D497b18778b7c6687C59f",
+        "requestSponsor": "0xF0f875aa568521FBd5246fAE7260E04d9ED6511b"
+      },
+      {
+        "templateId": "0x8473a4c5a894bf4724c4d7f7d06ed30019db0058941e5e87b9177514d2fa7308",
+        "templateParameters": [
+          {
+            "name": "pair",
+            "type": "bytes32",
+            "value": "lrc_usd"
+          },
+          {
+            "name": "_path",
+            "type": "bytes32",
+            "value": "payload.vwap,"
+          },
+          {
+            "name": "_type",
+            "type": "bytes32",
+            "value": "int256,timestamp"
+          },
+          {
+            "name": "_times",
+            "type": "bytes32",
+            "value": "1000000,"
+          },
+          {
+            "name": "lookbackPeriod",
+            "type": "bytes32",
+            "value": "5"
+          }
+        ],
+        "overrideParameters": [],
+        "oisTitle": "Amberdata-Lite",
+        "endpointName": "GET /market/spot/vwap/pairs/{pair}/latest",
+        "deviationPercentage": "0.5",
+        "keeperSponsor": "0x58c210AC77bf7075598D497b18778b7c6687C59f",
+        "requestSponsor": "0xF0f875aa568521FBd5246fAE7260E04d9ED6511b"
+      },
+      {
+        "templateId": "0x84e82a04095f91c60c7496274ecef2ed6845baff2376b7d6715b4d76c4d15451",
+        "templateParameters": [
+          {
+            "name": "pair",
+            "type": "bytes32",
+            "value": "dai_eth"
+          },
+          {
+            "name": "_path",
+            "type": "bytes32",
+            "value": "payload.vwap,"
+          },
+          {
+            "name": "_type",
+            "type": "bytes32",
+            "value": "int256,timestamp"
+          },
+          {
+            "name": "_times",
+            "type": "bytes32",
+            "value": "1000000,"
+          },
+          {
+            "name": "lookbackPeriod",
+            "type": "bytes32",
+            "value": "5"
+          }
+        ],
+        "overrideParameters": [],
+        "oisTitle": "Amberdata-Lite",
+        "endpointName": "GET /market/spot/vwap/pairs/{pair}/latest",
+        "deviationPercentage": "0.5",
+        "keeperSponsor": "0x58c210AC77bf7075598D497b18778b7c6687C59f",
+        "requestSponsor": "0xF0f875aa568521FBd5246fAE7260E04d9ED6511b"
+      },
+      {
+        "templateId": "0x86012c43d9aceabd9a010ab3eb9b80e6ac371e4056b3f6500b35ef68b3da1dc2",
+        "templateParameters": [
+          {
+            "name": "pair",
+            "type": "bytes32",
+            "value": "dai_usd"
+          },
+          {
+            "name": "_path",
+            "type": "bytes32",
+            "value": "payload.vwap,"
+          },
+          {
+            "name": "_type",
+            "type": "bytes32",
+            "value": "int256,timestamp"
+          },
+          {
+            "name": "_times",
+            "type": "bytes32",
+            "value": "1000000,"
+          },
+          {
+            "name": "lookbackPeriod",
+            "type": "bytes32",
+            "value": "5"
+          }
+        ],
+        "overrideParameters": [],
+        "oisTitle": "Amberdata-Lite",
+        "endpointName": "GET /market/spot/vwap/pairs/{pair}/latest",
+        "deviationPercentage": "0.1",
+        "keeperSponsor": "0x58c210AC77bf7075598D497b18778b7c6687C59f",
+        "requestSponsor": "0xF0f875aa568521FBd5246fAE7260E04d9ED6511b"
+      },
+      {
+        "templateId": "0x885b41879a473a215b74246c17c50aa99fe99b1ef9a91fc93e8e615621a2832a",
+        "templateParameters": [
+          {
+            "name": "pair",
+            "type": "bytes32",
+            "value": "near_usd"
+          },
+          {
+            "name": "_path",
+            "type": "bytes32",
+            "value": "payload.vwap,"
+          },
+          {
+            "name": "_type",
+            "type": "bytes32",
+            "value": "int256,timestamp"
+          },
+          {
+            "name": "_times",
+            "type": "bytes32",
+            "value": "1000000,"
+          },
+          {
+            "name": "lookbackPeriod",
+            "type": "bytes32",
+            "value": "5"
+          }
+        ],
+        "overrideParameters": [],
+        "oisTitle": "Amberdata-Lite",
+        "endpointName": "GET /market/spot/vwap/pairs/{pair}/latest",
+        "deviationPercentage": "0.5",
+        "keeperSponsor": "0x58c210AC77bf7075598D497b18778b7c6687C59f",
+        "requestSponsor": "0xF0f875aa568521FBd5246fAE7260E04d9ED6511b"
+      },
+      {
+        "templateId": "0x930141b7fe75bba0c3fbfa5e0b1b006391cad76bea10562e434ca81b70876ba3",
+        "templateParameters": [
+          {
+            "name": "pair",
+            "type": "bytes32",
+            "value": "knc_usd"
+          },
+          {
+            "name": "_path",
+            "type": "bytes32",
+            "value": "payload.vwap,"
+          },
+          {
+            "name": "_type",
+            "type": "bytes32",
+            "value": "int256,timestamp"
+          },
+          {
+            "name": "_times",
+            "type": "bytes32",
+            "value": "1000000,"
+          },
+          {
+            "name": "lookbackPeriod",
+            "type": "bytes32",
+            "value": "5"
+          }
+        ],
+        "overrideParameters": [],
+        "oisTitle": "Amberdata-Lite",
+        "endpointName": "GET /market/spot/vwap/pairs/{pair}/latest",
+        "deviationPercentage": "0.5",
+        "keeperSponsor": "0x58c210AC77bf7075598D497b18778b7c6687C59f",
+        "requestSponsor": "0xF0f875aa568521FBd5246fAE7260E04d9ED6511b"
+      },
+      {
+        "templateId": "0x94a2cbf0dc86a506979ad504771b1e7f6efe3538965d5f189aca453072e2a584",
+        "templateParameters": [
+          {
+            "name": "pair",
+            "type": "bytes32",
+            "value": "pax_usd"
+          },
+          {
+            "name": "_path",
+            "type": "bytes32",
+            "value": "payload.vwap,"
+          },
+          {
+            "name": "_type",
+            "type": "bytes32",
+            "value": "int256,timestamp"
+          },
+          {
+            "name": "_times",
+            "type": "bytes32",
+            "value": "1000000,"
+          },
+          {
+            "name": "lookbackPeriod",
+            "type": "bytes32",
+            "value": "5"
+          }
+        ],
+        "overrideParameters": [],
+        "oisTitle": "Amberdata-Lite",
+        "endpointName": "GET /market/spot/vwap/pairs/{pair}/latest",
+        "deviationPercentage": "0.1",
+        "keeperSponsor": "0x58c210AC77bf7075598D497b18778b7c6687C59f",
+        "requestSponsor": "0xF0f875aa568521FBd5246fAE7260E04d9ED6511b"
+      },
+      {
+        "templateId": "0x9c24111e2c324627cb837b5ec68e17e457596c9398683b280da533e27ab50894",
+        "templateParameters": [
+          {
+            "name": "pair",
+            "type": "bytes32",
+            "value": "aave_usd"
+          },
+          {
+            "name": "_path",
+            "type": "bytes32",
+            "value": "payload.vwap,"
+          },
+          {
+            "name": "_type",
+            "type": "bytes32",
+            "value": "int256,timestamp"
+          },
+          {
+            "name": "_times",
+            "type": "bytes32",
+            "value": "1000000,"
+          },
+          {
+            "name": "lookbackPeriod",
+            "type": "bytes32",
+            "value": "5"
+          }
+        ],
+        "overrideParameters": [],
+        "oisTitle": "Amberdata-Lite",
+        "endpointName": "GET /market/spot/vwap/pairs/{pair}/latest",
+        "deviationPercentage": "0.5",
+        "keeperSponsor": "0x58c210AC77bf7075598D497b18778b7c6687C59f",
+        "requestSponsor": "0xF0f875aa568521FBd5246fAE7260E04d9ED6511b"
+      },
+      {
+        "templateId": "0xb05f57b84056d8bb075b5f1012a3e50a1039175bcfceaaddd6ee7fc774fca35e",
+        "templateParameters": [
+          {
+            "name": "pair",
+            "type": "bytes32",
+            "value": "atom_usd"
+          },
+          {
+            "name": "_path",
+            "type": "bytes32",
+            "value": "payload.vwap,"
+          },
+          {
+            "name": "_type",
+            "type": "bytes32",
+            "value": "int256,timestamp"
+          },
+          {
+            "name": "_times",
+            "type": "bytes32",
+            "value": "1000000,"
+          },
+          {
+            "name": "lookbackPeriod",
+            "type": "bytes32",
+            "value": "5"
+          }
+        ],
+        "overrideParameters": [],
+        "oisTitle": "Amberdata-Lite",
+        "endpointName": "GET /market/spot/vwap/pairs/{pair}/latest",
+        "deviationPercentage": "0.5",
+        "keeperSponsor": "0x58c210AC77bf7075598D497b18778b7c6687C59f",
+        "requestSponsor": "0xF0f875aa568521FBd5246fAE7260E04d9ED6511b"
+      },
+      {
+        "templateId": "0xb43779b94ff444678da1f32a9076f1dc0d655b6a05377cdf9617a767b41a273a",
+        "templateParameters": [
+          {
+            "name": "pair",
+            "type": "bytes32",
+            "value": "matic_usd"
+          },
+          {
+            "name": "_path",
+            "type": "bytes32",
+            "value": "payload.vwap,"
+          },
+          {
+            "name": "_type",
+            "type": "bytes32",
+            "value": "int256,timestamp"
+          },
+          {
+            "name": "_times",
+            "type": "bytes32",
+            "value": "1000000,"
+          },
+          {
+            "name": "lookbackPeriod",
+            "type": "bytes32",
+            "value": "5"
+          }
+        ],
+        "overrideParameters": [],
+        "oisTitle": "Amberdata-Lite",
+        "endpointName": "GET /market/spot/vwap/pairs/{pair}/latest",
+        "deviationPercentage": "0.5",
+        "keeperSponsor": "0x58c210AC77bf7075598D497b18778b7c6687C59f",
+        "requestSponsor": "0xF0f875aa568521FBd5246fAE7260E04d9ED6511b"
+      },
+      {
+        "templateId": "0xb91c1c228b42faa43721a4dcd7eafa6432ad8c31e2e067708fc519967f54a2f8",
+        "templateParameters": [
+          {
+            "name": "pair",
+            "type": "bytes32",
+            "value": "usdt_usd"
+          },
+          {
+            "name": "_path",
+            "type": "bytes32",
+            "value": "payload.vwap,"
+          },
+          {
+            "name": "_type",
+            "type": "bytes32",
+            "value": "int256,timestamp"
+          },
+          {
+            "name": "_times",
+            "type": "bytes32",
+            "value": "1000000,"
+          },
+          {
+            "name": "lookbackPeriod",
+            "type": "bytes32",
+            "value": "5"
+          }
+        ],
+        "overrideParameters": [],
+        "oisTitle": "Amberdata-Lite",
+        "endpointName": "GET /market/spot/vwap/pairs/{pair}/latest",
+        "deviationPercentage": "0.1",
+        "keeperSponsor": "0x58c210AC77bf7075598D497b18778b7c6687C59f",
+        "requestSponsor": "0xF0f875aa568521FBd5246fAE7260E04d9ED6511b"
+      },
+      {
+        "templateId": "0xc047a4eba9bcc27a196b987c43ba91853bf7e24b073a071138f423c8fe72d619",
+        "templateParameters": [
+          {
+            "name": "pair",
+            "type": "bytes32",
+            "value": "eth_btc"
+          },
+          {
+            "name": "_path",
+            "type": "bytes32",
+            "value": "payload.vwap,"
+          },
+          {
+            "name": "_type",
+            "type": "bytes32",
+            "value": "int256,timestamp"
+          },
+          {
+            "name": "_times",
+            "type": "bytes32",
+            "value": "1000000,"
+          },
+          {
+            "name": "lookbackPeriod",
+            "type": "bytes32",
+            "value": "5"
+          }
+        ],
+        "overrideParameters": [],
+        "oisTitle": "Amberdata-Lite",
+        "endpointName": "GET /market/spot/vwap/pairs/{pair}/latest",
+        "deviationPercentage": "0.25",
+        "keeperSponsor": "0x58c210AC77bf7075598D497b18778b7c6687C59f",
+        "requestSponsor": "0xF0f875aa568521FBd5246fAE7260E04d9ED6511b"
+      },
+      {
+        "templateId": "0xc979c3c90aee8d4c67d6319cf7fe062463003c4a41ec2dc84206486bf6155e0d",
+        "templateParameters": [
+          {
+            "name": "pair",
+            "type": "bytes32",
+            "value": "yfi_usd"
+          },
+          {
+            "name": "_path",
+            "type": "bytes32",
+            "value": "payload.vwap,"
+          },
+          {
+            "name": "_type",
+            "type": "bytes32",
+            "value": "int256,timestamp"
+          },
+          {
+            "name": "_times",
+            "type": "bytes32",
+            "value": "1000000,"
+          },
+          {
+            "name": "lookbackPeriod",
+            "type": "bytes32",
+            "value": "5"
+          }
+        ],
+        "overrideParameters": [],
+        "oisTitle": "Amberdata-Lite",
+        "endpointName": "GET /market/spot/vwap/pairs/{pair}/latest",
+        "deviationPercentage": "0.5",
+        "keeperSponsor": "0x58c210AC77bf7075598D497b18778b7c6687C59f",
+        "requestSponsor": "0xF0f875aa568521FBd5246fAE7260E04d9ED6511b"
+      },
+      {
+        "templateId": "0xd218d6d5f630faa290676bebe58c88f68a9dccbfece4a3028cf4a5539f397459",
+        "templateParameters": [
+          {
+            "name": "pair",
+            "type": "bytes32",
+            "value": "eth_usd"
+          },
+          {
+            "name": "_path",
+            "type": "bytes32",
+            "value": "payload.vwap,"
+          },
+          {
+            "name": "_type",
+            "type": "bytes32",
+            "value": "int256,timestamp"
+          },
+          {
+            "name": "_times",
+            "type": "bytes32",
+            "value": "1000000,"
+          },
+          {
+            "name": "lookbackPeriod",
+            "type": "bytes32",
+            "value": "5"
+          }
+        ],
+        "overrideParameters": [],
+        "oisTitle": "Amberdata-Lite",
+        "endpointName": "GET /market/spot/vwap/pairs/{pair}/latest",
+        "deviationPercentage": "0.25",
+        "keeperSponsor": "0x58c210AC77bf7075598D497b18778b7c6687C59f",
+        "requestSponsor": "0xF0f875aa568521FBd5246fAE7260E04d9ED6511b"
+      },
+      {
+        "templateId": "0xd5654f3c9e35c123fa13a6d324d7344840ef1cd7be06202e13645036cc7e94ae",
+        "templateParameters": [
+          {
+            "name": "pair",
+            "type": "bytes32",
+            "value": "sol_usd"
+          },
+          {
+            "name": "_path",
+            "type": "bytes32",
+            "value": "payload.vwap,"
+          },
+          {
+            "name": "_type",
+            "type": "bytes32",
+            "value": "int256,timestamp"
+          },
+          {
+            "name": "_times",
+            "type": "bytes32",
+            "value": "1000000,"
+          },
+          {
+            "name": "lookbackPeriod",
+            "type": "bytes32",
+            "value": "5"
+          }
+        ],
+        "overrideParameters": [],
+        "oisTitle": "Amberdata-Lite",
+        "endpointName": "GET /market/spot/vwap/pairs/{pair}/latest",
+        "deviationPercentage": "0.5",
+        "keeperSponsor": "0x58c210AC77bf7075598D497b18778b7c6687C59f",
+        "requestSponsor": "0xF0f875aa568521FBd5246fAE7260E04d9ED6511b"
+      },
+      {
+        "templateId": "0xda1146bcb4ac9a3f7451f5f52d29a2a1f607004b5214e9b859427b4cddd81689",
+        "templateParameters": [
+          {
+            "name": "pair",
+            "type": "bytes32",
+            "value": "comp_usd"
+          },
+          {
+            "name": "_path",
+            "type": "bytes32",
+            "value": "payload.vwap,"
+          },
+          {
+            "name": "_type",
+            "type": "bytes32",
+            "value": "int256,timestamp"
+          },
+          {
+            "name": "_times",
+            "type": "bytes32",
+            "value": "1000000,"
+          },
+          {
+            "name": "lookbackPeriod",
+            "type": "bytes32",
+            "value": "5"
+          }
+        ],
+        "overrideParameters": [],
+        "oisTitle": "Amberdata-Lite",
+        "endpointName": "GET /market/spot/vwap/pairs/{pair}/latest",
+        "deviationPercentage": "0.5",
+        "keeperSponsor": "0x58c210AC77bf7075598D497b18778b7c6687C59f",
+        "requestSponsor": "0xF0f875aa568521FBd5246fAE7260E04d9ED6511b"
+      },
+      {
+        "templateId": "0xdaf2dad42a8da921733d2f83acf1cc8c9aee77c6bc499fbb8b881e39d618a7bd",
+        "templateParameters": [
+          {
+            "name": "pair",
+            "type": "bytes32",
+            "value": "wbtc_usd"
+          },
+          {
+            "name": "_path",
+            "type": "bytes32",
+            "value": "payload.vwap,"
+          },
+          {
+            "name": "_type",
+            "type": "bytes32",
+            "value": "int256,timestamp"
+          },
+          {
+            "name": "_times",
+            "type": "bytes32",
+            "value": "1000000,"
+          },
+          {
+            "name": "lookbackPeriod",
+            "type": "bytes32",
+            "value": "5"
+          }
+        ],
+        "overrideParameters": [],
+        "oisTitle": "Amberdata-Lite",
+        "endpointName": "GET /market/spot/vwap/pairs/{pair}/latest",
+        "deviationPercentage": "0.25",
+        "keeperSponsor": "0x58c210AC77bf7075598D497b18778b7c6687C59f",
+        "requestSponsor": "0xF0f875aa568521FBd5246fAE7260E04d9ED6511b"
+      },
+      {
+        "templateId": "0xe2926977ca4e0621485c3510f03425b2015412fb08a70b32f8f559b737641ecc",
+        "templateParameters": [
+          {
+            "name": "pair",
+            "type": "bytes32",
+            "value": "uni_usd"
+          },
+          {
+            "name": "_path",
+            "type": "bytes32",
+            "value": "payload.vwap,"
+          },
+          {
+            "name": "_type",
+            "type": "bytes32",
+            "value": "int256,timestamp"
+          },
+          {
+            "name": "_times",
+            "type": "bytes32",
+            "value": "1000000,"
+          },
+          {
+            "name": "lookbackPeriod",
+            "type": "bytes32",
+            "value": "5"
+          }
+        ],
+        "overrideParameters": [],
+        "oisTitle": "Amberdata-Lite",
+        "endpointName": "GET /market/spot/vwap/pairs/{pair}/latest",
+        "deviationPercentage": "0.5",
+        "keeperSponsor": "0x58c210AC77bf7075598D497b18778b7c6687C59f",
+        "requestSponsor": "0xF0f875aa568521FBd5246fAE7260E04d9ED6511b"
+      },
+      {
+        "templateId": "0xf60503627e5c2cf3e44c4a39d574a472992823f160d629a6635807de1ec4dce2",
+        "templateParameters": [
+          {
+            "name": "pair",
+            "type": "bytes32",
+            "value": "bal_usd"
+          },
+          {
+            "name": "_path",
+            "type": "bytes32",
+            "value": "payload.vwap,"
+          },
+          {
+            "name": "_type",
+            "type": "bytes32",
+            "value": "int256,timestamp"
+          },
+          {
+            "name": "_times",
+            "type": "bytes32",
+            "value": "1000000,"
+          },
+          {
+            "name": "lookbackPeriod",
+            "type": "bytes32",
+            "value": "5"
+          }
+        ],
+        "overrideParameters": [],
+        "oisTitle": "Amberdata-Lite",
+        "endpointName": "GET /market/spot/vwap/pairs/{pair}/latest",
+        "deviationPercentage": "0.5",
+        "keeperSponsor": "0x58c210AC77bf7075598D497b18778b7c6687C59f",
+        "requestSponsor": "0xF0f875aa568521FBd5246fAE7260E04d9ED6511b"
+      }
+    ]
+  }
+}

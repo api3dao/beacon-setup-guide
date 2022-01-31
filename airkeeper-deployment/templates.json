@@ -1,23 +1,864 @@
 [
   {
-    "airnode": "0x95F28A60Ce6FDd2Ea6D30C69D44441a07E5F4a4c",
-    "endpointId": "0xfb87102cdabadf905321521ba0b3cbf74ad09c5d400ac2eccdbef8d6143e78c4",
+    "airnode": "0xF0f875aa568521FBd5246fAE7260E04d9ED6511b",
+    "endpointId": "0x592da7070110dc650c34b31f2b0ec1d45456ed8bca4ccdc28ef879f41655f006",
     "parameters": [
       {
-        "name": "coinId",
-        "value": "bitcoin",
-        "type": "string"
+        "name": "pair",
+        "type": "bytes32",
+        "value": "btc_usd"
+      },
+      {
+        "name": "_path",
+        "type": "bytes32",
+        "value": "payload.vwap,"
+      },
+      {
+        "name": "_type",
+        "type": "bytes32",
+        "value": "int256,timestamp"
+      },
+      {
+        "name": "_times",
+        "type": "bytes32",
+        "value": "1000000,"
+      },
+      {
+        "name": "lookbackPeriod",
+        "type": "bytes32",
+        "value": "5"
       }
     ]
   },
   {
-    "airnode": "0x95F28A60Ce6FDd2Ea6D30C69D44441a07E5F4a4c",
-    "endpointId": "0xfb87102cdabadf905321521ba0b3cbf74ad09c5d400ac2eccdbef8d6143e78c4",
+    "airnode": "0xF0f875aa568521FBd5246fAE7260E04d9ED6511b",
+    "endpointId": "0x592da7070110dc650c34b31f2b0ec1d45456ed8bca4ccdc28ef879f41655f006",
     "parameters": [
       {
-        "name": "coinId",
-        "value": "ethereum",
-        "type": "string"
+        "name": "pair",
+        "type": "bytes32",
+        "value": "eth_usd"
+      },
+      {
+        "name": "_path",
+        "type": "bytes32",
+        "value": "payload.vwap,"
+      },
+      {
+        "name": "_type",
+        "type": "bytes32",
+        "value": "int256,timestamp"
+      },
+      {
+        "name": "_times",
+        "type": "bytes32",
+        "value": "1000000,"
+      },
+      {
+        "name": "lookbackPeriod",
+        "type": "bytes32",
+        "value": "5"
+      }
+    ]
+  },
+  {
+    "airnode": "0xF0f875aa568521FBd5246fAE7260E04d9ED6511b",
+    "endpointId": "0x592da7070110dc650c34b31f2b0ec1d45456ed8bca4ccdc28ef879f41655f006",
+    "parameters": [
+      {
+        "name": "pair",
+        "type": "bytes32",
+        "value": "eth_btc"
+      },
+      {
+        "name": "_path",
+        "type": "bytes32",
+        "value": "payload.vwap,"
+      },
+      {
+        "name": "_type",
+        "type": "bytes32",
+        "value": "int256,timestamp"
+      },
+      {
+        "name": "_times",
+        "type": "bytes32",
+        "value": "1000000,"
+      },
+      {
+        "name": "lookbackPeriod",
+        "type": "bytes32",
+        "value": "5"
+      }
+    ]
+  },
+  {
+    "airnode": "0xF0f875aa568521FBd5246fAE7260E04d9ED6511b",
+    "endpointId": "0x592da7070110dc650c34b31f2b0ec1d45456ed8bca4ccdc28ef879f41655f006",
+    "parameters": [
+      {
+        "name": "pair",
+        "type": "bytes32",
+        "value": "dai_eth"
+      },
+      {
+        "name": "_path",
+        "type": "bytes32",
+        "value": "payload.vwap,"
+      },
+      {
+        "name": "_type",
+        "type": "bytes32",
+        "value": "int256,timestamp"
+      },
+      {
+        "name": "_times",
+        "type": "bytes32",
+        "value": "1000000,"
+      },
+      {
+        "name": "lookbackPeriod",
+        "type": "bytes32",
+        "value": "5"
+      }
+    ]
+  },
+  {
+    "airnode": "0xF0f875aa568521FBd5246fAE7260E04d9ED6511b",
+    "endpointId": "0x592da7070110dc650c34b31f2b0ec1d45456ed8bca4ccdc28ef879f41655f006",
+    "parameters": [
+      {
+        "name": "pair",
+        "type": "bytes32",
+        "value": "usdt_usd"
+      },
+      {
+        "name": "_path",
+        "type": "bytes32",
+        "value": "payload.vwap,"
+      },
+      {
+        "name": "_type",
+        "type": "bytes32",
+        "value": "int256,timestamp"
+      },
+      {
+        "name": "_times",
+        "type": "bytes32",
+        "value": "1000000,"
+      },
+      {
+        "name": "lookbackPeriod",
+        "type": "bytes32",
+        "value": "5"
+      }
+    ]
+  },
+  {
+    "airnode": "0xF0f875aa568521FBd5246fAE7260E04d9ED6511b",
+    "endpointId": "0x592da7070110dc650c34b31f2b0ec1d45456ed8bca4ccdc28ef879f41655f006",
+    "parameters": [
+      {
+        "name": "pair",
+        "type": "bytes32",
+        "value": "usdc_usd"
+      },
+      {
+        "name": "_path",
+        "type": "bytes32",
+        "value": "payload.vwap,"
+      },
+      {
+        "name": "_type",
+        "type": "bytes32",
+        "value": "int256,timestamp"
+      },
+      {
+        "name": "_times",
+        "type": "bytes32",
+        "value": "1000000,"
+      },
+      {
+        "name": "lookbackPeriod",
+        "type": "bytes32",
+        "value": "5"
+      }
+    ]
+  },
+  {
+    "airnode": "0xF0f875aa568521FBd5246fAE7260E04d9ED6511b",
+    "endpointId": "0x592da7070110dc650c34b31f2b0ec1d45456ed8bca4ccdc28ef879f41655f006",
+    "parameters": [
+      {
+        "name": "pair",
+        "type": "bytes32",
+        "value": "dai_usd"
+      },
+      {
+        "name": "_path",
+        "type": "bytes32",
+        "value": "payload.vwap,"
+      },
+      {
+        "name": "_type",
+        "type": "bytes32",
+        "value": "int256,timestamp"
+      },
+      {
+        "name": "_times",
+        "type": "bytes32",
+        "value": "1000000,"
+      },
+      {
+        "name": "lookbackPeriod",
+        "type": "bytes32",
+        "value": "5"
+      }
+    ]
+  },
+  {
+    "airnode": "0xF0f875aa568521FBd5246fAE7260E04d9ED6511b",
+    "endpointId": "0x592da7070110dc650c34b31f2b0ec1d45456ed8bca4ccdc28ef879f41655f006",
+    "parameters": [
+      {
+        "name": "pair",
+        "type": "bytes32",
+        "value": "aave_usd"
+      },
+      {
+        "name": "_path",
+        "type": "bytes32",
+        "value": "payload.vwap,"
+      },
+      {
+        "name": "_type",
+        "type": "bytes32",
+        "value": "int256,timestamp"
+      },
+      {
+        "name": "_times",
+        "type": "bytes32",
+        "value": "1000000,"
+      },
+      {
+        "name": "lookbackPeriod",
+        "type": "bytes32",
+        "value": "5"
+      }
+    ]
+  },
+  {
+    "airnode": "0xF0f875aa568521FBd5246fAE7260E04d9ED6511b",
+    "endpointId": "0x592da7070110dc650c34b31f2b0ec1d45456ed8bca4ccdc28ef879f41655f006",
+    "parameters": [
+      {
+        "name": "pair",
+        "type": "bytes32",
+        "value": "bal_usd"
+      },
+      {
+        "name": "_path",
+        "type": "bytes32",
+        "value": "payload.vwap,"
+      },
+      {
+        "name": "_type",
+        "type": "bytes32",
+        "value": "int256,timestamp"
+      },
+      {
+        "name": "_times",
+        "type": "bytes32",
+        "value": "1000000,"
+      },
+      {
+        "name": "lookbackPeriod",
+        "type": "bytes32",
+        "value": "5"
+      }
+    ]
+  },
+  {
+    "airnode": "0xF0f875aa568521FBd5246fAE7260E04d9ED6511b",
+    "endpointId": "0x592da7070110dc650c34b31f2b0ec1d45456ed8bca4ccdc28ef879f41655f006",
+    "parameters": [
+      {
+        "name": "pair",
+        "type": "bytes32",
+        "value": "bat_usd"
+      },
+      {
+        "name": "_path",
+        "type": "bytes32",
+        "value": "payload.vwap,"
+      },
+      {
+        "name": "_type",
+        "type": "bytes32",
+        "value": "int256,timestamp"
+      },
+      {
+        "name": "_times",
+        "type": "bytes32",
+        "value": "1000000,"
+      },
+      {
+        "name": "lookbackPeriod",
+        "type": "bytes32",
+        "value": "5"
+      }
+    ]
+  },
+  {
+    "airnode": "0xF0f875aa568521FBd5246fAE7260E04d9ED6511b",
+    "endpointId": "0x592da7070110dc650c34b31f2b0ec1d45456ed8bca4ccdc28ef879f41655f006",
+    "parameters": [
+      {
+        "name": "pair",
+        "type": "bytes32",
+        "value": "comp_usd"
+      },
+      {
+        "name": "_path",
+        "type": "bytes32",
+        "value": "payload.vwap,"
+      },
+      {
+        "name": "_type",
+        "type": "bytes32",
+        "value": "int256,timestamp"
+      },
+      {
+        "name": "_times",
+        "type": "bytes32",
+        "value": "1000000,"
+      },
+      {
+        "name": "lookbackPeriod",
+        "type": "bytes32",
+        "value": "5"
+      }
+    ]
+  },
+  {
+    "airnode": "0xF0f875aa568521FBd5246fAE7260E04d9ED6511b",
+    "endpointId": "0x592da7070110dc650c34b31f2b0ec1d45456ed8bca4ccdc28ef879f41655f006",
+    "parameters": [
+      {
+        "name": "pair",
+        "type": "bytes32",
+        "value": "knc_usd"
+      },
+      {
+        "name": "_path",
+        "type": "bytes32",
+        "value": "payload.vwap,"
+      },
+      {
+        "name": "_type",
+        "type": "bytes32",
+        "value": "int256,timestamp"
+      },
+      {
+        "name": "_times",
+        "type": "bytes32",
+        "value": "1000000,"
+      },
+      {
+        "name": "lookbackPeriod",
+        "type": "bytes32",
+        "value": "5"
+      }
+    ]
+  },
+  {
+    "airnode": "0xF0f875aa568521FBd5246fAE7260E04d9ED6511b",
+    "endpointId": "0x592da7070110dc650c34b31f2b0ec1d45456ed8bca4ccdc28ef879f41655f006",
+    "parameters": [
+      {
+        "name": "pair",
+        "type": "bytes32",
+        "value": "lrc_usd"
+      },
+      {
+        "name": "_path",
+        "type": "bytes32",
+        "value": "payload.vwap,"
+      },
+      {
+        "name": "_type",
+        "type": "bytes32",
+        "value": "int256,timestamp"
+      },
+      {
+        "name": "_times",
+        "type": "bytes32",
+        "value": "1000000,"
+      },
+      {
+        "name": "lookbackPeriod",
+        "type": "bytes32",
+        "value": "5"
+      }
+    ]
+  },
+  {
+    "airnode": "0xF0f875aa568521FBd5246fAE7260E04d9ED6511b",
+    "endpointId": "0x592da7070110dc650c34b31f2b0ec1d45456ed8bca4ccdc28ef879f41655f006",
+    "parameters": [
+      {
+        "name": "pair",
+        "type": "bytes32",
+        "value": "mana_usd"
+      },
+      {
+        "name": "_path",
+        "type": "bytes32",
+        "value": "payload.vwap,"
+      },
+      {
+        "name": "_type",
+        "type": "bytes32",
+        "value": "int256,timestamp"
+      },
+      {
+        "name": "_times",
+        "type": "bytes32",
+        "value": "1000000,"
+      },
+      {
+        "name": "lookbackPeriod",
+        "type": "bytes32",
+        "value": "5"
+      }
+    ]
+  },
+  {
+    "airnode": "0xF0f875aa568521FBd5246fAE7260E04d9ED6511b",
+    "endpointId": "0x592da7070110dc650c34b31f2b0ec1d45456ed8bca4ccdc28ef879f41655f006",
+    "parameters": [
+      {
+        "name": "pair",
+        "type": "bytes32",
+        "value": "pax_usd"
+      },
+      {
+        "name": "_path",
+        "type": "bytes32",
+        "value": "payload.vwap,"
+      },
+      {
+        "name": "_type",
+        "type": "bytes32",
+        "value": "int256,timestamp"
+      },
+      {
+        "name": "_times",
+        "type": "bytes32",
+        "value": "1000000,"
+      },
+      {
+        "name": "lookbackPeriod",
+        "type": "bytes32",
+        "value": "5"
+      }
+    ]
+  },
+  {
+    "airnode": "0xF0f875aa568521FBd5246fAE7260E04d9ED6511b",
+    "endpointId": "0x592da7070110dc650c34b31f2b0ec1d45456ed8bca4ccdc28ef879f41655f006",
+    "parameters": [
+      {
+        "name": "pair",
+        "type": "bytes32",
+        "value": "tusd_usd"
+      },
+      {
+        "name": "_path",
+        "type": "bytes32",
+        "value": "payload.vwap,"
+      },
+      {
+        "name": "_type",
+        "type": "bytes32",
+        "value": "int256,timestamp"
+      },
+      {
+        "name": "_times",
+        "type": "bytes32",
+        "value": "1000000,"
+      },
+      {
+        "name": "lookbackPeriod",
+        "type": "bytes32",
+        "value": "5"
+      }
+    ]
+  },
+  {
+    "airnode": "0xF0f875aa568521FBd5246fAE7260E04d9ED6511b",
+    "endpointId": "0x592da7070110dc650c34b31f2b0ec1d45456ed8bca4ccdc28ef879f41655f006",
+    "parameters": [
+      {
+        "name": "pair",
+        "type": "bytes32",
+        "value": "uni_usd"
+      },
+      {
+        "name": "_path",
+        "type": "bytes32",
+        "value": "payload.vwap,"
+      },
+      {
+        "name": "_type",
+        "type": "bytes32",
+        "value": "int256,timestamp"
+      },
+      {
+        "name": "_times",
+        "type": "bytes32",
+        "value": "1000000,"
+      },
+      {
+        "name": "lookbackPeriod",
+        "type": "bytes32",
+        "value": "5"
+      }
+    ]
+  },
+  {
+    "airnode": "0xF0f875aa568521FBd5246fAE7260E04d9ED6511b",
+    "endpointId": "0x592da7070110dc650c34b31f2b0ec1d45456ed8bca4ccdc28ef879f41655f006",
+    "parameters": [
+      {
+        "name": "pair",
+        "type": "bytes32",
+        "value": "wbtc_usd"
+      },
+      {
+        "name": "_path",
+        "type": "bytes32",
+        "value": "payload.vwap,"
+      },
+      {
+        "name": "_type",
+        "type": "bytes32",
+        "value": "int256,timestamp"
+      },
+      {
+        "name": "_times",
+        "type": "bytes32",
+        "value": "1000000,"
+      },
+      {
+        "name": "lookbackPeriod",
+        "type": "bytes32",
+        "value": "5"
+      }
+    ]
+  },
+  {
+    "airnode": "0xF0f875aa568521FBd5246fAE7260E04d9ED6511b",
+    "endpointId": "0x592da7070110dc650c34b31f2b0ec1d45456ed8bca4ccdc28ef879f41655f006",
+    "parameters": [
+      {
+        "name": "pair",
+        "type": "bytes32",
+        "value": "yfi_usd"
+      },
+      {
+        "name": "_path",
+        "type": "bytes32",
+        "value": "payload.vwap,"
+      },
+      {
+        "name": "_type",
+        "type": "bytes32",
+        "value": "int256,timestamp"
+      },
+      {
+        "name": "_times",
+        "type": "bytes32",
+        "value": "1000000,"
+      },
+      {
+        "name": "lookbackPeriod",
+        "type": "bytes32",
+        "value": "5"
+      }
+    ]
+  },
+  {
+    "airnode": "0xF0f875aa568521FBd5246fAE7260E04d9ED6511b",
+    "endpointId": "0x592da7070110dc650c34b31f2b0ec1d45456ed8bca4ccdc28ef879f41655f006",
+    "parameters": [
+      {
+        "name": "pair",
+        "type": "bytes32",
+        "value": "atom_usd"
+      },
+      {
+        "name": "_path",
+        "type": "bytes32",
+        "value": "payload.vwap,"
+      },
+      {
+        "name": "_type",
+        "type": "bytes32",
+        "value": "int256,timestamp"
+      },
+      {
+        "name": "_times",
+        "type": "bytes32",
+        "value": "1000000,"
+      },
+      {
+        "name": "lookbackPeriod",
+        "type": "bytes32",
+        "value": "5"
+      }
+    ]
+  },
+  {
+    "airnode": "0xF0f875aa568521FBd5246fAE7260E04d9ED6511b",
+    "endpointId": "0x592da7070110dc650c34b31f2b0ec1d45456ed8bca4ccdc28ef879f41655f006",
+    "parameters": [
+      {
+        "name": "pair",
+        "type": "bytes32",
+        "value": "avax_usd"
+      },
+      {
+        "name": "_path",
+        "type": "bytes32",
+        "value": "payload.vwap,"
+      },
+      {
+        "name": "_type",
+        "type": "bytes32",
+        "value": "int256,timestamp"
+      },
+      {
+        "name": "_times",
+        "type": "bytes32",
+        "value": "1000000,"
+      },
+      {
+        "name": "lookbackPeriod",
+        "type": "bytes32",
+        "value": "5"
+      }
+    ]
+  },
+  {
+    "airnode": "0xF0f875aa568521FBd5246fAE7260E04d9ED6511b",
+    "endpointId": "0x592da7070110dc650c34b31f2b0ec1d45456ed8bca4ccdc28ef879f41655f006",
+    "parameters": [
+      {
+        "name": "pair",
+        "type": "bytes32",
+        "value": "matic_usd"
+      },
+      {
+        "name": "_path",
+        "type": "bytes32",
+        "value": "payload.vwap,"
+      },
+      {
+        "name": "_type",
+        "type": "bytes32",
+        "value": "int256,timestamp"
+      },
+      {
+        "name": "_times",
+        "type": "bytes32",
+        "value": "1000000,"
+      },
+      {
+        "name": "lookbackPeriod",
+        "type": "bytes32",
+        "value": "5"
+      }
+    ]
+  },
+  {
+    "airnode": "0xF0f875aa568521FBd5246fAE7260E04d9ED6511b",
+    "endpointId": "0x592da7070110dc650c34b31f2b0ec1d45456ed8bca4ccdc28ef879f41655f006",
+    "parameters": [
+      {
+        "name": "pair",
+        "type": "bytes32",
+        "value": "near_usd"
+      },
+      {
+        "name": "_path",
+        "type": "bytes32",
+        "value": "payload.vwap,"
+      },
+      {
+        "name": "_type",
+        "type": "bytes32",
+        "value": "int256,timestamp"
+      },
+      {
+        "name": "_times",
+        "type": "bytes32",
+        "value": "1000000,"
+      },
+      {
+        "name": "lookbackPeriod",
+        "type": "bytes32",
+        "value": "5"
+      }
+    ]
+  },
+  {
+    "airnode": "0xF0f875aa568521FBd5246fAE7260E04d9ED6511b",
+    "endpointId": "0x592da7070110dc650c34b31f2b0ec1d45456ed8bca4ccdc28ef879f41655f006",
+    "parameters": [
+      {
+        "name": "pair",
+        "type": "bytes32",
+        "value": "sol_usd"
+      },
+      {
+        "name": "_path",
+        "type": "bytes32",
+        "value": "payload.vwap,"
+      },
+      {
+        "name": "_type",
+        "type": "bytes32",
+        "value": "int256,timestamp"
+      },
+      {
+        "name": "_times",
+        "type": "bytes32",
+        "value": "1000000,"
+      },
+      {
+        "name": "lookbackPeriod",
+        "type": "bytes32",
+        "value": "5"
+      }
+    ]
+  },
+  {
+    "airnode": "0xF0f875aa568521FBd5246fAE7260E04d9ED6511b",
+    "endpointId": "0x592da7070110dc650c34b31f2b0ec1d45456ed8bca4ccdc28ef879f41655f006",
+    "parameters": [
+      {
+        "name": "pair",
+        "type": "bytes32",
+        "value": "snx_usd"
+      },
+      {
+        "name": "_path",
+        "type": "bytes32",
+        "value": "payload.vwap,"
+      },
+      {
+        "name": "_type",
+        "type": "bytes32",
+        "value": "int256,timestamp"
+      },
+      {
+        "name": "_times",
+        "type": "bytes32",
+        "value": "1000000,"
+      },
+      {
+        "name": "lookbackPeriod",
+        "type": "bytes32",
+        "value": "5"
+      }
+    ]
+  },
+  {
+    "airnode": "0xF0f875aa568521FBd5246fAE7260E04d9ED6511b",
+    "endpointId": "0x504d861ba3be5792b23a370a33ca63829f9316325e1463101472a1bc414b3a4e",
+    "parameters": [
+      { "name": "_path", "type": "bytes32", "value": "payload.fast.gasPrice," },
+      { "name": "_type", "type": "bytes32", "value": "int256,timestamp" }
+    ]
+  },
+  {
+    "airnode": "0xF0f875aa568521FBd5246fAE7260E04d9ED6511b",
+    "endpointId": "0x504d861ba3be5792b23a370a33ca63829f9316325e1463101472a1bc414b3a4e",
+    "parameters": [
+      { "name": "_path", "type": "bytes32", "value": "payload.average.gasPrice," },
+      { "name": "_type", "type": "bytes32", "value": "int256,timestamp" }
+    ]
+  },
+  {
+    "airnode": "0xF0f875aa568521FBd5246fAE7260E04d9ED6511b",
+    "endpointId": "0x3d72b8e380366c5a10a3436dd98131b2b8905244ca5da54641fa0d871fe3913a",
+    "parameters": [
+      {
+        "name": "base",
+        "type": "string",
+        "value": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+      },
+      {
+        "name": "quote",
+        "type": "string",
+        "value": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2"
+      },
+      {
+        "name": "_path",
+        "type": "bytes32",
+        "value": "payload.vwap,"
+      },
+      {
+        "name": "_type",
+        "type": "bytes32",
+        "value": "int256,timestamp"
+      },
+      {
+        "name": "_times",
+        "type": "bytes32",
+        "value": "1000000,"
+      },
+      {
+        "name": "lookbackPeriod",
+        "type": "bytes32",
+        "value": "5"
+      }
+    ]
+  },
+  {
+    "airnode": "0xF0f875aa568521FBd5246fAE7260E04d9ED6511b",
+    "endpointId": "0x3d72b8e380366c5a10a3436dd98131b2b8905244ca5da54641fa0d871fe3913a",
+    "parameters": [
+      {
+        "name": "base",
+        "type": "string",
+        "value": "0xdac17f958d2ee523a2206206994597c13d831ec7"
+      },
+      {
+        "name": "quote",
+        "type": "string",
+        "value": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2"
+      },
+      {
+        "name": "_path",
+        "type": "bytes32",
+        "value": "payload.vwap,"
+      },
+      {
+        "name": "_type",
+        "type": "bytes32",
+        "value": "int256,timestamp"
+      },
+      {
+        "name": "_times",
+        "type": "bytes32",
+        "value": "1000000,"
+      },
+      {
+        "name": "lookbackPeriod",
+        "type": "bytes32",
+        "value": "5"
       }
     ]
   }
