@@ -4,29 +4,33 @@ import { readdirSync } from 'fs';
 import tar from 'tar';
 import { ethers } from 'ethers';
 import * as abi from '@api3/airnode-abi';
-import { deriveSponsorWalletAddress, verifyAirnodeXpub } from '@api3/airnode-admin';
+import { PromptObject } from 'prompts';
+import { ingestTemplateDescriptions } from './ingest-template-descriptions';
 import {
   cliPrint,
-  deriveKeeperWalletPathFromSponsorAddress,
+  getApiName,
   getVersion,
+  promptQuestions,
   readIntegrationInfo,
+  readJsonFile,
   runAndHandleErrors,
-  sanitiseFilename,
 } from '../src';
 
-// TODO types should be centralised
+// TODO types should be centralised if possible
 interface EthValue {
   amount: number;
   units: 'wei' | 'kwei' | 'mwei' | 'gwei' | 'szabo' | 'finney' | 'ether';
 }
 
-interface ChainDescriptor {
+export interface ChainDescriptor {
   readonly name: string;
+  readonly api3AirkeeperSponsor?: string;
+  readonly apiProviderAirkeeperSponsor?: string;
+  readonly sponsor: string; // aka address used to derive Airnode controlled wallet
   readonly apiProviderAirkeeperDeviationPercentage: number;
-  readonly api3AirkeeperDeviationPercentage: number;
-  readonly apiProviderUpdateRequesterMetadata: { address: string; threshold?: EthValue };
-  readonly apiProviderAirnodeFulfillerMetadata: { address: string; threshold?: EthValue };
-  readonly api3ProviderUpdateRequesterMetadata: { address: string; threshold?: EthValue };
+  readonly api3AirkeeperDeviationPercentage?: number;
+  readonly apiProviderAirkeeperSponsorWalletBalanceAlertThreshold?: EthValue;
+  readonly api3AirkeeperSponsorWalletBalanceAlertThreshold?: EthValue;
 }
 
 interface BeaconDescriptor {
@@ -39,7 +43,8 @@ interface BeaconDescriptor {
 
 export interface RrpBeaconServerKeeperTrigger {
   readonly templateId: string;
-  readonly parameters: abi.InputParameter[];
+  readonly templateParameters: abi.InputParameter[];
+  readonly overrideParameters: abi.InputParameter[];
   readonly endpointName: string;
   readonly oisTitle: string;
   readonly deviationPercentage: string;
@@ -50,8 +55,6 @@ export interface RrpBeaconServerKeeperTrigger {
 const writeBeaconDescriptor = (path: string, descriptor: BeaconDescriptor) => {
   fs.writeFileSync(path, JSON.stringify(descriptor, null, 2));
 };
-
-const readJsonFile = (filePath: string) => JSON.parse(fs.readFileSync(filePath).toString('utf8'));
 
 const writeChains = (targetBasePath: string) => {
   const deployedChainsBasePath = join(__dirname, '../deployments', getVersion());
@@ -84,12 +87,30 @@ const writeChains = (targetBasePath: string) => {
 };
 
 const main = async () => {
-  const api3Xpub =
-    'xpub6D1iGXrgPrJgY22N6bGFBC5TBpGedTNgWv6YH9vi1R76vS8F4SJLvwRipJDVHwssNjVYwJQCSkkQu4re3eUKV7NGYL4xW1zxXqTC5JEm9Rd';
-  const apiName = fs.readdirSync(join(__dirname, '../airkeeper-deployment', 'templates', getVersion())).pop();
-
+  const apiName = getApiName();
   if (!apiName) {
     cliPrint.error(`Can't determine apiName - the target folder is empty.`);
+  }
+
+  const questions: PromptObject[] = [
+    {
+      type: 'select',
+      name: 'enterNames',
+      message: [
+        'Consumers of your data feeds will benefit from data feed templates having descriptive names.',
+        'Would you like to enter these names now?',
+      ].join('\n'),
+      choices: [
+        { title: 'yes', value: 'yes' },
+        { title: 'no', value: 'no' },
+      ],
+    },
+  ];
+  if ((await promptQuestions(questions)).enterNames === 'yes') {
+    await ingestTemplateDescriptions();
+  } else {
+    cliPrint.info('You have chosen to not enter template names. You can enter these at a later stage ');
+    cliPrint.info('by running "yarn name-templates"');
   }
 
   const templatesBasePath = join(__dirname, '../airkeeper-deployment', 'templates', getVersion(), apiName);
@@ -142,54 +163,52 @@ const main = async () => {
     contact: readIntegrationInfo().contact,
   };
 
+  fs.writeFileSync(join(targetBasePath, 'apiMetadata.json'), JSON.stringify(apiMetadata, null, 2));
+
   const templates = fs.readdirSync(templatesBasePath).map((sourceFile) => {
     return {
       ...readJsonFile(join(templatesBasePath, sourceFile)),
       sourceFile,
+      name: path.parse(sourceFile).name,
     };
   });
 
   const promisedBulkPayload = await Promise.all(
-    jobs.map(async ({ templateId, parameters, endpointName, deviationPercentage, keeperSponsor, requestSponsor }) => {
-      const templateObj = templates.find((template) => template.sourceFile === `${templateId}.json`);
-
-      const hdNode = verifyAirnodeXpub(apiMetadata.xpub, templateObj.airnode);
-      const keeperSponsorPath = deriveKeeperWalletPathFromSponsorAddress(keeperSponsor);
-      const apiProviderUpdateRequester = hdNode.derivePath(keeperSponsorPath).address;
-
-      const api3HdNode = ethers.utils.HDNode.fromExtendedKey(api3Xpub);
-      const api3AirnodeAddress = api3HdNode.derivePath('0/0').address;
-      const encodedParameters = abi.encode(parameters);
-      const beaconId = ethers.utils.solidityKeccak256(['bytes32', 'bytes'], [templateId, encodedParameters]);
-      const beaconDescriptor = {
+    jobs.map(
+      async ({
         templateId,
-        parameters: templateObj.parameters,
-        decodedParameters: templateObj.decodedParameters,
-        beaconId: beaconId,
-        chains: await Promise.all(
-          templateObj.chains.map(async (chainName: string): Promise<ChainDescriptor> => {
-            return {
-              name: chainName,
-              apiProviderAirkeeperDeviationPercentage: parseFloat(deviationPercentage),
-              api3AirkeeperDeviationPercentage: parseFloat(deviationPercentage) * 2,
-              apiProviderUpdateRequesterMetadata: { address: apiProviderUpdateRequester },
-              apiProviderAirnodeFulfillerMetadata: {
-                address: await deriveSponsorWalletAddress(apiMetadata.xpub, templateObj.airnode, requestSponsor),
-              },
-              api3ProviderUpdateRequesterMetadata: {
-                address: await deriveSponsorWalletAddress(api3Xpub, api3AirnodeAddress, requestSponsor),
-              },
-            };
-          })
-        ),
-      };
+        templateParameters,
+        overrideParameters,
+        deviationPercentage,
+        keeperSponsor,
+        requestSponsor,
+      }) => {
+        const templateObj = templates.find((template) => template.templateId === templateId);
 
-      await writeBeaconDescriptor(
-        join(beaconsBasePath, `${templateId}-${sanitiseFilename(endpointName)}.json`),
-        beaconDescriptor
-      );
-      return beaconDescriptor;
-    })
+        const encodedParameters = abi.encode([...templateParameters, ...overrideParameters]);
+        const beaconId = ethers.utils.solidityKeccak256(['bytes32', 'bytes'], [templateId, encodedParameters]);
+        const beaconDescriptor = {
+          templateId,
+          templateName: templateObj.name,
+          parameters: templateObj.parameters,
+          decodedParameters: templateObj.decodedParameters,
+          beaconId: beaconId,
+          chains: await Promise.all(
+            templateObj.chains.map(async (chainName: string): Promise<ChainDescriptor> => {
+              return {
+                name: chainName,
+                sponsor: requestSponsor,
+                apiProviderAirkeeperDeviationPercentage: parseFloat(deviationPercentage),
+                apiProviderAirkeeperSponsor: keeperSponsor,
+              };
+            })
+          ),
+        };
+
+        await writeBeaconDescriptor(join(beaconsBasePath, `${templateObj.name}.json`), beaconDescriptor);
+        return beaconDescriptor;
+      }
+    )
   );
 
   const fullDocumentationPayload = promisedBulkPayload.map((descriptor) => {
@@ -219,6 +238,7 @@ const main = async () => {
       oisTitle: extraTemplateData.oisTitle,
       endpointName: extraTemplateData.endpointName,
       beaconId: descriptor.beaconId,
+      templateName: template.name,
     };
   });
 

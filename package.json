@@ -34,7 +34,8 @@
     "lint:eslint": "eslint . --ext .js,.ts",
     "lint:eslint:fix": "eslint . --ext .js,.ts --fix",
     "postinstall": "husky install",
-    "export-for-ops": "ts-node scripts/export-for-ops.ts"
+    "export-for-ops": "ts-node scripts/export-for-ops.ts",
+    "name-templates": "ts-node scripts/run-ingest-template-descriptions.ts"
   },
   "dependencies": {
     "@api3/airnode-abi": "^0.3.1",

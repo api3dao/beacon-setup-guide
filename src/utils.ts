@@ -1,4 +1,4 @@
-import { readFileSync } from 'fs';
+import { readdirSync, readFileSync } from 'fs';
 import { join } from 'path';
 import { ethers, Wallet } from 'ethers';
 import { parse as parseEnvFile } from 'dotenv';
@@ -133,3 +133,26 @@ export const sanitiseFilename = (filename: string) => {
     .replace(windowsReservedRe, '_')
     .toLocaleLowerCase();
 };
+
+export const getApiName = () => {
+  const apiName = readdirSync(join(__dirname, '../airkeeper-deployment', 'templates', getVersion()))?.pop();
+  if (!apiName) {
+    throw new Error(
+      `Unable to detect API name - please check ${join(__dirname, '../airkeeper-deployment', 'templates')}`
+    );
+  }
+
+  return apiName;
+};
+
+interface FilePayload {
+  readonly filename: string;
+}
+
+export const readJsonFile = (filePath: string) => JSON.parse(readFileSync(filePath).toString('utf8'));
+
+export const readJsonDirectoryAsArray = (directoryPath: string): Partial<FilePayload>[] =>
+  readdirSync(directoryPath).map((filename) => ({
+    ...readJsonFile(join(directoryPath, filename)),
+    filename,
+  }));
