@@ -28,7 +28,7 @@ export interface ChainDescriptor {
   readonly apiProviderAirkeeperSponsor?: string;
   readonly sponsor: string; // aka address used to derive Airnode controlled wallet
   readonly apiProviderAirkeeperDeviationPercentage: number;
-  readonly api3AirkeeperDeviationPercentage: number;
+  readonly api3AirkeeperDeviationPercentage?: number;
   readonly apiProviderAirkeeperSponsorWalletBalanceAlertThreshold?: EthValue;
   readonly api3AirkeeperSponsorWalletBalanceAlertThreshold?: EthValue;
 }
@@ -199,14 +199,13 @@ const main = async () => {
                 name: chainName,
                 sponsor: requestSponsor,
                 apiProviderAirkeeperDeviationPercentage: parseFloat(deviationPercentage),
-                api3AirkeeperDeviationPercentage: parseFloat(deviationPercentage) * 2,
                 apiProviderAirkeeperSponsor: keeperSponsor,
               };
             })
           ),
         };
 
-        await writeBeaconDescriptor(join(beaconsBasePath, templateObj.name), beaconDescriptor);
+        await writeBeaconDescriptor(join(beaconsBasePath, `${templateObj.name}.json`), beaconDescriptor);
         return beaconDescriptor;
       }
     )

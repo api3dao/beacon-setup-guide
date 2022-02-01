@@ -31,7 +31,7 @@ export const ingestTemplateDescriptions = async () => {
           {
             type: 'text',
             name: 'name',
-            message: 'Please enter a name for the above template:',
+            message: 'Please enter a name for the above template (press enter to accept displayed name):',
             initial: file.name,
           },
         ])
